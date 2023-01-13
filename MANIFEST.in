@@ -1,0 +1,9 @@
+include LICENSE
+include README.md
+recursive-include ccew/static *
+recursive-include ccew/templates *
+recursive-include ccni/static *
+recursive-include ccni/templates *
+recursive-include oscr/static *
+recursive-include oscr/templates *
+recursive-include docs *
