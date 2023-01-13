@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html_join
 
 from charity_django.ccni.models import (
     Charity,
@@ -36,13 +37,25 @@ class CharityAdmin(admin.ModelAdmin):
     )
 
     def what_the_charity_does(self, obj):
-        return "\n".join(obj.what_the_charity_does)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.what_the_charity_does],
+        )
 
     def how_the_charity_works(self, obj):
-        return "\n".join(obj.how_the_charity_works)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.how_the_charity_works],
+        )
 
     def who_the_charity_helps(self, obj):
-        return "\n".join(obj.who_the_charity_helps)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.who_the_charity_helps],
+        )
 
     def has_change_permission(self, request, obj=None):
         return False

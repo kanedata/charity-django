@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html_join
 from django.utils.translation import gettext_lazy as _
 
 from charity_django.oscr.models import (
@@ -57,13 +58,25 @@ class CharityAdmin(admin.ModelAdmin):
     )
 
     def purposes(self, obj):
-        return "\n".join(obj.purposes)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.purposes],
+        )
 
     def activities(self, obj):
-        return "\n".join(obj.activities)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.activities],
+        )
 
     def beneficiaries(self, obj):
-        return "\n".join(obj.beneficiaries)
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.beneficiaries],
+        )
 
     def has_change_permission(self, request, obj=None):
         return False
