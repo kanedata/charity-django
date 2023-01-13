@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from charity_django.ccni.models import Charity
+from charity_django.ccni.models import (
+    Charity,
+    CharityClassification,
+    ClassificationTypes,
+)
 from charity_django.utils.admin import CharitySizeListFilter
 
 
@@ -24,6 +28,21 @@ class CharityAdmin(admin.ModelAdmin):
         "charity_name",
         "reg_charity_number",
     )
+    readonly_fields = (
+        "org_id",
+        "what_the_charity_does",
+        "how_the_charity_works",
+        "who_the_charity_helps",
+    )
+
+    def what_the_charity_does(self, obj):
+        return "\n".join(obj.what_the_charity_does)
+
+    def how_the_charity_works(self, obj):
+        return "\n".join(obj.how_the_charity_works)
+
+    def who_the_charity_helps(self, obj):
+        return "\n".join(obj.who_the_charity_helps)
 
     def has_change_permission(self, request, obj=None):
         return False

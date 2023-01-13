@@ -94,9 +94,16 @@ class Charity(models.Model):
             classification_type=ClassificationTypes.HOW_THE_CHARITY_WORKS
         ).values_list("classification", flat=True)
 
+    @property
+    def org_id(self):
+        return f"GB-CHC-{self.reg_charity_number}"
+
+    def __str__(self) -> str:
+        return f"{self.charity_name} [{self.reg_charity_number}]"
+
     class Meta:
-        verbose_name = "Charity"
-        verbose_name_plural = "Charities"
+        verbose_name = "Charity in Northern Ireland"
+        verbose_name_plural = "Charities in Northern Ireland"
 
 
 class CharityClassification(models.Model):

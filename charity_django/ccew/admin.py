@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html_join
 from django.utils.translation import gettext_lazy as _
 
 from charity_django.ccew.models import (
@@ -50,10 +52,6 @@ class CharityTabularInlineWithLinked(admin.TabularInline):
     exclude = ("registered_charity_number", "linked_charity_number", "date_of_extract")
 
 
-class CharityOtherNamesInline(CharityTabularInlineWithLinked):
-    model = CharityOtherNames
-
-
 class CharityAnnualReturnHistoryInline(CharityTabularInline):
     model = CharityAnnualReturnHistory
 
@@ -62,44 +60,42 @@ class CharityAreaOfOperationInline(CharityTabularInlineWithLinked):
     model = CharityAreaOfOperation
 
 
-class CharityARPartAInline(CharityTabularInline):
+class CharityARPartAInline(admin.TabularInline):
+    exclude = (
+        "registered_charity_number",
+        "date_of_extract",
+        "latest_fin_period_submitted_ind",
+        "fin_period_order_number",
+        "ar_cycle_reference",
+    )
     model = CharityARPartA
 
 
-class CharityARPartBInline(CharityTabularInline):
+class CharityARPartBInline(admin.TabularInline):
+    exclude = (
+        "registered_charity_number",
+        "date_of_extract",
+        "latest_fin_period_submitted_ind",
+        "fin_period_order_number",
+        "ar_cycle_reference",
+    )
     model = CharityARPartB
 
 
-class CharityClassificationInline(CharityTabularInlineWithLinked):
-    model = CharityClassification
-
-
-class CharityEventHistoryInline(CharityTabularInlineWithLinked):
+class CharityEventHistoryInline(admin.TabularInline):
+    exclude = (
+        "registered_charity_number",
+        "linked_charity_number",
+        "date_of_extract",
+        "charity_name",
+        "charity_event_order",
+    )
     model = CharityEventHistory
 
-
-class CharityGoverningDocumentInline(CharityTabularInlineWithLinked):
-    model = CharityGoverningDocument
-
-
-class CharityOtherNamesInline(CharityTabularInlineWithLinked):
-    model = CharityOtherNames
-
-
-class CharityOtherRegulatorsInline(CharityTabularInline):
-    model = CharityOtherRegulators
-
-
-class CharityPolicyInline(CharityTabularInlineWithLinked):
-    model = CharityPolicy
-
-
-class CharityPublishedReportInline(CharityTabularInlineWithLinked):
-    model = CharityPublishedReport
-
-
-class CharityTrusteeInline(CharityTabularInlineWithLinked):
-    model = CharityTrustee
+    def get_queryset(self, request):
+        return (
+            super().get_queryset(request).filter(assoc_organisation_number__isnull=True)
+        )
 
 
 class CharityAdmin(admin.ModelAdmin):
@@ -127,19 +123,159 @@ class CharityAdmin(admin.ModelAdmin):
         "registered_charity_number",
     )
     inlines = [
-        CharityAnnualReturnHistoryInline,
         CharityAreaOfOperationInline,
+        CharityAnnualReturnHistoryInline,
         CharityARPartAInline,
         CharityARPartBInline,
-        CharityClassificationInline,
         CharityEventHistoryInline,
-        CharityGoverningDocumentInline,
-        CharityOtherNamesInline,
-        CharityOtherRegulatorsInline,
-        CharityPolicyInline,
-        CharityPublishedReportInline,
-        CharityTrusteeInline,
     ]
+    readonly_fields = (
+        "org_id",
+        "chair",
+        "trustees",
+        "policies",
+        "other_names",
+        "related_charities",
+        "how",
+        "who",
+        "what",
+        "governing_document_description",
+        "charitable_objects",
+        "area_of_benefit",
+        "regulators",
+        "ccew_reports",
+    )
+
+    def trustees(self, obj):
+        trustees = sorted(
+            obj.trustees.all(),
+            key=lambda s: (~s.trustee_is_chair, s.sort_name),
+        )
+
+        return format_html_join(
+            "\n",
+            "<li>{}{}{}</li>",
+            (
+                (
+                    s.trustee_name,
+                    " (Chair)" if s.trustee_is_chair else "",
+                    " - appointed on {}".format(s.trustee_date_of_appointment)
+                    if s.trustee_date_of_appointment
+                    else "",
+                )
+                for s in trustees
+            ),
+        )
+
+    def policies(self, obj):
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.policies.values_list("policy_name", flat=True)],
+        )
+
+    def other_names(self, obj):
+        return format_html_join(
+            "\n",
+            "<li>{} ({})</li>",
+            [(n.charity_name, n.charity_name_type) for n in obj.other_names.all()],
+        )
+
+    def related_charities(self, obj):
+        subsids = Charity.objects.filter(
+            registered_charity_number=obj.registered_charity_number,
+        ).exclude(
+            organisation_number=obj.organisation_number,
+        )
+        related_charities = [
+            (
+                "Subsidiary" if s.linked_charity_number else "Parent",
+                reverse(
+                    "admin:%s_%s_change" % (s._meta.app_label, s._meta.model_name),
+                    args=(s.pk,),
+                ),
+                str(s),
+                "",
+            )
+            for s in subsids
+        ]
+        for s in obj.event_history.filter(assoc_organisation_number__isnull=False):
+            assoc_charity = Charity.objects.filter(
+                organisation_number=s.assoc_organisation_number
+            ).first()
+            if not assoc_charity:
+                continue
+            related_charities.append(
+                (
+                    s.event_type,
+                    reverse(
+                        "admin:%s_%s_change"
+                        % (
+                            assoc_charity._meta.app_label,
+                            assoc_charity._meta.model_name,
+                        ),
+                        args=(assoc_charity.pk,),
+                    ),
+                    str(assoc_charity),
+                    " (on {}{})".format(
+                        s.date_of_event,
+                        " - {}".format(s.reason) if s.reason else "",
+                    ),
+                )
+            )
+        return format_html_join(
+            "\n",
+            '<li>{}: <a href="{}">{}</a>{}</li>',
+            related_charities,
+        )
+
+    def what(self, obj):
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.what],
+        )
+
+    def how(self, obj):
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.how],
+        )
+
+    def who(self, obj):
+        return format_html_join(
+            "\n",
+            "<li>{}</li>",
+            [(o,) for o in obj.who],
+        )
+
+    def regulators(self, obj):
+        return format_html_join(
+            "\n",
+            '<li><a href="{}" target="_blank">{}</a></li>',
+            (
+                (
+                    s.regulator_web_url,
+                    s.regulator_name,
+                )
+                for s in obj.other_regulators.all()
+            ),
+        )
+
+    def ccew_reports(self, obj):
+        return format_html_join(
+            "\n",
+            '<li><a href="{}" target="_blank">{}</a> ({})</li>',
+            (
+                (
+                    s.report_location,
+                    s.report_name,
+                    s.date_published,
+                )
+                for s in obj.published_reports.all()
+            ),
+        )
 
     def has_change_permission(self, request, obj=None):
         return False

@@ -1,12 +1,21 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from charity_django.oscr.models import Charity
+from charity_django.oscr.models import (
+    Charity,
+    CharityClassification,
+    CharityFinancialYear,
+)
 from charity_django.utils.admin import CharitySizeListFilter
 
 
 class OSCRCharitySizeListFilter(CharitySizeListFilter):
     recent_income_field = "most_recent_year_income"
+
+
+class CharityFinancialYearInline(admin.TabularInline):
+    exclude = ("charity_number", "mailing_cycle")
+    model = CharityFinancialYear
 
 
 class CharityAdmin(admin.ModelAdmin):
@@ -25,6 +34,36 @@ class CharityAdmin(admin.ModelAdmin):
         "charity_name",
         "charity_number",
     )
+    inlines = [
+        CharityFinancialYearInline,
+    ]
+    exclude = (
+        "date_annual_return_received",
+        "next_year_end_date",
+        "donations_and_legacies_income",
+        "charitable_activities_income",
+        "other_trading_activities_income",
+        "investments_income",
+        "other_income",
+        "raising_funds_spending",
+        "charitable_activities_spending",
+        "other_spending",
+    )
+    readonly_fields = (
+        "org_id",
+        "purposes",
+        "activities",
+        "beneficiaries",
+    )
+
+    def purposes(self, obj):
+        return "\n".join(obj.purposes)
+
+    def activities(self, obj):
+        return "\n".join(obj.activities)
+
+    def beneficiaries(self, obj):
+        return "\n".join(obj.beneficiaries)
 
     def has_change_permission(self, request, obj=None):
         return False

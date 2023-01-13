@@ -217,9 +217,16 @@ class Charity(models.Model):
             classification_type=ClassificationTypes.ACTIVITIES
         ).values_list("classification", flat=True)
 
+    @property
+    def org_id(self):
+        return f"GB-SC-{self.charity_number}"
+
+    def __str__(self):
+        return f"{self.charity_name} [{self.charity_number}]"
+
     class Meta:
-        verbose_name = "Charity"
-        verbose_name_plural = "Charities"
+        verbose_name = "Charity in Scotland"
+        verbose_name_plural = "Charities in Scotland"
 
 
 class CharityFinancialYear(models.Model):

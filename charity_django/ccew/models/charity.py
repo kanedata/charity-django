@@ -7,6 +7,7 @@ from .choices import (
     CharityRegistrationStatus,
     CharityReportingStatus,
     CharityType,
+    ClassificationType,
     IndividualOrOrganisation,
 )
 
@@ -237,6 +238,46 @@ class Charity(models.Model):
             individual_or_organisation=IndividualOrOrganisation.INDIVIDUAL
         )
 
+    @property
+    def org_ids(self):
+        return f"GB-CHC-{self.registered_charity_number}"
+
+    @property
+    def what(self):
+        return self.classification.filter(
+            classification_type=ClassificationType.WHAT
+        ).values_list("classification_description", flat=True)
+
+    @property
+    def who(self):
+        return self.classification.filter(
+            classification_type=ClassificationType.WHO
+        ).values_list("classification_description", flat=True)
+
+    @property
+    def how(self):
+        return self.classification.filter(
+            classification_type=ClassificationType.HOW
+        ).values_list("classification_description", flat=True)
+
+    @property
+    def governing_document_description(self):
+        gd = self.governing_document.first()
+        if gd:
+            return gd.governing_document_description
+
+    @property
+    def charitable_objects(self):
+        gd = self.governing_document.first()
+        if gd:
+            return gd.charitable_objects
+
+    @property
+    def area_of_benefit(self):
+        gd = self.governing_document.first()
+        if gd:
+            return gd.area_of_benefit
+
     def address(self, join=None):
         address_fields = [
             self.charity_contact_address1,
@@ -274,5 +315,5 @@ class Charity(models.Model):
         }
 
     class Meta:
-        verbose_name = "Charity"
-        verbose_name_plural = "Charities"
+        verbose_name = "Charity in England and Wales"
+        verbose_name_plural = "Charities in England and Wales"
