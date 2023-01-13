@@ -2,6 +2,14 @@ from django.db import models
 
 from charity_django.utils.text import to_titlecase
 
+from .choices import (
+    CharityIsCDFOrCIF,
+    CharityRegistrationStatus,
+    CharityReportingStatus,
+    CharityType,
+    IndividualOrOrganisation,
+)
+
 
 class Charity(models.Model):
     date_of_extract = models.DateField(
@@ -34,6 +42,7 @@ class Charity(models.Model):
         null=True,
         blank=True,
         db_index=True,
+        choices=CharityType.choices,
         help_text="The type of the charity displayed on the public register of charities. Only the main parent charity will have a value for this field (i.e. linked_charity_number=0).",
     )
     charity_registration_status = models.CharField(
@@ -41,6 +50,7 @@ class Charity(models.Model):
         null=True,
         blank=True,
         db_index=True,
+        choices=CharityRegistrationStatus.choices,
         help_text="The charity registration status indicates whether a charity is registered or removed",
     )
     date_of_registration = models.DateField(
@@ -57,6 +67,7 @@ class Charity(models.Model):
         max_length=255,
         null=True,
         blank=True,
+        choices=CharityReportingStatus.choices,
         help_text="The current reporting status of the charity",
     )
     latest_acc_fin_period_start_date = models.DateField(
@@ -136,6 +147,7 @@ class Charity(models.Model):
         max_length=255,
         null=True,
         blank=True,
+        choices=CharityIsCDFOrCIF.choices,
         help_text="Indicates whether the charity is a Common Investment Fund or Common Deposit Fund.",
     )
     charity_is_cio = models.BooleanField(
@@ -208,6 +220,22 @@ class Charity(models.Model):
     @property
     def latest_financials(self):
         return self.financials()
+
+    @property
+    def chair(self):
+        return self.trustees.filter(trustee_is_chair=True).first()
+
+    @property
+    def trustees_organisations(self):
+        return self.trustees.filter(
+            individual_or_organisation=IndividualOrOrganisation.ORGANISATION
+        )
+
+    @property
+    def trustees_individuals(self):
+        return self.trustees.filter(
+            individual_or_organisation=IndividualOrOrganisation.INDIVIDUAL
+        )
 
     def address(self, join=None):
         address_fields = [

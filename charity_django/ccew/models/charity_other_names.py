@@ -1,6 +1,7 @@
 from django.db import models
 
 from .charity import Charity
+from .choices import CharityNameType
 
 
 class CharityOtherNames(models.Model):
@@ -33,6 +34,7 @@ class CharityOtherNames(models.Model):
         max_length=255,
         null=True,
         blank=True,
+        choices=CharityNameType.choices,
         help_text="The type of other charity name. This can be working name or previous name.",
     )
     charity_name = models.CharField(

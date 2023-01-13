@@ -1,12 +1,10 @@
 from django.db import models
 
 from .charity import Charity
+from .choices import IndividualOrOrganisation
 
 
 class CharityTrustee(models.Model):
-    class IndividualOrOrganisation(models.TextChoices):
-        INDIVIDUAL = "P"
-        ORGANISATION = "O"
 
     date_of_extract = models.DateField(
         null=True,
@@ -62,11 +60,8 @@ class CharityTrustee(models.Model):
 
     @property
     def sort_name(self):
-        if (
-            self.individual_or_organisation
-            == self.IndividualOrOrganisation.ORGANISATION
-        ):
-            return self.trustee_name
+        if self.individual_or_organisation == IndividualOrOrganisation.ORGANISATION:
+            return self.trustee_name.upper().replace("THE ", "")
         name = self.trustee_name.split()[::-1]
         for i, word in enumerate(name):
             if word.upper() in [

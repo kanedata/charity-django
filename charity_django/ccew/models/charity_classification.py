@@ -1,13 +1,10 @@
 from django.db import models
 
 from .charity import Charity
+from .choices import ClassificationType
 
 
 class CharityClassification(models.Model):
-    class ClassificationType(models.TextChoices):
-        WHAT = "What"
-        HOW = "How"
-        WHO = "Who"
 
     date_of_extract = models.DateField(
         null=True,

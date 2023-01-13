@@ -20,8 +20,7 @@ from charity_django.ccew.models import (
     CharityPublishedReport,
     CharityTrustee,
 )
-
-from ._charity_provider import CharityProvider
+from charity_django.utils.charity_provider import CharityProvider
 
 DUMMY_CHARITY_TYPE = "Demonstration Charity"
 
