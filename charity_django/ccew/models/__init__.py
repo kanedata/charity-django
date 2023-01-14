@@ -11,6 +11,7 @@ from .charity_other_regulators import CharityOtherRegulators
 from .charity_policy import CharityPolicy
 from .charity_published_report import CharityPublishedReport
 from .charity_trustee import CharityTrustee
+from .merger import Merger
 
 __all__ = (
     Charity,
@@ -26,4 +27,5 @@ __all__ = (
     CharityPolicy,
     CharityPublishedReport,
     CharityTrustee,
+    Merger,
 )

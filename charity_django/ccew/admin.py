@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import reverse
-from django.utils.html import format_html_join
+from django.utils.html import escape, format_html_join, mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from charity_django.ccew.models import (
@@ -9,14 +9,8 @@ from charity_django.ccew.models import (
     CharityAreaOfOperation,
     CharityARPartA,
     CharityARPartB,
-    CharityClassification,
     CharityEventHistory,
-    CharityGoverningDocument,
-    CharityOtherNames,
-    CharityOtherRegulators,
-    CharityPolicy,
-    CharityPublishedReport,
-    CharityTrustee,
+    Merger,
 )
 from charity_django.utils.admin import CharitySizeListFilter
 
@@ -98,6 +92,7 @@ class CharityEventHistoryInline(admin.TabularInline):
         )
 
 
+@admin.register(Charity)
 class CharityAdmin(admin.ModelAdmin):
     list_display = (
         "name",
@@ -182,47 +177,19 @@ class CharityAdmin(admin.ModelAdmin):
         )
 
     def related_charities(self, obj):
-        subsids = Charity.objects.filter(
-            registered_charity_number=obj.registered_charity_number,
-        ).exclude(
-            organisation_number=obj.organisation_number,
-        )
         related_charities = [
             (
-                "Subsidiary" if s.linked_charity_number else "Parent",
+                s[0],
                 reverse(
-                    "admin:%s_%s_change" % (s._meta.app_label, s._meta.model_name),
-                    args=(s.pk,),
+                    "admin:%s_%s_change"
+                    % (s[1]._meta.app_label, s[1]._meta.model_name),
+                    args=(s[1].pk,),
                 ),
-                str(s),
-                "",
+                str(s[1]),
+                s[2],
             )
-            for s in subsids
+            for s in obj.get_related_charities()
         ]
-        for s in obj.event_history.filter(assoc_organisation_number__isnull=False):
-            assoc_charity = Charity.objects.filter(
-                organisation_number=s.assoc_organisation_number
-            ).first()
-            if not assoc_charity:
-                continue
-            related_charities.append(
-                (
-                    s.event_type,
-                    reverse(
-                        "admin:%s_%s_change"
-                        % (
-                            assoc_charity._meta.app_label,
-                            assoc_charity._meta.model_name,
-                        ),
-                        args=(assoc_charity.pk,),
-                    ),
-                    str(assoc_charity),
-                    " (on {}{})".format(
-                        s.date_of_event,
-                        " - {}".format(s.reason) if s.reason else "",
-                    ),
-                )
-            )
         return format_html_join(
             "\n",
             '<li>{}: <a href="{}">{}</a>{}</li>',
@@ -291,4 +258,48 @@ class CharityAdmin(admin.ModelAdmin):
     income.admin_order_field = "latest_income"
 
 
-admin.site.register(Charity, CharityAdmin)
+@admin.register(Merger)
+class MergerAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "transferor_str",
+        "transferee_str",
+        "date_property_transferred",
+    )
+
+    def transferor_str(self, obj: Merger):
+        assoc_charity = obj.transferor
+        if not assoc_charity:
+            return obj.transferor_name
+        link = reverse(
+            "admin:%s_%s_change"
+            % (
+                assoc_charity._meta.app_label,
+                assoc_charity._meta.model_name,
+            ),
+            args=(assoc_charity.pk,),
+        )
+        return mark_safe(f'<a href="{link}">{escape(str(assoc_charity))}</a>')
+
+    transferor_str.short_description = "Transferor"
+    transferor_str.admin_order_field = "transferor_name"  # Make row sortable
+
+    def transferee_str(self, obj: Merger):
+        assoc_charity = obj.transferee
+        if not assoc_charity:
+            return obj.transferee_name
+        link = reverse(
+            "admin:%s_%s_change"
+            % (
+                assoc_charity._meta.app_label,
+                assoc_charity._meta.model_name,
+            ),
+            args=(assoc_charity.pk,),
+        )
+        return mark_safe(f'<a href="{link}">{escape(str(assoc_charity))}</a>')
+
+    transferee_str.short_description = "Transferee"
+    transferee_str.admin_order_field = "transferee_name"  # Make row sortable
+
+    def has_change_permission(self, request, obj=None):
+        return False

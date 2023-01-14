@@ -12,3 +12,6 @@ pytest
 pytest-django
 pytest-pythonpath
 testing.postgresql
+requests_html
+black
+isort

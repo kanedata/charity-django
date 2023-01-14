@@ -314,6 +314,61 @@ class Charity(models.Model):
             "partb": finances_partb,
         }
 
+    def get_related_charities(self):
+        """
+        Yields tuple of (relationship, charity, note)
+        """
+
+        # subsidiaries
+        subsids = Charity.objects.filter(
+            registered_charity_number=self.registered_charity_number,
+        ).exclude(
+            organisation_number=self.organisation_number,
+        )
+        for s in subsids:
+            yield (
+                "Subsidiary" if s.linked_charity_number else "Parent",
+                s,
+                "",
+            )
+
+        # event history
+        for s in self.event_history.filter(assoc_organisation_number__isnull=False):
+            assoc_charity = Charity.objects.filter(
+                organisation_number=s.assoc_organisation_number
+            ).first()
+            if not assoc_charity:
+                continue
+            yield (
+                s.event_type,
+                assoc_charity,
+                " (on {}{})".format(
+                    s.date_of_event,
+                    " - {}".format(s.reason) if s.reason else "",
+                ),
+            )
+
+        #
+        for m in self.merged_into.all():
+            if m.transferee:
+                yield (
+                    "Merged into",
+                    m.transferee,
+                    " (on {})".format(
+                        m.date_property_transferred,
+                    ),
+                )
+        #
+        for m in self.merged_from.all():
+            if m.transferor:
+                yield (
+                    "Merged from",
+                    m.transferor,
+                    " (on {})".format(
+                        m.date_property_transferred,
+                    ),
+                )
+
     class Meta:
         verbose_name = "Charity in England and Wales"
         verbose_name_plural = "Charities in England and Wales"
