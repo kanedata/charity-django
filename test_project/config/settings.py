@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "charity_django.ccew",
     "charity_django.oscr",
     "charity_django.ccni",
+    "charity_django.companies",
 ]
 
 MIDDLEWARE = [

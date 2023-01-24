@@ -1,5 +1,17 @@
 from django.contrib.admin import SimpleListFilter
+from django.contrib.admin.filters import ChoicesFieldListFilter
 from django.utils.translation import gettext_lazy as _
+
+
+class ReadOnlyMixin:
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 class CharitySizeListFilter(SimpleListFilter):
@@ -49,3 +61,44 @@ class CharitySizeListFilter(SimpleListFilter):
                         }
                     )
         return queryset
+
+
+class UsedChoicesFieldListFilter(ChoicesFieldListFilter):
+    def __init__(self, field, request, params, model, model_admin, field_path):
+        super().__init__(field, request, params, model, model_admin, field_path)
+        self.lookup_choices = list(
+            model_admin.get_queryset(request)
+            .values_list(self.field_path, flat=True)
+            .distinct()
+        )
+
+    def choices(self, changelist):
+        yield {
+            "selected": self.lookup_val is None,
+            "query_string": changelist.get_query_string(
+                remove=[self.lookup_kwarg, self.lookup_kwarg_isnull]
+            ),
+            "display": "All",
+        }
+        none_title = ""
+        for lookup, title in self.field.flatchoices:
+            if lookup is None:
+                none_title = title
+                continue
+            if lookup not in self.lookup_choices:
+                continue
+            yield {
+                "selected": str(lookup) == self.lookup_val,
+                "query_string": changelist.get_query_string(
+                    {self.lookup_kwarg: lookup}, [self.lookup_kwarg_isnull]
+                ),
+                "display": title,
+            }
+        if none_title:
+            yield {
+                "selected": bool(self.lookup_val_isnull),
+                "query_string": changelist.get_query_string(
+                    {self.lookup_kwarg_isnull: "True"}, [self.lookup_kwarg]
+                ),
+                "display": none_title,
+            }
