@@ -11,7 +11,8 @@ import requests_cache
 import tqdm
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import connection, transaction
+from django.db import connections, transaction
+from django.db.utils import ConnectionRouter
 from requests_html import HTMLSession
 
 from charity_django.companies.ch_api import (
@@ -121,7 +122,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.debug = options["debug"]
-        with transaction.atomic(), connection.cursor() as cursor:
+        router = ConnectionRouter()
+        db = router.db_for_write(Company)
+        with transaction.atomic(), connections[db].cursor() as cursor:
 
             Company.objects.update(in_latest_update=False)
             CompanySICCode.objects.update(in_latest_update=False)
