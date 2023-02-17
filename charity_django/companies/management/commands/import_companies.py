@@ -128,8 +128,6 @@ class Command(BaseCommand):
 
             self.set_session(install_cache=options["cache"])
             self.fetch_file()
-            for source_url, response in self.files.items():
-                self.parse_file(response, source_url)
 
             for model in [CompanySICCode, PreviousName]:
                 print("To keep: ", model.objects.filter(in_latest_update=True).count())
@@ -166,12 +164,13 @@ class Command(BaseCommand):
             if self.zip_regex.match(link):
                 self.stdout.write("Fetching: {}".format(link))
                 try:
-                    self.files[link] = self.session.get(link)
-                    if getattr(self.files[link], "from_cache", False):
+                    file_response = self.session.get(link)
+                    if getattr(file_response, "from_cache", False):
                         self.stdout.write("From cache")
                     else:
                         self.stdout.write("From network")
-                    self.files[link].raise_for_status()
+                    file_response.raise_for_status()
+                    self.parse_file(file_response, link)
                 except requests.exceptions.ChunkedEncodingError as err:
                     self.stdout.write(
                         self.style.ERROR("Error fetching: {}".format(link))
