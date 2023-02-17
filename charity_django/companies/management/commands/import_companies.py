@@ -98,6 +98,7 @@ class Command(BaseCommand):
     }
 
     def __init__(self, *args, **kwargs):
+        self.debug = None
         super().__init__(*args, **kwargs)
         self.records = defaultdict(dict)
         self.object_count = defaultdict(lambda: 0)

@@ -7,6 +7,7 @@ from requests import Response
 from requests_html import HTMLSession
 
 from charity_django.companies.management.commands.import_companies import Command
+from charity_django.companies.models import Company
 
 
 class TestImportCompanies(TestCase):
@@ -37,5 +38,4 @@ class TestImportCompanies(TestCase):
             self.mock_csv_downloads(m)
             command.set_session()
             command.fetch_file()
-            assert len(command.files) == 6
-            assert isinstance(list(command.files.values())[0], Response)
+            assert Company.objects.count() == 87
