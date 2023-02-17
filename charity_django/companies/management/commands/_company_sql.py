@@ -13,3 +13,12 @@ ON CONFLICT ("CompanyNumber", "financial_year_end")
 DO
 UPDATE SET category=EXCLUDED.category;
 """
+
+UPDATE_COMPANIES[
+    "Set companies not in latest update to inactive"
+] = """
+UPDATE companies_company
+SET "CompanyStatus" = 'removed'
+WHERE in_latest_update = false
+	AND "CompanyStatus" not in ('dissolved', 'converted-closed', 'removed', 'closed');
+"""
