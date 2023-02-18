@@ -79,7 +79,7 @@ class Command(BaseCommand):
         "ConfStmtLastMadeUpDate",
     ]
     date_format = "%d/%m/%Y"
-    bulk_limit = 10000
+    bulk_limit = 50000
     source = {
         "title": "Free Company Data Product",
         "description": "The Free Company Data Product is a downloadable data snapshot containing \
@@ -126,21 +126,88 @@ class Command(BaseCommand):
         db = router.db_for_write(Company)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
 
+            new_tables = []
+
             for m in MODEL_UPDATES.keys():
+
+                # name the temporary table
+                new_table = m._meta.db_table + "_temp"
+
+                # the columns should be the same as the existing table
+                # except for the new in_latest_update column
+                columns = [
+                    f.get_attname_column()[1]
+                    for f in m._meta.get_fields()
+                    if hasattr(f, "get_attname_column")
+                    and f.get_attname_column()[1] != "in_latest_update"
+                ]
+                new_tables.append((new_table, m._meta.db_table, columns))
+                columns = ", ".join([f'"{c}"' for c in columns])
+
+                # make a copy of the existing table
                 self.stdout.write(
                     self.style.SUCCESS(
-                        f"Updating {m.__name__} to in_latest_update=False"
+                        f"Copying {m.__name__} to temporary table - started"
                     )
                 )
-                m.objects.update(in_latest_update=False)
+                cursor.execute(
+                    f'CREATE TABLE "{new_table}" AS SELECT {columns}, false as "in_latest_update" FROM "{m._meta.db_table}"'
+                )
                 self.stdout.write(
                     self.style.SUCCESS(
-                        f"Updated {m.__name__} to in_latest_update=False"
+                        f"Copying {m.__name__} to temporary table - finished"
                     )
                 )
 
+                # truncate the existing table
+                self.stdout.write(
+                    self.style.SUCCESS(f"Truncating {m.__name__} db table - started")
+                )
+                cursor.execute(f'DELETE FROM "{m._meta.db_table}" WHERE 1=1')
+                self.stdout.write(
+                    self.style.SUCCESS(f"Truncating {m.__name__} db table - finished")
+                )
+
+            # import the new data
             self.set_session(install_cache=options["cache"])
             self.fetch_file()
+
+            # copy in old data that doesn't exist in the new data
+            # delete the temporary tables
+            for temp_table, main_table, columns in new_tables:
+                a_columns = ", ".join(
+                    [f'a."{c}"' for c in columns if c != "id"]
+                    + ['"a"."in_latest_update"']
+                )
+                columns = ", ".join(
+                    [f'"{c}"' for c in columns if c != "id"] + ['"in_latest_update"']
+                )
+                update_query = f"""
+                INSERT INTO "{main_table}" ({columns})
+                SELECT DISTINCT {a_columns}
+                FROM "{temp_table}" a
+                    LEFT OUTER JOIN "{main_table}" b
+                        ON a."CompanyNumber" = b."CompanyNumber"
+                WHERE b."CompanyNumber" IS NULL
+                """
+                self.stdout.write(
+                    self.style.SUCCESS(f"Updating {main_table} db table - started")
+                )
+                cursor.execute(update_query)
+                self.stdout.write(
+                    self.style.SUCCESS(f"Updating {main_table} db table - finished")
+                )
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Dropping {temp_table} temporary table - started"
+                    )
+                )
+                cursor.execute(f'DROP TABLE "{temp_table}"')
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Dropping {temp_table} temporary table - finished"
+                    )
+                )
 
             for title, sql in UPDATE_COMPANIES.items():
                 cursor.execute(sql)
@@ -161,7 +228,7 @@ class Command(BaseCommand):
         self.files = {}
         response = self.session.get(self.start_url)
         response.raise_for_status()
-        for link in response.html.absolute_links:
+        for link in sorted(response.html.absolute_links):
             if self.zip_regex.match(link):
                 self.stdout.write("Fetching: {}".format(link))
                 try:

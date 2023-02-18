@@ -195,12 +195,14 @@ class CompanySICCode(models.Model):
         on_delete=models.CASCADE,
         related_name="sic_codes",
         db_column="CompanyNumber",
+        db_constraint=False,
     )
     sic_code = models.ForeignKey(
         "SICCode",
         on_delete=models.CASCADE,
         related_name="companies",
         db_column="code",
+        db_constraint=False,
     )
     in_latest_update = models.BooleanField(default=False, db_index=True)
 
@@ -216,6 +218,7 @@ class PreviousName(models.Model):
         on_delete=models.CASCADE,
         related_name="previous_names",
         db_column="CompanyNumber",
+        db_constraint=False,
     )
     ConDate = models.DateField(null=True, blank=True)
     CompanyName = models.CharField(max_length=255)
@@ -237,6 +240,7 @@ class Account(models.Model):
         on_delete=models.CASCADE,
         related_name="accounts",
         db_column="CompanyNumber",
+        db_constraint=False,
     )
     financial_year_end = models.DateField(db_index=True)
     category = models.CharField(
