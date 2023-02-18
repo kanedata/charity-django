@@ -5,6 +5,8 @@ from django.db import NotSupportedError, connections, models
 from django.db.models.constants import OnConflict
 
 from charity_django.companies.ch_api import (
+    COMPANY_CATEGORY_NAME_LOOKUP,
+    COMPANY_STATUS_NAME_LOOKUP,
     NONPROFIT_TYPES,
     AccountTypes,
     CompanyStatuses,
@@ -139,15 +141,34 @@ class Company(models.Model):
     Mortgages_NumMortSatisfied = models.IntegerField(null=True, blank=True)
     LimitedPartnerships_NumGenPartners = models.IntegerField(null=True, blank=True)
     LimitedPartnerships_NumLimPartners = models.IntegerField(null=True, blank=True)
-    URI = models.URLField(max_length=255, null=True, blank=True)
     ConfStmtNextDueDate = models.DateField(null=True, blank=True)
     ConfStmtLastMadeUpDate = models.DateField(null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
-    in_latest_update = models.BooleanField(default=False)
+    in_latest_update = models.BooleanField(default=False, db_index=True)
 
     @property
     def is_nonprofit(self):
         return self.CompanyCategory in NONPROFIT_TYPES
+
+    @property
+    def org_id(self):
+        return "GB-COH-{}".format(self.CompanyNumber)
+
+    @property
+    def status(self):
+        return self.get_CompanyStatus_display()
+
+    @property
+    def category(self):
+        return self.get_CompanyCategory_display()
+
+    def get_CompanyCategory_display(self):
+        return COMPANY_CATEGORY_NAME_LOOKUP.get(
+            self.CompanyCategory, self.CompanyCategory
+        )
+
+    def get_CompanyStatus_display(self):
+        return COMPANY_STATUS_NAME_LOOKUP.get(self.CompanyStatus, self.CompanyStatus)
 
     def __str__(self):
         return "<Company {} [{}]>".format(self.CompanyName, self.CompanyNumber)

@@ -139,18 +139,6 @@ class Command(BaseCommand):
             self.set_session(install_cache=options["cache"])
             self.fetch_file()
 
-            for model in [CompanySICCode, PreviousName]:
-                print("To keep: ", model.objects.filter(in_latest_update=True).count())
-                print(
-                    "To delete: ", model.objects.exclude(in_latest_update=True).count()
-                )
-                deleted, _ = model.objects.exclude(in_latest_update=True).delete()
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Deleted {deleted} {model.__name__} records not in latest update"
-                    )
-                )
-
             for title, sql in UPDATE_COMPANIES.items():
                 cursor.execute(sql)
                 self.stdout.write(self.style.SUCCESS(f"Executed {title}"))
@@ -235,6 +223,8 @@ class Command(BaseCommand):
                         )
                         self.sic_code_cache[sic_code] = new_code
                     sic_codes.append(self.sic_code_cache[sic_code])
+            elif k == "URI":
+                continue
             else:
                 record[k] = row[k]
 
