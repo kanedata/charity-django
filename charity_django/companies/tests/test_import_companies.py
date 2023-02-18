@@ -39,3 +39,11 @@ class TestImportCompanies(TestCase):
             command.set_session()
             command.fetch_file()
             assert Company.objects.count() == 87
+
+    def test_handle(self):
+        command = Command()
+
+        with requests_mock.Mocker() as m:
+            self.mock_csv_downloads(m)
+            command.handle(debug=False, cache=False)
+            assert Company.objects.count() == 87

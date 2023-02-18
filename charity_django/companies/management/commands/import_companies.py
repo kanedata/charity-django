@@ -126,15 +126,18 @@ class Command(BaseCommand):
         db = router.db_for_write(Company)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
 
-            self.stdout.write(
-                self.style.SUCCESS(f"Updating objects to in_latest_update=False")
-            )
-            Company.objects.update(in_latest_update=False)
-            CompanySICCode.objects.update(in_latest_update=False)
-            PreviousName.objects.update(in_latest_update=False)
-            self.stdout.write(
-                self.style.SUCCESS(f"Updated objects to in_latest_update=False")
-            )
+            for m in MODEL_UPDATES.keys():
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Updating {m.__name__} to in_latest_update=False"
+                    )
+                )
+                m.objects.update(in_latest_update=False)
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        f"Updated {m.__name__} to in_latest_update=False"
+                    )
+                )
 
             self.set_session(install_cache=options["cache"])
             self.fetch_file()

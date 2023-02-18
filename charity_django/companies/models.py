@@ -240,7 +240,11 @@ class Account(models.Model):
     )
     financial_year_end = models.DateField(db_index=True)
     category = models.CharField(
-        max_length=255, db_index=True, choices=[(x.value, x.name) for x in AccountTypes]
+        max_length=255,
+        db_index=True,
+        choices=[(x.value, x.name) for x in AccountTypes],
+        null=True,
+        blank=True,
     )
     objects = CompanyManager()
 
