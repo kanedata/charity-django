@@ -386,6 +386,10 @@ class Command(BaseCommand):
             row[field] = lookup.get(row.get(field), row.get(field))
             if isinstance(row[field], enum):
                 row[field] = row[field].value
+            elif row[field] is None:
+                row[field] = None
+            else:
+                raise ValueError("Unknown {} value: {}".format(field, row[field]))
         return row
 
     def add_record(self, model, record):

@@ -59,6 +59,8 @@ ACCOUNTS_TYPE_LOOKUP = {
     "TOTAL EXEMPTION SMALL": AccountTypes.TOTAL_EXEMPTION_SMALL,
     "UNAUDITED ABRIDGED": AccountTypes.UNAUDITED_ABRIDGED,
     "NO ACCOUNTS FILED": AccountTypes.NO_ACCOUNTS_FILED,
+    "INITIAL": AccountTypes.INITIAL,
+    "PARTIAL EXEMPTION": AccountTypes.PARTIAL_EXEMPTION,
 }
 
 
@@ -92,22 +94,6 @@ COMPANY_STATUS_LOOKUP = {
     "RECEIVERSHIP": CompanyStatuses.RECEIVERSHIP,
     "Voluntary Arrangement": CompanyStatuses.VOLUNTARY_ARRANGEMENT,
     "VOLUNTARY ARRANGEMENT / ADMINISTRATIVE RECEIVER": CompanyStatuses.VOLUNTARY_ARRANGEMENT,
-}
-
-COMPANY_STATUS_NAME_LOOKUP = {
-    CompanyStatuses.ACTIVE: "Active",
-    CompanyStatuses.ACTIVE_PROPOSAL_TO_STRIKE_OFF: "Active - Proposal to Strike off",
-    CompanyStatuses.DISSOLVED: "Dissolved",
-    CompanyStatuses.LIQUIDATION: "Liquidation",
-    CompanyStatuses.RECEIVERSHIP: "Receivership",
-    CompanyStatuses.ADMINISTRATION: "Administration",
-    CompanyStatuses.VOLUNTARY_ARRANGEMENT: "Voluntary arrangement",
-    CompanyStatuses.CONVERTED_CLOSED: "Converted/Closed",
-    CompanyStatuses.INSOLVENCY_PROCEEDINGS: "Insolvency proceedings",
-    CompanyStatuses.REGISTERED: "Registered",
-    CompanyStatuses.REMOVED: "Removed",
-    CompanyStatuses.CLOSED: "Closed",
-    CompanyStatuses.OPEN: "Open",
 }
 
 
@@ -204,47 +190,10 @@ COMPANY_CATEGORY_LOOKUP = {
     "Scottish Charitable Incorporated Organisation": CompanyTypes.SCOTTISH_CHARITABLE_INCORPORATED_ORGANISATION,
     "Scottish Partnership": CompanyTypes.SCOTTISH_PARTNERSHIP,
     "United Kingdom Economic Interest Grouping": CompanyTypes.UKEIG,
-}
-
-COMPANY_CATEGORY_NAME_LOOKUP = {
-    CompanyTypes.ASSURANCE_COMPANY: "Assurance company",
-    CompanyTypes.CHARITABLE_INCORPORATED_ORGANISATION: "Charitable Incorporated Organisation",
-    CompanyTypes.COMMUNITY_INTEREST_COMPANY: "Community Interest Company",
-    CompanyTypes.CONVERTED_OR_CLOSED: "Converted/Closed",
-    CompanyTypes.EEIG: "European Economic Interest Grouping (EEIG)",
-    CompanyTypes.EEIG_ESTABLISHMENT: "EEIG Establishment",
-    CompanyTypes.EUROPEAN_PUBLIC_LIMITED_LIABILITY_COMPANY_SE: "European Public Limited-Liability Company (SE)",
-    CompanyTypes.FURTHER_EDUCATION_OR_SIXTH_FORM_COLLEGE_CORPORATION: "Further education or sixth form college corporation",
-    CompanyTypes.ICVC_SECURITIES: "Investment Company with Variable Capital (Securities)",
-    CompanyTypes.ICVC_UMBRELLA: "Investment Company with Variable Capital (Umbrella)",
-    CompanyTypes.ICVC_WARRANT: "Investment Company with Variable Capital (Warrant)",
-    CompanyTypes.INDUSTRIAL_AND_PROVIDENT_SOCIETY: "Industrial and Provident Society",
-    CompanyTypes.INVESTMENT_COMPANY_WITH_VARIABLE_CAPITAL: "Investment Company with Variable Capital",
-    CompanyTypes.LIMITED_PARTNERSHIP: "Limited Partnership",
-    CompanyTypes.LLP: "Limited Liability Partnership",
-    CompanyTypes.LTD: "Private Limited Company",
-    CompanyTypes.NORTHERN_IRELAND: "Northern Ireland",
-    CompanyTypes.NORTHERN_IRELAND_OTHER: "Northern Ireland Other",
-    CompanyTypes.OLD_PUBLIC_COMPANY: "Old Public Company",
-    CompanyTypes.OTHER: "Other company type",
-    CompanyTypes.OVERSEA_COMPANY: "Overseas company",
-    CompanyTypes.PLC: "Public Limited Company",
-    CompanyTypes.PRIVATE_FUND_LIMITED_PARTNERSHIP: "Private Fund Limited Partnership (PFLP)",
-    CompanyTypes.PRIVATE_LIMITED_GUARANT_NSC_LIMITED_EXEMPTION: "PRI/LBG/NSC (Private, Limited by guarantee, no share capital, use of 'Limited' exemption)",
-    CompanyTypes.PRIVATE_LIMITED_GUARANT_NSC: "PRI/LTD BY GUAR/NSC (Private, limited by guarantee, no share capital)",
-    CompanyTypes.PRIVATE_LIMITED_SHARES_SECTION_30_EXEMPTION: "PRIV LTD SECT. 30 (Private limited company, section 30 of the Companies Act)",
-    CompanyTypes.PRIVATE_UNLIMITED_NSC: "Private Unlimited Company (No Share Capital)",
-    CompanyTypes.PRIVATE_UNLIMITED: "Private Unlimited Company",
-    CompanyTypes.PROTECTED_CELL_COMPANY: "Protected Cell Company",
-    CompanyTypes.REGISTERED_OVERSEAS_ENTITY: "Registered Overseas Entity",
-    CompanyTypes.REGISTERED_SOCIETY_NON_JURISDICTIONAL: "Registered Society",
-    CompanyTypes.ROYAL_CHARTER: "Royal Charter Company",
-    CompanyTypes.SCOTTISH_CHARITABLE_INCORPORATED_ORGANISATION: "Scottish Charitable Incorporated Organisation",
-    CompanyTypes.SCOTTISH_PARTNERSHIP: "Scottish Partnership",
-    CompanyTypes.UK_ESTABLISHMENT: "United Kingdom Establishment",
-    CompanyTypes.UKEIG: "United Kingdom Economic Interest Grouping",
-    CompanyTypes.UNITED_KINGDOM_SOCIETAS: "United Kingdom Societas",
-    CompanyTypes.UNREGISTERED_COMPANY: "Unregistered Company",
+    "Overseas Entity": CompanyTypes.REGISTERED_OVERSEAS_ENTITY,
+    "Further Education and Sixth Form College Corps": CompanyTypes.FURTHER_EDUCATION_OR_SIXTH_FORM_COLLEGE_CORPORATION,
+    "Other Company Type": CompanyTypes.OTHER,
+    "United Kingdom Societas": CompanyTypes.UNITED_KINGDOM_SOCIETAS,
 }
 
 
