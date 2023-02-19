@@ -7,6 +7,9 @@ class TestUtils(TestCase):
     def test_regex_search(self):
         self.assertTrue(regex_search("abc", r"abc"))
         self.assertFalse(regex_search("abc", r"def"))
+        self.assertTrue(regex_search("test", "test"))
+        self.assertTrue(regex_search("1234", "[0-9]+"))
+        self.assertFalse(regex_search("test", "1234"))
 
     def test_list_to_string(self):
         cases = [
@@ -15,6 +18,11 @@ class TestUtils(TestCase):
             (["a", "b", "c"], "a, b and c"),
             (["a", "b", "c", "d"], "a, b, c and d"),
             ("Blah blah", "Blah blah"),
+            ("item1", "item1"),
+            (set(["item1"]), "item1"),
+            (["item1"], "item1"),
+            (["item1", "item2"], "item1 and item2"),
+            (["item1", "item2", "item3"], "item1, item2 and item3"),
         ]
         for items, expected in cases:
             self.assertEqual(list_to_string(items), expected)
@@ -50,16 +58,34 @@ class TestUtils(TestCase):
             ("TOM OF TABLE CIC", "Tom of Table CIC"),
             (500, 500),
             (None, None),
+            ("THE CHARITY THE NAME", "The Charity the Name"),
+            ("CHARITY UK LTD", "Charity UK Ltd"),
+            ("BCDF", "BCDF"),
+            ("MRS SMITH", "Mrs Smith"),
+            ("1ST SCOUT GROUP", "1st Scout Group"),
+            ("SCOUT 345TH GROUP", "Scout 345th Group"),
+            ("THE CHARITY (THE NAME)", "The Charity (the Name)"),
+            (12345, 12345),
+            ("THE CHARITY (the name)", "THE CHARITY (the name)"),
+            ("Charity UK Ltd", "Charity UK Ltd"),
+            ("charity uk ltd", "Charity UK Ltd"),
+            ("CHARITY'S SHOP UK LTD", "Charity's Shop UK Ltd"),
+            ("CHARITY'S YOU'RE SHOP UK LTD", "Charity's You're Shop UK Ltd"),
         ]
         for s, expected in cases:
             self.assertEqual(to_titlecase(s), expected)
 
-        self.assertEqual(
-            to_titlecase("you're a silly billy", sentence=True),
-            "You're a silly billy",
+        sentences = (
+            ("the charity the name", "The charity the name"),
+            (
+                "the charity the name. another sentence goes here.",
+                "The charity the name. Another sentence goes here.",
+            ),
+            ("you're a silly billy", "You're a silly billy"),
+            (
+                "you're a silly billy. and so are you.",
+                "You're a silly billy. And so are you.",
+            ),
         )
-
-        self.assertEqual(
-            to_titlecase("you're a silly billy. and so are you.", sentence=True),
-            "You're a silly billy. And so are you.",
-        )
+        for s, expected in sentences:
+            self.assertEqual(to_titlecase(s, sentence=True), expected)
