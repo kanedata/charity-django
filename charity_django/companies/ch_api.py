@@ -94,6 +94,7 @@ COMPANY_STATUS_LOOKUP = {
     "RECEIVERSHIP": CompanyStatuses.RECEIVERSHIP,
     "Voluntary Arrangement": CompanyStatuses.VOLUNTARY_ARRANGEMENT,
     "VOLUNTARY ARRANGEMENT / ADMINISTRATIVE RECEIVER": CompanyStatuses.VOLUNTARY_ARRANGEMENT,
+    "VOLUNTARY ARRANGEMENT / RECEIVER MANAGER": CompanyStatuses.VOLUNTARY_ARRANGEMENT,
 }
 
 
@@ -270,7 +271,6 @@ class CompaniesHouseAccount:
 
 
 class CompaniesHouseAPI:
-
     FILING_HISTORY_URL = "https://api.company-information.service.gov.uk/company/{company_number}/filing-history?category=accounts"
     DOC_METADATA_URL = (
         "https://document-api.company-information.service.gov.uk/document/{document_id}"

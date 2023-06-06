@@ -7,7 +7,6 @@ import zipfile
 from collections import defaultdict
 
 import requests
-import requests_cache
 import tqdm
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -82,10 +81,10 @@ class Command(BaseCommand):
     bulk_limit = 50000
     source = {
         "title": "Free Company Data Product",
-        "description": "The Free Company Data Product is a downloadable data snapshot containing \
-            basic company data of live companies on the register. This snapshot is provided as \
-            ZIP files containing data in CSV format and is split into multiple files for ease of \
-            downloading.",
+        "description": "The Free Company Data Product is a downloadable data snapshot \
+            containing basic company data of live companies on the register. This \
+            snapshot is provided as ZIP files containing data in CSV format and is \
+            split into multiple files for ease of downloading.",
         "identifier": "companies",
         "license": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
         "license_name": "Open Government Licence v3.0",
@@ -125,11 +124,9 @@ class Command(BaseCommand):
         router = ConnectionRouter()
         db = router.db_for_write(Company)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
-
             new_tables = []
 
             for m in MODEL_UPDATES.keys():
-
                 # name the temporary table
                 new_table = m._meta.db_table + "_temp"
 
@@ -151,7 +148,10 @@ class Command(BaseCommand):
                     )
                 )
                 cursor.execute(
-                    f'CREATE TABLE "{new_table}" AS SELECT {columns}, false as "in_latest_update" FROM "{m._meta.db_table}"'
+                    f'''
+                    CREATE TABLE "{new_table}" AS
+                    SELECT {columns}, false as "in_latest_update"
+                    FROM "{m._meta.db_table}"'''
                 )
                 self.stdout.write(
                     self.style.SUCCESS(

@@ -18,4 +18,5 @@ def pytest_load_initial_conftests(early_config, parser, args):
 
 
 def pytest_unconfigure(config):
-    _POSTGRESQL.stop()
+    # _POSTGRESQL.stop()
+    pass
