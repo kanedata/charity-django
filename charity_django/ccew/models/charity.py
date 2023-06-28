@@ -294,22 +294,30 @@ class Charity(models.Model):
 
     def financials(self, on_date=None):
         if on_date:
-            finances_parta = self.annual_return_part_a.filter(
+            finances_ar = self.annual_return_history.filter(
                 fin_period_end_date__gte=on_date,
                 fin_period_start_date__lte=on_date,
             ).first()
         else:
-            finances_parta = self.annual_return_part_a.filter(
-                latest_fin_period_submitted_ind=True
+            finances_ar = self.annual_return_history.order_by(
+                "-fin_period_end_date"
             ).first()
+        finances_parta = (
+            self.annual_return_part_a.filter(
+                fin_period_end_date=finances_ar.fin_period_end_date
+            ).first()
+            if finances_ar
+            else None
+        )
         finances_partb = (
             self.annual_return_part_b.filter(
-                fin_period_end_date=finances_parta.fin_period_end_date
+                fin_period_end_date=finances_ar.fin_period_end_date
             ).first()
-            if finances_parta
+            if finances_ar
             else None
         )
         return {
+            "ar": finances_ar,
             "parta": finances_parta,
             "partb": finances_partb,
         }
