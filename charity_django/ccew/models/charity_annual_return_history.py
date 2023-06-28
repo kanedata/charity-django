@@ -77,3 +77,35 @@ class CharityAnnualReturnHistory(models.Model):
     class Meta:
         verbose_name = "Annual Return History"
         verbose_name_plural = "Annual Return History"
+
+    @property
+    def scale(self):
+        max_value = max(
+            abs((self.total_gross_income or 0)),
+            abs((self.total_gross_expenditure or 0)),
+        )
+        if max_value > 10_000_000:
+            return 1_000_000
+        if max_value > 10_000:
+            return 1_000
+        return 1
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return value / self.scale
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        prefix = "£" if with_currency else ""
+        suffix = ""
+        if self.scale == 1_000_000:
+            suffix = "m"
+        elif self.scale == 1_000:
+            suffix = "k"
+        format_str = "{:,.1f}" if self.scale > 1 else "{:,.0f}"
+        value = self.scale_value(attr)
+        if value == 0 and if_zero:
+            return if_zero
+        return prefix + format_str.format(value) + suffix
