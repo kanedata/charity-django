@@ -127,4 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-!charity_django/companies/tests/data/*.zip
+
+# data files
+!src/charity_django/companies/tests/data/*.zip
