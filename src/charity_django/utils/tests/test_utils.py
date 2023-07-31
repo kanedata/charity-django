@@ -1,6 +1,12 @@
 from unittest import TestCase
 
-from charity_django.utils.text import list_to_string, regex_search, to_titlecase
+from charity_django.utils.text import (
+    clean_url,
+    list_to_string,
+    regex_search,
+    to_titlecase,
+    working_url,
+)
 
 
 class TestUtils(TestCase):
@@ -89,3 +95,22 @@ class TestUtils(TestCase):
         )
         for s, expected in sentences:
             self.assertEqual(to_titlecase(s, sentence=True), expected)
+
+    def test_working_url(self):
+        cases = [
+            ("https://www.google.com", "https://www.google.com"),
+            ("facebook.com", "https://facebook.com"),
+            (None, None),
+        ]
+        for url, expected in cases:
+            self.assertEqual(working_url(url), expected)
+
+    def test_clean_url(self):
+        cases = [
+            ("https://www.google.com", "google.com"),
+            ("https://www.google.com/", "google.com"),
+            ("facebook.com", "facebook.com"),
+            (None, None),
+        ]
+        for url, expected in cases:
+            self.assertEqual(clean_url(url), expected)

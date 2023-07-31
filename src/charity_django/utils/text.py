@@ -132,3 +132,22 @@ def list_to_string(items, sep=", ", final_sep=" and "):
         return final_sep.join(items)
     else:
         return sep.join(items[0:-1]) + final_sep + items[-1]
+
+
+def clean_url(url):
+    if not url:
+        return None
+    url = re.sub(r"(https?:)?//", "", url)
+    if url.startswith("www."):
+        url = url[4:]
+    if url.endswith("/"):
+        url = url[:-1]
+    return url
+
+
+def working_url(url):
+    if not url:
+        return None
+    if url.startswith("http") and not url.startswith("//"):
+        return url
+    return "https://" + url
