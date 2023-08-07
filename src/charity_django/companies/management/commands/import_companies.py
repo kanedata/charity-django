@@ -10,8 +10,7 @@ import requests
 import tqdm
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.db import connections, transaction
-from django.db.utils import ConnectionRouter
+from django.db import connections, router, transaction
 from requests_html import HTMLSession
 
 from charity_django.companies.ch_api import (
@@ -121,7 +120,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.debug = options["debug"]
-        router = ConnectionRouter()
         db = router.db_for_write(Company)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
             new_tables = []

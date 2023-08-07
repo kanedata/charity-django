@@ -9,7 +9,7 @@ import requests_cache
 import tqdm
 from django.core.management.base import BaseCommand
 from django.core.management.color import no_style
-from django.db import connection, transaction
+from django.db import connections, router, transaction
 from django.db.models.fields import BooleanField, DateField
 
 from charity_django.ccew.models import (
@@ -53,6 +53,9 @@ class Command(BaseCommand):
         "charity_published_report": CharityPublishedReport,
         "charity_trustee": CharityTrustee,
     }
+
+    def _get_db(self):
+        return router.db_for_write(Charity)
 
     def logger(self, message, error=False):
         if error:
@@ -99,6 +102,8 @@ class Command(BaseCommand):
         z.close()
 
     def process_file(self, csvfile, filename):
+        db = self._get_db()
+        connection = connections[db]
         db_table = self.ccew_file_to_object.get(filename)
         date_fields = [
             f.name for f in db_table._meta.fields if isinstance(f, DateField)

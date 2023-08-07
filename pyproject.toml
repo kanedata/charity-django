@@ -9,9 +9,7 @@ description = "A set of Django apps for importing and using UK charity data"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.8"
-authors = [
-    { name = "David Kane", email = "david@dkane.net" },
-]
+authors = [{ name = "David Kane", email = "david@dkane.net" }]
 classifiers = [
     "Environment :: Web Environment",
     "Framework :: Django",
@@ -56,22 +54,15 @@ test = [
 ]
 
 [tool.hatch.envs.default]
-features = [
-    "test",
-]
+features = ["test"]
 
 [tool.hatch.envs.default.scripts]
 serve = "python test_project/manage.py runserver {args}"
+manage = "python test_project/manage.py {args}"
 test = "pytest src/"
 test-cov = "coverage run -m pytest src/"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
+cov-report = ["- coverage combine", "coverage report"]
+cov = ["test-cov", "cov-report"]
 
 [project.urls]
 Homepage = "https://github.com/kanedata/charity-django"
@@ -80,9 +71,7 @@ Homepage = "https://github.com/kanedata/charity-django"
 path = "src/charity_django/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "src/charity_django",
-]
+include = ["src/charity_django"]
 
 [tool.ruff]
 ignore = ['E501']

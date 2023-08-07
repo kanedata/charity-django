@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import psycopg2.extras
 import requests_cache
 from django.core.management.base import BaseCommand
-from django.db import connection, transaction
+from django.db import connections, router, transaction
 from django.utils.text import slugify
 
 from charity_django.ccni.models import (
@@ -20,6 +20,9 @@ class Command(BaseCommand):
     page_size = 10000
 
     base_url = "https://www.charitycommissionni.org.uk/umbraco/api/charityApi/ExportSearchResultsToCsv/?include=Linked&include=Removed"
+
+    def _get_db(self):
+        return router.db_for_write(Charity)
 
     def logger(self, message, error=False):
         if error:
@@ -103,6 +106,7 @@ class Command(BaseCommand):
         self.charities.append(record)
 
     def _execute_many(self, cursor, statement, values):
+        connection = self._get_connection()
         if connection.vendor == "postgresql":
             psycopg2.extras.execute_values(
                 cursor,
@@ -117,7 +121,9 @@ class Command(BaseCommand):
             )
 
     def save_charities(self):
-        with connection.cursor() as cursor, transaction.atomic():
+        db = self._get_db()
+        connection = connections[db]
+        with connection.cursor() as cursor, transaction.atomic(using=db):
             for object in [Charity, CharityClassification]:
                 # delete existing charities
                 self.logger(

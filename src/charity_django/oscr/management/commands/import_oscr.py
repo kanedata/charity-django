@@ -7,7 +7,7 @@ from datetime import date, datetime, timedelta
 import psycopg2.extras
 import requests_cache
 from django.core.management.base import BaseCommand
-from django.db import connection, transaction
+from django.db import connections, router, transaction
 from django.db.utils import OperationalError, ProgrammingError
 from django.utils.text import slugify
 
@@ -44,6 +44,9 @@ class Command(BaseCommand):
         "https://www.oscr.org.uk/umbraco/Surface/FormsSurface/Charity5YearsRegDownload",
     )
 
+    def _get_db(self):
+        return router.db_for_write(Charity)
+
     def logger(self, message, error=False):
         if error:
             self.stderr.write(self.style.ERROR(message))
@@ -63,6 +66,7 @@ class Command(BaseCommand):
         self.fetch_file()
 
     def _execute_many(self, cursor, statement, values):
+        connection = self._get_connection()
         try:
             if connection.vendor == "postgresql":
                 psycopg2.extras.execute_values(
@@ -206,7 +210,9 @@ class Command(BaseCommand):
         self.charities[record["charity_number"]] = record
 
     def save_charities(self):
-        with connection.cursor() as cursor, transaction.atomic():
+        db = self._get_db()
+        connection = connections[db]
+        with connection.cursor() as cursor, transaction.atomic(using=db):
             # delete existing charities
             Charity.objects.all().delete()
 
