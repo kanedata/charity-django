@@ -47,6 +47,9 @@ class Command(BaseCommand):
     def _get_db(self):
         return router.db_for_write(Charity)
 
+    def _get_connection(self):
+        return connections[self._get_db()]
+
     def logger(self, message, error=False):
         if error:
             self.stderr.write(self.style.ERROR(message))
