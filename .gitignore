@@ -130,3 +130,4 @@ dmypy.json
 
 # data files
 !src/charity_django/companies/tests/data/*.zip
+!src/charity_django/ccew/tests/data/*.zip
