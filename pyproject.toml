@@ -63,6 +63,7 @@ test = "pytest src/"
 test-cov = "coverage run -m pytest src/"
 cov-report = ["- coverage combine", "coverage report"]
 cov = ["test-cov", "cov-report"]
+lint = ["black . --check", "ruff check ."]
 
 [project.urls]
 Homepage = "https://github.com/kanedata/charity-django"

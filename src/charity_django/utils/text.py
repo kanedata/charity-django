@@ -96,7 +96,7 @@ def title_exceptions(word, **kwargs):
 
 
 def to_titlecase(s, sentence=False):
-    if type(s) != str:
+    if not isinstance(s, str):
         return s
 
     s = s.strip()
