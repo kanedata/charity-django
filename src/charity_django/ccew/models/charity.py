@@ -292,12 +292,18 @@ class Charity(models.Model):
             return join.join(address_fields)
         return address_fields
 
-    def financials(self, on_date=None):
+    def financials(self, on_date=None, exclude_null=True):
         if on_date:
             finances_ar = self.annual_return_history.filter(
                 fin_period_end_date__gte=on_date,
                 fin_period_start_date__lte=on_date,
             ).first()
+        elif exclude_null:
+            finances_ar = (
+                self.annual_return_history.exclude(total_gross_income__isnull=True)
+                .order_by("-fin_period_end_date")
+                .first()
+            )
         else:
             finances_ar = self.annual_return_history.order_by(
                 "-fin_period_end_date"

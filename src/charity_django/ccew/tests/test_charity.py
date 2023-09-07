@@ -132,12 +132,14 @@ class CharityTestCase(TestCase):
             registered_charity_number=charity.registered_charity_number,
             fin_period_end_date="2019-12-31",
             fin_period_start_date="2019-01-01",
+            total_gross_income=100,
         )
         charity.annual_return_part_a.create(
             registered_charity_number=charity.registered_charity_number,
             fin_period_end_date="2019-12-31",
             fin_period_start_date="2019-01-01",
             latest_fin_period_submitted_ind=True,
+            total_gross_income=100,
         )
 
         # default gets the latest
@@ -205,6 +207,36 @@ class CharityTestCase(TestCase):
         # a date outside the range should get None
         self.assertIsNone(charity.financials("2018-06-01").get("parta"))
         self.assertIsNone(charity.financials("2018-06-01").get("partb"))
+
+    def test_charity_financials_null(self):
+        charity = Charity.objects.create(
+            organisation_number=123,
+            registered_charity_number=123,
+            linked_charity_number=0,
+            charity_name="Test Charity",
+        )
+        charity.annual_return_history.create(
+            registered_charity_number=charity.registered_charity_number,
+            fin_period_end_date="2019-12-31",
+            fin_period_start_date="2019-01-01",
+            total_gross_income=None,
+        )
+        charity.annual_return_history.create(
+            registered_charity_number=charity.registered_charity_number,
+            fin_period_end_date="2018-12-31",
+            fin_period_start_date="2018-01-01",
+            total_gross_income=100,
+        )
+
+        # default gets the latest
+        self.assertEqual(
+            charity.financials().get("ar").fin_period_end_date,
+            date(2018, 12, 31),
+        )
+        self.assertEqual(
+            charity.financials(exclude_null=False).get("ar").fin_period_end_date,
+            date(2019, 12, 31),
+        )
 
 
 class CharityPartATestCase(TestCase):
