@@ -77,6 +77,12 @@ class CharityAnnualReturnHistory(models.Model):
     class Meta:
         verbose_name = "Annual Return History"
         verbose_name_plural = "Annual Return History"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["charity", "fin_period_end_date", "ar_cycle_reference"],
+                name="unique_annual_return_history",
+            ),
+        ]
 
     @property
     def scale(self):

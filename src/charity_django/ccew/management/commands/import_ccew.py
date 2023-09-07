@@ -53,6 +53,21 @@ class Command(BaseCommand):
         "charity_published_report": CharityPublishedReport,
         "charity_trustee": CharityTrustee,
     }
+    upsert_files = {
+        # conflict target, pre upsert sql
+        "charity_annual_return_history": (
+            ("organisation_number", "fin_period_end_date", "ar_cycle_reference"),
+            None,
+        ),
+        "charity_annual_return_parta": (
+            ("organisation_number", "fin_period_end_date"),
+            "UPDATE {table} SET latest_fin_period_submitted_ind = NULL, fin_period_order_number = NULL",
+        ),
+        "charity_annual_return_partb": (
+            ("organisation_number", "fin_period_end_date"),
+            "UPDATE {table} SET latest_fin_period_submitted_ind = NULL, fin_period_order_number = NULL",
+        ),
+    }
 
     def _get_db(self):
         return router.db_for_write(Charity)
@@ -82,6 +97,7 @@ class Command(BaseCommand):
         self.files = {}
         for filename in self.ccew_file_to_object:
             url = self.base_url.format(filename)
+            self.logger("Fetching: {}".format(url))
             r = self.session.get(url)
             r.raise_for_status()
             self.parse_file(r, filename)
@@ -136,13 +152,7 @@ class Command(BaseCommand):
                 for r in rows:
                     yield r
 
-        with connection.cursor() as cursor:
-            reader = csv.DictReader(
-                io.TextIOWrapper(csvfile, encoding="utf8"),
-                delimiter="\t",
-                escapechar="\\",
-                quoting=csv.QUOTE_NONE,
-            )
+        def table_insert(cursor, reader):
             self.logger(
                 "Deleting existing records [{}]".format(db_table._meta.db_table)
             )
@@ -169,7 +179,7 @@ class Command(BaseCommand):
             self.logger("Starting table insert [{}]".format(db_table._meta.db_table))
             fields = list(reader.fieldnames)
             statement = (
-                """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
+                """INSERT INTO "{table}" ("{fields}") VALUES {placeholder}""".format(
                     table=db_table._meta.db_table,
                     fields='", "'.join(fields),
                     placeholder="(" + ", ".join(["%s" for f in fields]) + ")"
@@ -190,6 +200,54 @@ class Command(BaseCommand):
                     get_data_chunks(reader, len(reader.fieldnames)),
                 )
             self.logger("Finished table insert [{}]".format(db_table._meta.db_table))
+
+        def table_upsert(cursor, reader):
+            self.logger("Starting table upsert [{}]".format(db_table._meta.db_table))
+            fields = list(reader.fieldnames)
+
+            # sql to execute prior to upsert
+            if self.upsert_files.get(filename)[1]:
+                cursor.execute(
+                    self.upsert_files.get(filename)[1].format(
+                        table=db_table._meta.db_table
+                    )
+                )
+
+            conflict_target = self.upsert_files.get(filename)[0]
+            statement = """INSERT INTO "{table}" ("{fields}") 
+                    VALUES %s 
+                    ON CONFLICT ("{conflict_target}")
+                    DO UPDATE SET {update_fields}""".format(
+                table=db_table._meta.db_table,
+                fields='", "'.join(fields),
+                conflict_target='", "'.join(conflict_target),
+                update_fields=", ".join(
+                    [
+                        '"{field}" = EXCLUDED."{field}"'.format(field=f)
+                        for f in fields
+                        if f not in conflict_target
+                    ]
+                ),
+            )
+            psycopg2.extras.execute_values(
+                cursor,
+                statement,
+                get_data(reader, len(reader.fieldnames)),
+                page_size=page_size,
+            )
+            self.logger("Finished table upsert [{}]".format(db_table._meta.db_table))
+
+        with connection.cursor() as cursor:
+            reader = csv.DictReader(
+                io.TextIOWrapper(csvfile, encoding="utf8"),
+                delimiter="\t",
+                escapechar="\\",
+                quoting=csv.QUOTE_NONE,
+            )
+            if filename in self.upsert_files and connection.vendor == "postgresql":
+                table_upsert(cursor, reader)
+            else:
+                table_insert(cursor, reader)
 
     def clean_fields(self, record, date_fields=[], bool_fields=[]):
         for f in record.keys():

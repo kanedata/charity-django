@@ -261,6 +261,12 @@ class CharityARPartA(models.Model):
     class Meta:
         verbose_name = "Annual Return - Part A"
         verbose_name_plural = "Annual Return - Part A"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["charity", "fin_period_end_date"],
+                name="unique_ar_parta",
+            ),
+        ]
 
     @property
     def count_salary_band_over_60000(self):

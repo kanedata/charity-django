@@ -332,3 +332,9 @@ class CharityARPartB(models.Model):
     class Meta:
         verbose_name = "Annual Return - Part B"
         verbose_name_plural = "Annual Return - Part B"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["charity", "fin_period_end_date"],
+                name="unique_ar_partb",
+            ),
+        ]
