@@ -77,8 +77,6 @@ class Command(BaseCommand):
         )
 
         self.fetch_file()
-        for filename, response in self.files.items():
-            self.parse_file(response, filename)
 
     def fetch_file(self):
         self.files = {}
