@@ -57,7 +57,7 @@ class CharityProvider(BaseProvider):
         )
 
     def charity_area_of_benefit(self):
-        fake_city = self.address.city()
+        fake_city = self.address.city().replace(" ", "").upper()
         fake_country = self.address.country()
         possible_areas = [
             "NOT DEFINED",
@@ -69,7 +69,7 @@ class CharityProvider(BaseProvider):
             "COUNTY AND CITY OF {}".format(fake_city),
             "NATIONAL",
             "NATIONAL AND OVERSEAS",
-            "{} AND {}".format(fake_city, self.address.city()),
+            "{} AND {}".format(fake_city, self.address.city().upper()),
             "NATIONAL",
             "NOT DEFINED.",
             "UNDEFINED. IN PRACTICE, LOCAL.",
@@ -92,7 +92,8 @@ class CharityProvider(BaseProvider):
             "CATCHMENT AREA OF THE SCHOOL",
             "UNDEFINED. IN PRACTICE, NATIONAL AND OVERSEAS.",
             "ENGLAND AND WALES",
-            fake_country,
+            fake_country.upper(),
+            "UK AND {}".format(fake_country.upper()),
         ]
         return self.random_element(possible_areas)
 
