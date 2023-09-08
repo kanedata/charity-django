@@ -1,4 +1,5 @@
 import os
+import signal
 
 import pytest
 from dj_database_url import parse
@@ -7,7 +8,17 @@ from testing.postgresql import Postgresql
 
 postgres = os.environ.get("POSTGRESQL_PATH")
 initdb = os.environ.get("INITDB_PATH")
-_POSTGRESQL = Postgresql(postgres=postgres, initdb=initdb)
+
+
+# tweak for windows
+class PostgresqlWindows(Postgresql):
+    terminate_signal = signal.SIGINT
+
+    def terminate(self, *args):
+        super(Postgresql, self).terminate()
+
+
+_POSTGRESQL = PostgresqlWindows(postgres=postgres, initdb=initdb)
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -18,5 +29,4 @@ def pytest_load_initial_conftests(early_config, parser, args):
 
 
 def pytest_unconfigure(config):
-    # _POSTGRESQL.stop()
-    pass
+    _POSTGRESQL.stop()

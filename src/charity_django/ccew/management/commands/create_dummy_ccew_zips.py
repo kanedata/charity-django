@@ -182,7 +182,10 @@ class Command(ImportCCEWCommand):
         # replace charity names with dummy names
         field_replacements = [
             ("charity_name", lambda: charity_name),
-            ("charity_contact_address1", self.fake.street_address),
+            (
+                "charity_contact_address1",
+                lambda: self.fake.street_address().split("\n")[0],
+            ),
             ("charity_contact_address2", self.fake.city),
             ("charity_contact_address3", lambda: ""),
             ("charity_contact_address4", lambda: ""),
