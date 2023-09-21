@@ -9,7 +9,7 @@ from charity_django.utils.text import (
 )
 
 
-class TestUtils(TestCase):
+class TestUtilsText(TestCase):
     def test_regex_search(self):
         self.assertTrue(regex_search("abc", r"abc"))
         self.assertFalse(regex_search("abc", r"def"))
