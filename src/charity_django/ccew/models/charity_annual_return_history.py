@@ -13,7 +13,7 @@ class CharityAnnualReturnHistory(models.Model):
         Charity,
         db_column="organisation_number",
         to_field="organisation_number",
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
         help_text="The organisation number for the charity. This is the index value for the charity.",
         related_name="annual_return_history",
     )

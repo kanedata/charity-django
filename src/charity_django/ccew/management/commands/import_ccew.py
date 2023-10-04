@@ -3,6 +3,7 @@ import csv
 import io
 import zipfile
 from datetime import datetime, timedelta
+from tempfile import TemporaryDirectory
 
 import psycopg2.extras
 import requests_cache
@@ -79,19 +80,63 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(message))
 
     def handle(self, *args, **options):
+        self.temp_dir = TemporaryDirectory()
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
             expire_after=timedelta(days=1),
         )
 
-        # ensure any demonstration charities aren't deleted
-        self.demo_charities = list(
-            Charity.objects.filter(charity_type=DUMMY_CHARITY_TYPE).values_list(
-                "organisation_number", flat=True
+        db = self._get_db()
+        self.connection = connections[db]
+
+        with transaction.atomic():
+            # ensure any demonstration charities aren't deleted
+            self.demo_charities = list(
+                Charity.objects.filter(charity_type=DUMMY_CHARITY_TYPE).values_list(
+                    "organisation_number", flat=True
+                )
             )
+            self.delete_existing()
+
+            self.fetch_file()
+
+        # delete temporary directory
+        self.temp_dir.cleanup()
+
+    def _do_upsert(self, filename):
+        return (filename in self.upsert_files) and (
+            self.connection.vendor == "postgresql"
         )
 
-        self.fetch_file()
+    def delete_existing(self):
+        def delete_table(db_table):
+            self.logger(
+                "Deleting existing records [{}]".format(db_table._meta.db_table)
+            )
+            columns = tuple(f.name for f in db_table._meta.fields)
+            if "organisation_number" in columns:
+                deleted, _ = db_table.objects.exclude(
+                    organisation_number__in=self.demo_charities
+                ).delete()
+            elif "charity" in columns:
+                deleted, _ = db_table.objects.exclude(
+                    charity_id__in=self.demo_charities
+                ).delete()
+            self.logger(
+                "Deleted {:,.0f} existing records [{}]".format(
+                    deleted, db_table._meta.db_table
+                )
+            )
+
+        for filename, db_table in self.ccew_file_to_object.items():
+            if filename == "charity":
+                continue
+            if self._do_upsert(filename):
+                continue
+            delete_table(db_table)
+
+        # delete charity records
+        delete_table(Charity)
 
     def fetch_file(self):
         self.files = {}
@@ -108,16 +153,17 @@ class Command(BaseCommand):
         except zipfile.BadZipFile:
             self.logger(response.content[0:1000])
             raise
-        with transaction.atomic():
-            for f in z.infolist():
-                self.logger("Opening: {}".format(f.filename))
-                with z.open(f) as csvfile:
-                    self.process_file(csvfile, filename)
+        for f in z.infolist():
+            self.logger("Saving: {}".format(f.filename))
+            # save the file to a temporary directory
+            tmp_file = self.temp_dir.name + "/" + f.filename
+            with open(tmp_file, "wb") as out:
+                out.write(z.read(f.filename))
+
+            self.process_file(tmp_file, filename)
         z.close()
 
     def process_file(self, csvfile, filename):
-        db = self._get_db()
-        connection = connections[db]
         db_table = self.ccew_file_to_object.get(filename)
         date_fields = [
             f.name for f in db_table._meta.fields if isinstance(f, DateField)
@@ -153,26 +199,10 @@ class Command(BaseCommand):
                     yield r
 
         def table_insert(cursor, reader):
-            self.logger(
-                "Deleting existing records [{}]".format(db_table._meta.db_table)
-            )
-            columns = tuple(f.name for f in db_table._meta.fields)
-            if "organisation_number" in columns:
-                deleted, _ = db_table.objects.exclude(
-                    organisation_number__in=self.demo_charities
-                ).delete()
-            elif "charity" in columns:
-                deleted, _ = db_table.objects.exclude(
-                    charity_id__in=self.demo_charities
-                ).delete()
-            self.logger(
-                "Deleted {:,.0f} existing records [{}]".format(
-                    deleted, db_table._meta.db_table
-                )
-            )
-
             # reset the sequence
-            sequence_sql = connection.ops.sequence_reset_sql(no_style(), [db_table])
+            sequence_sql = self.connection.ops.sequence_reset_sql(
+                no_style(), [db_table]
+            )
             for sql in sequence_sql:
                 cursor.execute(sql)
 
@@ -183,11 +213,11 @@ class Command(BaseCommand):
                     table=db_table._meta.db_table,
                     fields='", "'.join(fields),
                     placeholder="(" + ", ".join(["%s" for f in fields]) + ")"
-                    if connection.vendor == "sqlite"
+                    if self.connection.vendor == "sqlite"
                     else "%s",
                 )
             )
-            if connection.vendor == "postgresql":
+            if self.connection.vendor == "postgresql":
                 psycopg2.extras.execute_values(
                     cursor,
                     statement,
@@ -237,17 +267,18 @@ class Command(BaseCommand):
             )
             self.logger("Finished table upsert [{}]".format(db_table._meta.db_table))
 
-        with connection.cursor() as cursor:
-            reader = csv.DictReader(
-                io.TextIOWrapper(csvfile, encoding="utf8"),
-                delimiter="\t",
-                escapechar="\\",
-                quoting=csv.QUOTE_NONE,
-            )
-            if filename in self.upsert_files and connection.vendor == "postgresql":
-                table_upsert(cursor, reader)
-            else:
-                table_insert(cursor, reader)
+        with self.connection.cursor() as cursor:
+            with open(csvfile, "r", encoding=self.encoding) as csvfile_handle:
+                reader = csv.DictReader(
+                    csvfile_handle,
+                    delimiter="\t",
+                    escapechar="\\",
+                    quoting=csv.QUOTE_NONE,
+                )
+                if self._do_upsert(filename):
+                    table_upsert(cursor, reader)
+                else:
+                    table_insert(cursor, reader)
 
     def clean_fields(self, record, date_fields=[], bool_fields=[]):
         for f in record.keys():
