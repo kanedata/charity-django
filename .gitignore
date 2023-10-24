@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # data files
-!src/charity_django/companies/tests/data/*.zip
-!src/charity_django/ccew/tests/data/*.zip
+postcode_cache/
+!src/charity_django/*/tests/data/*.zip

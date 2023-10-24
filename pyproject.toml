@@ -39,6 +39,7 @@ dependencies = [
     "requests_html",
     "titlecase",
     "tqdm",
+    "openpyxl",
 ]
 
 [project.optional-dependencies]
