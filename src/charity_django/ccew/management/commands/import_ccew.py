@@ -37,7 +37,7 @@ DEFAULT_DATE_FORMAT = "%Y-%m-%d"
 class Command(BaseCommand):
     help = "Import CCEW data from a zip file"
 
-    encoding = "cp858"
+    encoding = "utf8"
     base_url = "https://ccewuksprdoneregsadata1.blob.core.windows.net/data/txt/publicextract.{}.zip"
     ccew_file_to_object = {
         "charity": Charity,
