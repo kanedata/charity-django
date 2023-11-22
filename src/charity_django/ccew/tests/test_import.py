@@ -50,7 +50,10 @@ class ImportTestCase(TestCase):
         with requests_mock.Mocker() as m:
             self._mock_csv_downloads(m)
             command.handle()
-            assert Charity.objects.get(organisation_number=281345).charity_name == "Howard’s land Religion Charitable Incorporated Organisation"
+            assert (
+                Charity.objects.get(organisation_number=281345).charity_name
+                == "Howard’s land Religion Charitable Incorporated Organisation"
+            )
 
     def test_charity_import_twice(self):
         command = CCEWCommand()

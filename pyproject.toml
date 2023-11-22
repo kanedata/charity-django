@@ -46,7 +46,7 @@ dependencies = [
 test = [
     "black",
     "ruff",
-    "pytest",
+    "pytest>=7",
     "pytest-django",
     "pytest-pythonpath",
     "requests_mock",
@@ -77,3 +77,7 @@ include = ["src/charity_django"]
 
 [tool.ruff]
 ignore = ['E501']
+
+[tool.pytest.ini_options]
+addopts = " -p pytest_use_postgresql"
+DJANGO_SETTINGS_MODULE = "test_project.config.settings"
