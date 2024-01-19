@@ -40,12 +40,12 @@ dependencies = [
     "titlecase",
     "tqdm",
     "openpyxl",
+    "certifi>=2023.11.17",
 ]
 
 [project.optional-dependencies]
 test = [
-    "black",
-    "ruff",
+    "ruff>=0.1.13",
     "pytest>=7",
     "pytest-django",
     "pytest-pythonpath",
@@ -64,7 +64,7 @@ test = "pytest src/ {args}"
 test-cov = "coverage run -m pytest src/"
 cov-report = ["- coverage combine", "coverage report"]
 cov = ["test-cov", "cov-report"]
-lint = ["black . --check", "ruff check ."]
+lint = ["ruff format . --check", "ruff check ."]
 
 [project.urls]
 Homepage = "https://github.com/kanedata/charity-django"

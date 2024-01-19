@@ -3,6 +3,7 @@ import io
 from datetime import datetime, timedelta
 
 import psycopg2.extras
+import requests
 import requests_cache
 from django.core.management.base import BaseCommand
 from django.db import connections, router, transaction
@@ -45,7 +46,10 @@ class Command(BaseCommand):
 
     def fetch_file(self):
         self.files = {}
-        r = self.session.get(self.base_url)
+        try:
+            r = self.session.get(self.base_url, verify=True)
+        except requests.exceptions.SSLError:
+            r = self.session.get(self.base_url, verify=False)
         r.raise_for_status()
 
         file = io.StringIO(r.text)
@@ -78,7 +82,8 @@ class Command(BaseCommand):
             "income_generation_and_governance",
             "retained_for_future_use",
         ]:
-            record[k] = int(record[k])
+            if k in record:
+                record[k] = int(record[k])
 
         # array fields
         for k in [

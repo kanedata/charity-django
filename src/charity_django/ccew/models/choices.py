@@ -19,8 +19,9 @@ class CharityType(models.TextChoices):
 class CharityReportingStatus(models.TextChoices):
     NEW = "New", _("New")
     REMOVED = "Removed", _("Removed")
-    SUBMISSION_DOUBLE_DEFAULT = "Submission Double Default", _(
-        "Submission Double Default"
+    SUBMISSION_DOUBLE_DEFAULT = (
+        "Submission Double Default",
+        _("Submission Double Default"),
     )
     SUBMISSION_OVERDUE = "Submission Overdue", _("Submission Overdue")
     SUBMISSION_RECEIVED = "Submission Received", _("Submission Received")
@@ -43,8 +44,9 @@ class EventType(models.TextChoices):
     ASSET_TRANSFER_IN = "Asset transfer in", _("Asset transfer in")
     ASSET_TRANSFER_OUT = "Asset transfer out", _("Asset transfer out")
     CIO_REGISTRATION = "CIO registration", _("CIO registration")
-    PREVIOUSLY_EXCEPTED_REGISTRATION = "Previously excepted registration", _(
-        "Previously excepted registration"
+    PREVIOUSLY_EXCEPTED_REGISTRATION = (
+        "Previously excepted registration",
+        _("Previously excepted registration"),
     )
     RE_REGISTERED = "Re-registered", _("Re-registered")
     REMOVED = "Removed", _("Removed")
