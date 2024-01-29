@@ -57,11 +57,13 @@ class Command(BaseCommand):
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
             # delete all existing data
             cursor.execute(f'DELETE FROM "{GeoCode._meta.db_table}" WHERE 1=1')
+            cursor.execute(f'DELETE FROM "{GeoEntity._meta.db_table}" WHERE 1=1')
+            cursor.execute(f'DELETE FROM "{GeoEntityGroup._meta.db_table}" WHERE 1=1')
 
             # import the new data
             self.set_session(install_cache=options["cache"])
 
-            entity_groups = set()
+            entity_groups = defaultdict(lambda: set())
             related_entities = {}
 
             # fetch the file
@@ -89,13 +91,6 @@ class Command(BaseCommand):
                             for e in row["Related entity codes"].split(",")
                             if e.strip()
                         ]
-                        entity_groups.add(
-                            tuple(
-                                sorted(
-                                    [record["code"]] + related_entities[record["code"]]
-                                )
-                            )
-                        )
                     for f in self.int_fields:
                         if record[f]:
                             record[f] = int(record[f].replace(",", ""))
@@ -109,27 +104,30 @@ class Command(BaseCommand):
                 self.save_all_records()
 
                 entity_cache = {e.code: e for e in GeoEntity.objects.all()}
-                for parent, related in related_entities.items():
-                    if parent not in entity_cache:
-                        continue
-                    for child in related:
-                        if child not in entity_cache:
-                            continue
-                        entity_cache[parent].related_entities.add(entity_cache[child])
 
-                for group in entity_groups:
-                    group_entities = [entity_cache[e] for e in group]
-                    group_code = "_".join(sorted(set([e[1:] for e in group])))
-                    group_name = " / ".join(
-                        sorted(set([e.name for e in group_entities]))
-                    )
-                    group, _ = GeoEntityGroup.objects.update_or_create(
-                        code=group_code,
-                        defaults=dict(
-                            name=group_name,
-                        ),
-                    )
-                    group.entities.set(group_entities)
+            for parent, related in related_entities.items():
+                if parent not in entity_cache:
+                    continue
+                for child in related:
+                    if child not in entity_cache:
+                        continue
+                    entity_cache[parent].related_entities.add(entity_cache[child])
+                entity_groups[parent].add(child)
+                entity_groups[child].add(parent)
+
+            entity_groups = set(tuple(sorted(g)) for g in entity_groups.values())
+
+            for group in entity_groups:
+                group_entities = [entity_cache[e] for e in group]
+                group_code = "_".join(sorted(set([e for e in group])))
+                group_name = " / ".join(sorted(set([e.name for e in group_entities])))
+                group, _ = GeoEntityGroup.objects.update_or_create(
+                    code=group_code,
+                    defaults=dict(
+                        name=group_name,
+                    ),
+                )
+                group.entities.set(group_entities)
             self.save_all_records()
 
     def set_session(self, install_cache=False):

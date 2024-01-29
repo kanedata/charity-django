@@ -7,7 +7,7 @@ name = "charity-django"
 dynamic = ["version"]
 description = "A set of Django apps for importing and using UK charity data"
 readme = "README.md"
-license = "MIT"
+license = "MIT License"
 requires-python = ">=3.8"
 authors = [{ name = "David Kane", email = "david@dkane.net" }]
 classifiers = [

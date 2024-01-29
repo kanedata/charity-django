@@ -56,6 +56,18 @@ class Command(BaseCommand):
             help="Debug",
             default=settings.DEBUG,
         )
+        parser.add_argument(
+            "--include",
+            action="append",
+            help="Include only these codes",
+            default=[],
+        )
+        parser.add_argument(
+            "--exclude",
+            action="append",
+            help="Include only these codes",
+            default=[],
+        )
 
     def get_entity(self, code):
         if code in self.entity_cache:
@@ -87,6 +99,11 @@ class Command(BaseCommand):
             )
             for row in tqdm.tqdm(reader, desc="Reading CSV"):
                 record = self.parse_row(row)
+                if options["include"] and record["ENTITYCD"] not in options["include"]:
+                    continue
+                if options["exclude"] and record["ENTITYCD"] in options["exclude"]:
+                    continue
+
                 if record["GEOGCD"] not in records:
                     records[record["GEOGCD"]] = []
                 records[record["GEOGCD"]].append(record)
