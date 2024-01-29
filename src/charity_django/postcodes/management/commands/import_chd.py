@@ -99,9 +99,13 @@ class Command(BaseCommand):
             )
             for row in tqdm.tqdm(reader, desc="Reading CSV"):
                 record = self.parse_row(row)
-                if options["include"] and record["ENTITYCD"] not in options["include"]:
+                if options.get("include") and record["ENTITYCD"] not in options.get(
+                    "include", []
+                ):
                     continue
-                if options["exclude"] and record["ENTITYCD"] in options["exclude"]:
+                if options.get("exclude") and record["ENTITYCD"] in options.get(
+                    "exclude", []
+                ):
                     continue
 
                 if record["GEOGCD"] not in records:
