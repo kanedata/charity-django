@@ -15,7 +15,7 @@ class Charity(models.Model):
         primary_key=True,
     )
     sub_charity_number = models.IntegerField(
-        verbose_name="Sub charity number", default=0
+        verbose_name="Sub charity number", default=0, null=True, blank=True
     )
     charity_name = models.CharField(
         max_length=255,
@@ -23,29 +23,28 @@ class Charity(models.Model):
         verbose_name="Charity name",
     )
     date_registered = models.DateField(
-        verbose_name="Date registered",
+        verbose_name="Date registered", null=True, blank=True
     )
     status = models.CharField(
-        max_length=255,
-        verbose_name="Status",
+        max_length=255, verbose_name="Status", null=True, blank=True
     )
     date_for_financial_year_ending = models.DateField(
-        verbose_name="Date for financial year ending",
+        verbose_name="Date for financial year ending", null=True, blank=True
     )
     total_income = models.BigIntegerField(
-        verbose_name="Total income",
+        verbose_name="Total income", null=True, blank=True
     )
     total_spending = models.BigIntegerField(
-        verbose_name="Total spending",
+        verbose_name="Total spending", null=True, blank=True
     )
     charitable_spending = models.BigIntegerField(
-        verbose_name="Charitable spending",
+        verbose_name="Charitable spending", null=True, blank=True
     )
     income_generation_and_governance = models.BigIntegerField(
-        verbose_name="Income generation and governance",
+        verbose_name="Income generation and governance", null=True, blank=True
     )
     retained_for_future_use = models.BigIntegerField(
-        verbose_name="Retained for future use",
+        verbose_name="Retained for future use", null=True, blank=True
     )
     public_address = models.TextField(
         verbose_name="Public address",

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import csv
 import io
+import random
 import zipfile
 from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
@@ -79,12 +80,17 @@ class Command(BaseCommand):
             return
         self.stdout.write(self.style.SUCCESS(message))
 
+    def add_arguments(self, parser):
+        parser.add_argument("--sample", type=int, default=0)
+
     def handle(self, *args, **options):
         self.temp_dir = TemporaryDirectory()
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
             expire_after=timedelta(days=1),
         )
+        self.sample_registration_numbers = set()
+        self.sample = options.get("sample")
 
         db = self._get_db()
         self.connection = connections[db]
@@ -163,6 +169,41 @@ class Command(BaseCommand):
             self.process_file(tmp_file, filename)
         z.close()
 
+    def get_sample_charity_numbers(self, csvfile):
+        if not self.sample:
+            return
+        if len(self.sample_registration_numbers) > 0:
+            return
+
+        self.logger("Sampling {:,.0f} charities".format(self.sample))
+
+        all_registered_charity_numbers = set()
+        with open(csvfile, "r", encoding=self.encoding) as csvfile_handle:
+            reader = csv.DictReader(
+                csvfile_handle,
+                delimiter="\t",
+                escapechar="\\",
+                quoting=csv.QUOTE_NONE,
+            )
+            for row in reader:
+                if "registered_charity_number" not in row:
+                    break
+                all_registered_charity_numbers.add(row["registered_charity_number"])
+
+        self.logger(
+            "Population of {:,.0f} charities".format(
+                len(all_registered_charity_numbers)
+            )
+        )
+
+        self.sample_registration_numbers = set(
+            random.sample(sorted(all_registered_charity_numbers), self.sample)
+        )
+
+        self.logger(
+            "Sampled {:,.0f} charities".format(len(self.sample_registration_numbers))
+        )
+
     def process_file(self, csvfile, filename):
         db_table = self.ccew_file_to_object.get(filename)
         date_fields = [
@@ -172,6 +213,8 @@ class Command(BaseCommand):
             f.name for f in db_table._meta.fields if isinstance(f, BooleanField)
         ]
         page_size = 1000
+
+        self.get_sample_charity_numbers(csvfile)
 
         def get_data(reader, row_count=None):
             for k, row in tqdm.tqdm(enumerate(reader)):
@@ -184,6 +227,15 @@ class Command(BaseCommand):
                             len(row),
                         )
                     )
+                if (
+                    self.sample_registration_numbers
+                    and ("registered_charity_number" in row)
+                    and (
+                        row["registered_charity_number"]
+                        not in self.sample_registration_numbers
+                    )
+                ):
+                    continue
                 yield list(row.values())
 
         def get_data_chunks(reader, row_count=None):

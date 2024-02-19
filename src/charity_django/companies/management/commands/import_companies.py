@@ -2,6 +2,7 @@ import argparse
 import csv
 import datetime
 import io
+import random
 import re
 import zipfile
 from collections import defaultdict
@@ -117,9 +118,11 @@ class Command(BaseCommand):
             help="Debug",
             default=settings.DEBUG,
         )
+        parser.add_argument("--sample", type=int, default=0)
 
     def handle(self, *args, **options):
         self.debug = options["debug"]
+        self.sample = options["sample"]
         db = router.db_for_write(Company)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
             new_tables = []
@@ -242,17 +245,34 @@ class Command(BaseCommand):
                         self.style.ERROR("Error fetching: {}".format(link))
                     )
                     self.stdout.write(self.style.ERROR(str(err)))
+                if getattr(self, "sample", None):
+                    break
 
     def parse_file(self, response, source_url):
         self.stdout.write("Opening: {}".format(source_url))
+        chance_of_selection = 1
+        selected_count = 0
+        if getattr(self, "sample", None):
+            chance_of_selection = self.sample / 750_000
+            print(f"Chance of selection: {chance_of_selection}")
         with zipfile.ZipFile(io.BytesIO(response.content)) as z:
             for f in z.infolist():
                 self.stdout.write("Opening: {}".format(f.filename))
                 with z.open(f) as csvfile:
                     reader = csv.DictReader(io.TextIOWrapper(csvfile, encoding="utf8"))
                     for index, row in tqdm.tqdm(enumerate(reader)):
+                        if getattr(self, "sample", None):
+                            if (random.random() > chance_of_selection) or (
+                                selected_count >= self.sample
+                            ):
+                                continue
+                            selected_count += 1
                         self.parse_row(row)
-                        if self.debug and index >= 100:
+                        if (
+                            self.debug
+                            and (index >= 100)
+                            and not getattr(self, "sample", None)
+                        ):
                             break
                     self.save_all_records()
         response = None

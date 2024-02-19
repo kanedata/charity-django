@@ -45,7 +45,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = [
-    "ruff>=0.1.13",
+    "ruff>=0.2.1",
     "pytest>=7",
     "pytest-django",
     "pytest-pythonpath",
@@ -76,7 +76,7 @@ path = "src/charity_django/__init__.py"
 include = ["src/charity_django"]
 
 [tool.ruff]
-ignore = ['E501']
+lint.ignore = ['E501']
 
 [tool.pytest.ini_options]
 addopts = " -p pytest_use_postgresql"

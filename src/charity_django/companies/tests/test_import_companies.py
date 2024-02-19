@@ -1,5 +1,6 @@
 import os
 import re
+from unittest.mock import patch
 
 import requests_mock
 from django.test import TestCase
@@ -44,5 +45,16 @@ class TestImportCompanies(TestCase):
 
         with requests_mock.Mocker() as m:
             self.mock_csv_downloads(m)
-            command.handle(debug=False, cache=False)
+            command.handle(debug=False, cache=False, sample=0)
             assert Company.objects.count() == 87
+
+    @patch("random.random", side_effect=[0.01, 0.99] * 1_000)
+    def test_handle_sample(self, random_mock):
+        command = Command()
+
+        with requests_mock.Mocker() as m:
+            self.mock_csv_downloads(m)
+            # import companies sample is based on a file containing 750_000 companies
+            # so to simulate a sample of companies we need to set the sample to 350_000
+            command.handle(debug=False, cache=False, sample=350_000)
+            assert Company.objects.count() == 44

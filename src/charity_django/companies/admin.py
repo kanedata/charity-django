@@ -22,7 +22,6 @@ class CompanyAdmin(ReadOnlyMixin, admin.ModelAdmin):
     list_filter = (
         ("CompanyStatus", UsedChoicesFieldListFilter),
         ("CompanyCategory", UsedChoicesFieldListFilter),
-        "sic_codes__sic_code",
     )
     search_fields = (
         "CompanyNumber",

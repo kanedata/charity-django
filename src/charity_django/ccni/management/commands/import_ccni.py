@@ -1,5 +1,6 @@
 import csv
 import io
+import random
 from datetime import datetime, timedelta
 
 import psycopg2.extras
@@ -33,11 +34,15 @@ class Command(BaseCommand):
             self.stderr.write(self.style.ERROR(message))
         self.stdout.write(self.style.SUCCESS(message))
 
+    def add_arguments(self, parser):
+        parser.add_argument("--sample", type=int, default=0)
+
     def handle(self, *args, **options):
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
             expire_after=timedelta(days=1),
         )
+        self.sample = options.get("sample")
 
         self.charities = []
         self.charity_classification = set()
@@ -132,6 +137,18 @@ class Command(BaseCommand):
         db = self._get_db()
         connection = connections[db]
         with connection.cursor() as cursor, transaction.atomic(using=db):
+            if self.sample:
+                self.logger("Sampling {:,.0f} charities".format(self.sample))
+                self.logger(
+                    "Population of {:,.0f} charities".format(len(self.charities))
+                )
+                self.charities = random.sample(self.charities, self.sample)
+                charity_numbers = [c["reg_charity_number"] for c in self.charities]
+                self.charity_classification = set(
+                    [c for c in self.charity_classification if c[0] in charity_numbers]
+                )
+                self.logger("Sampled {:,.0f} charities".format(len(self.charities)))
+
             for object in [Charity, CharityClassification]:
                 # delete existing charities
                 self.logger(

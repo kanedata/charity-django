@@ -43,6 +43,15 @@ class ImportTestCase(TestCase):
             command.handle()
             assert Charity.objects.filter(linked_charity_number=0).count() == 200
 
+    def test_charity_import_sample(self):
+        command = CCEWCommand()
+        command.stdout = sys.stdout
+
+        with requests_mock.Mocker() as m:
+            self._mock_csv_downloads(m)
+            command.handle(sample=10)
+            assert Charity.objects.filter(linked_charity_number=0).count() == 10
+
     def test_charity_import_encoding(self):
         command = CCEWCommand()
         command.stdout = sys.stdout

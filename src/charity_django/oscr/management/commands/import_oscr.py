@@ -1,5 +1,6 @@
 import csv
 import io
+import random
 import re
 import zipfile
 from datetime import date, datetime, timedelta
@@ -56,11 +57,15 @@ class Command(BaseCommand):
             return
         self.stdout.write(self.style.SUCCESS(message))
 
+    def add_arguments(self, parser):
+        parser.add_argument("--sample", type=int, default=0)
+
     def handle(self, *args, **options):
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
             expire_after=timedelta(days=1),
         )
+        self.sample = options.get("sample")
 
         self.charities = {}
         self.financial_years = {}
@@ -215,6 +220,22 @@ class Command(BaseCommand):
     def save_charities(self):
         db = self._get_db()
         connection = connections[db]
+
+        if self.sample:
+            self.logger("Sampling {:,.0f} charities".format(self.sample))
+            self.logger("Population of {:,.0f} charities".format(len(self.charities)))
+            charity_numbers = random.sample(list(self.charities.keys()), self.sample)
+            self.charities = {
+                k: v for k, v in self.charities.items() if k in charity_numbers
+            }
+            self.financial_years = {
+                k: v for k, v in self.financial_years.items() if k[0] in charity_numbers
+            }
+            self.charity_classification = {
+                c for c in self.charity_classification if c[0] in charity_numbers
+            }
+            self.logger("Sampled {:,.0f} charities".format(len(self.charities)))
+
         with connection.cursor() as cursor, transaction.atomic(using=db):
             # delete existing charities
             Charity.objects.all().delete()
