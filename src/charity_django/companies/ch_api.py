@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date as Date
+from datetime import datetime as DateTime
 from enum import Enum
 
 import requests
@@ -203,8 +204,8 @@ class CompaniesHouseAccount:
     barcode: str  # 'JDCG3G3A',
     category: str  # 'accounts',
     company_number: str  # '01005861',
-    created_at: datetime  # '2015-01-31T15:33:33.810139814Z',
-    date: date  # '1999-05-10',
+    created_at: DateTime  # '2015-01-31T15:33:33.810139814Z',
+    date: Date  # '1999-05-10',
     description_values: dict  # {'made_up_date': '1998-08-31'},
     description: str  # 'accounts-with-made-up-date',
     etag: str  # '',
@@ -213,11 +214,11 @@ class CompaniesHouseAccount:
     pages: int  # 16,
     resources: dict  # {'application/pdf': {'content_length': 312727}}
     significant_date_type: str  # '',
-    significant_date: datetime  # '1998-08-31T00:00:00Z',
+    significant_date: DateTime  # '1998-08-31T00:00:00Z',
     transaction_id: str  # 'MTA4NjgyMzZhZGlxemtjeA',
     type: str  # 'AA',
     paper_filed: bool = None  # True,
-    action_date: date = None  # '1998-08-31',
+    action_date: Date = None  # '1998-08-31',
 
     def __post_init__(self):
         datetime_fields = ["created_at", "significant_date"]
@@ -231,7 +232,7 @@ class CompaniesHouseAccount:
                 )
         for f in date_fields:
             if getattr(self, f, None):
-                setattr(self, f, date.fromisoformat(getattr(self, f)))
+                setattr(self, f, Date.fromisoformat(getattr(self, f)))
 
     def to_json(self):
         values = self.__dict__.copy()
@@ -258,7 +259,7 @@ class CompaniesHouseAccount:
         if self.significant_date:
             return self.significant_date
         if self.description_values.get("made_up_date"):
-            return date.fromisoformat(self.description_values.get("made_up_date"))
+            return Date.fromisoformat(self.description_values.get("made_up_date"))
         return None
 
     @property
