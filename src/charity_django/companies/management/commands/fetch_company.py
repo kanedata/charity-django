@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandParser
+from requests.exceptions import HTTPError
 
 from charity_django.companies.ch_api import CompaniesHouseAPI
 from charity_django.companies.models import Company, SICCode
@@ -34,7 +35,11 @@ class Command(BaseCommand):
             return None
 
         for company_number in kwargs["company_numbers"]:
-            data = api.get_company(company_number)
+            try:
+                data = api.get_company(company_number)
+            except HTTPError as e:
+                print(f"Failed to fetch data for company {company_number}: {e}")
+                continue
             print(data)
             now = datetime.now()
             company, created = Company.objects.update_or_create(
@@ -65,7 +70,7 @@ class Command(BaseCommand):
                     RegAddress_PostCode=check_value(
                         data.get("registered_office_address", {}).get("postal_code")
                     ),
-                    CompanyCategory=check_value(data.get("type")),
+                    CompanyCategory=check_value(data.get("subtype", data.get("type"))),
                     CompanyStatus=check_value(data.get("company_status")),
                     CountryOfOrigin=check_value(data.get("jurisdiction")),
                     DissolutionDate=check_value(data.get("date_of_cessation")),
@@ -126,8 +131,12 @@ class Command(BaseCommand):
                 print(previous_name)
 
             for sic_code in data.get("sic_codes", []):
-                sic_code_obj, sic_code_created = company.sic_codes.update_or_create(
-                    sic_code=SICCode.objects.get(code=sic_code),
-                )
-                print(sic_code_obj)
+                try:
+                    sic_code_obj, sic_code_created = company.sic_codes.update_or_create(
+                        sic_code=SICCode.objects.get(code=sic_code),
+                    )
+                    print(sic_code_obj)
+                except SICCode.DoesNotExist:
+                    print(f"SIC code {sic_code} does not exist")
+                    continue
         print("Company data fetched successfully")
