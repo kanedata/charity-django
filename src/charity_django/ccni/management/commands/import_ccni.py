@@ -193,7 +193,7 @@ class Command(BaseCommand):
                     d = dict(zip(fields, c))
                     o = object(**d)
                     try:
-                        o.full_clean(exclude=["website"])
+                        o.full_clean(exclude=["website", "email"])
                     except Exception as e:
                         self.logger("Validation error: {}".format(e), error=True)
                         raise
