@@ -18,7 +18,11 @@ class PostgresqlWindows(Postgresql):
         super(Postgresql, self).terminate()
 
 
-_POSTGRESQL = PostgresqlWindows(postgres=postgres, initdb=initdb)
+_POSTGRESQL = PostgresqlWindows(
+    postgres=postgres,
+    initdb=initdb,
+    initdb_args="-U postgres -A trust --encoding=utf8",
+)
 
 
 @pytest.hookimpl(tryfirst=True)

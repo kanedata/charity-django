@@ -57,7 +57,7 @@ class Command(BaseCommand):
             r = self.session.get(self.base_url, verify=False)
         r.raise_for_status()
 
-        file = io.StringIO(r.text)
+        file = io.StringIO(r.content.decode("latin1"))
         reader = csv.DictReader(file)
         for k, row in enumerate(reader):
             self.add_charity(row)
@@ -65,7 +65,9 @@ class Command(BaseCommand):
 
     def add_charity(self, record):
         record = {
-            slugify(k).replace("-", "_"): v if v != "" else None
+            slugify(k).replace("-", "_").replace("__", "_").replace("__", "_"): (
+                v if v != "" else None
+            )
             for k, v in record.items()
             if k
         }
@@ -74,8 +76,11 @@ class Command(BaseCommand):
         for k, format_ in [
             ("date_registered", "%d/%m/%Y"),
             ("date_for_financial_year_ending", "%d %B %Y"),
+            ("financial_period_start", "%d %B %Y"),
+            ("financial_period_end", "%d %B %Y"),
         ]:
-            record[k] = datetime.strptime(record[k], format_).date()
+            if record.get(k):
+                record[k] = datetime.strptime(record[k], format_).date()
 
         # int fields
         for k in [
@@ -86,8 +91,24 @@ class Command(BaseCommand):
             "charitable_spending",
             "income_generation_and_governance",
             "retained_for_future_use",
+            "total_income_previous_financial_period",
+            "employed_staff",
+            "uk_and_ireland_volunteers",
+            "income_from_donations_and_legacies",
+            "income_from_charitable_activities",
+            "income_from_other_trading_activities",
+            "income_from_investments",
+            "income_from_other",
+            "total_income_and_endowments",
+            "expenditure_on_raising_funds",
+            "expenditure_on_charitable_activities",
+            "expenditure_on_governance",
+            "expenditure_on_other",
+            "total_expenditure",
+            "assets_and_liabilities_total_fixed_assets",
+            "total_net_assets_and_liabilities",
         ]:
-            if k in record:
+            if record.get(k) is not None:
                 record[k] = int(record[k])
 
         # array fields
@@ -168,11 +189,11 @@ class Command(BaseCommand):
                     )
 
                 # validate the first 10 charities
-                for c in values[:10]:
+                for c in values[:20]:
                     d = dict(zip(fields, c))
                     o = object(**d)
                     try:
-                        o.full_clean()
+                        o.full_clean(exclude=["website"])
                     except Exception as e:
                         self.logger("Validation error: {}".format(e), error=True)
                         raise

@@ -14,9 +14,6 @@ class Charity(models.Model):
         verbose_name="Reg charity number",
         primary_key=True,
     )
-    sub_charity_number = models.IntegerField(
-        verbose_name="Sub charity number", default=0, null=True, blank=True
-    )
     charity_name = models.CharField(
         max_length=255,
         db_index=True,
@@ -43,9 +40,6 @@ class Charity(models.Model):
     income_generation_and_governance = models.BigIntegerField(
         verbose_name="Income generation and governance", null=True, blank=True
     )
-    retained_for_future_use = models.BigIntegerField(
-        verbose_name="Retained for future use", null=True, blank=True
-    )
     public_address = models.TextField(
         verbose_name="Public address",
         null=True,
@@ -70,6 +64,114 @@ class Charity(models.Model):
     company_number = models.CharField(
         max_length=255,
         verbose_name="Company number",
+        null=True,
+        blank=True,
+    )
+
+    charitable_purposes = models.TextField(
+        verbose_name="Charitable purposes",
+        null=True,
+        blank=True,
+    )
+    other_name = models.CharField(
+        max_length=255,
+        verbose_name="Other name",
+        null=True,
+        blank=True,
+    )
+    type_of_governing_document = models.CharField(
+        max_length=255,
+        verbose_name="Type of governing document",
+        null=True,
+        blank=True,
+    )
+    financial_period_start = models.DateField(
+        verbose_name="Financial period start",
+        null=True,
+        blank=True,
+    )
+    financial_period_end = models.DateField(
+        verbose_name="Financial period end",
+        null=True,
+        blank=True,
+    )
+    total_income_previous_financial_period = models.IntegerField(
+        verbose_name="Total income. Previous financial period.",
+        null=True,
+        blank=True,
+    )
+    employed_staff = models.IntegerField(
+        verbose_name="Employed staff",
+        null=True,
+        blank=True,
+    )
+    uk_and_ireland_volunteers = models.IntegerField(
+        verbose_name="UK and Ireland volunteers",
+        null=True,
+        blank=True,
+    )
+    income_from_donations_and_legacies = models.IntegerField(
+        verbose_name="Income from donations and legacies",
+        null=True,
+        blank=True,
+    )
+    income_from_charitable_activities = models.IntegerField(
+        verbose_name="Income from charitable activities",
+        null=True,
+        blank=True,
+    )
+    income_from_other_trading_activities = models.IntegerField(
+        verbose_name="Income from other trading activities",
+        null=True,
+        blank=True,
+    )
+    income_from_investments = models.IntegerField(
+        verbose_name="Income from investments",
+        null=True,
+        blank=True,
+    )
+    income_from_other = models.IntegerField(
+        verbose_name="Income from other",
+        null=True,
+        blank=True,
+    )
+    total_income_and_endowments = models.IntegerField(
+        verbose_name="Total income and endowments",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_raising_funds = models.IntegerField(
+        verbose_name="Expenditure on Raising funds",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_charitable_activities = models.IntegerField(
+        verbose_name="Expenditure on Charitable activities",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_governance = models.IntegerField(
+        verbose_name="Expenditure on Governance",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_other = models.IntegerField(
+        verbose_name="Expenditure on Other",
+        null=True,
+        blank=True,
+    )
+    total_expenditure = models.IntegerField(
+        verbose_name="Total expenditure",
+        null=True,
+        blank=True,
+    )
+    assets_and_liabilities_total_fixed_assets = models.IntegerField(
+        verbose_name="Assets and liabilities - Total fixed assets",
+        null=True,
+        blank=True,
+    )
+    total_net_assets_and_liabilities = models.IntegerField(
+        verbose_name="Total net assets and liabilities",
         null=True,
         blank=True,
     )
