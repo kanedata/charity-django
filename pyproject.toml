@@ -37,7 +37,7 @@ dependencies = [
     "requests",
     "requests_cache",
     "requests_html",
-    "lxml[html_clean]",
+    "lxml_html_clean",
     "titlecase",
     "tqdm",
     "openpyxl",
