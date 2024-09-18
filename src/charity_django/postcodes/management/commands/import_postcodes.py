@@ -1,8 +1,10 @@
 import argparse
 import csv
 import datetime
-from codecs import iterdecode
+import tempfile
+import zipfile
 from collections import defaultdict
+from io import TextIOWrapper
 
 import tqdm
 from django.conf import settings
@@ -16,7 +18,7 @@ from charity_django.postcodes.models import (
     Postcode,
 )
 
-POSTCODES_URL = "https://geoportal.statistics.gov.uk/datasets/2e65b9933cd9483b8724760f27968a48_0.csv"
+POSTCODES_URL = "https://www.arcgis.com/sharing/rest/content/items/73ce619853044aaaa6f7fa5b90765b85/data"
 
 
 class Command(BaseCommand):
@@ -81,17 +83,32 @@ class Command(BaseCommand):
             self.set_session(install_cache=options["cache"])
 
             # fetch the file
-            response = self.session.get(POSTCODES_URL, stream=True)
-            reader = csv.DictReader(iterdecode(response.iter_lines(), "utf-8-sig"))
-            record_count = 0
-            for index, row in tqdm.tqdm(enumerate(reader)):
-                self.parse_row(row)
-                record_count += 1
-                if options.get("max_to_import") and record_count >= options.get(
-                    "max_to_import"
-                ):
-                    break
-            self.save_all_records()
+            response = self.session.get(POSTCODES_URL, stream=False)
+            with tempfile.NamedTemporaryFile(delete_on_close=False) as f:
+                f.write(response.content)
+                f.close()
+
+                with zipfile.ZipFile(f.name, "r") as zip_ref:
+                    record_count = 0
+                    for zipped_file in zip_ref.infolist():
+                        if not zipped_file.filename.startswith(
+                            "Data/multi_csv/"
+                        ) or not zipped_file.filename.endswith(".csv"):
+                            continue
+
+                        self.stdout.write("Opening {}".format(zipped_file.filename))
+                        with zip_ref.open(zipped_file) as csv_file:
+                            reader = csv.DictReader(
+                                TextIOWrapper(csv_file, "utf-8-sig")
+                            )
+                            for index, row in tqdm.tqdm(enumerate(reader)):
+                                self.parse_row(row)
+                                record_count += 1
+                                if options.get(
+                                    "max_to_import"
+                                ) and record_count >= options.get("max_to_import"):
+                                    break
+                    self.save_all_records()
 
     def set_session(self, install_cache=False):
         if install_cache:
@@ -108,7 +125,8 @@ class Command(BaseCommand):
     def parse_row(self, row):
         record = Postcode()
         for k, v in row.items():
-            if k not in self.postcode_fields:
+            key = k.strip().upper()
+            if key not in self.postcode_fields:
                 continue
             value = None
             if v == "" or v is None:
@@ -126,10 +144,10 @@ class Command(BaseCommand):
 
             if value in self.geocode_cache:
                 setattr(
-                    record, self.geocode_fields.get(k, k), self.geocode_cache[value]
+                    record, self.geocode_fields.get(key, key), self.geocode_cache[value]
                 )
             else:
-                setattr(record, k, value)
+                setattr(record, key, value)
         return self.add_record(Postcode, record)
 
     def add_record(self, model, record):
