@@ -14,12 +14,12 @@ from charity_django.postcodes.models import GeoCode, Postcode
 class TestImportPostcodes(TestCase):
     def mock_csv_downloads(self, m):
         dirname = os.path.dirname(__file__)
-        with open(os.path.join(dirname, "data", "nspl_sample.csv")) as a:
-            m.get(POSTCODES_URL, text=a.read())
+        with open(os.path.join(dirname, "data", "NSPL_2021_TEST.zip"), "rb") as a:
+            m.get(POSTCODES_URL, content=a.read())
 
     def setUp(self):
         GeoCode.objects.create(
-            GEOGCD="E06000011",
+            GEOGCD="E09000033",
         )
 
     def test_set_session(self):
@@ -37,6 +37,8 @@ class TestImportPostcodes(TestCase):
             self.mock_csv_downloads(m)
             command.handle(debug=False, cache=False)
             assert Postcode.objects.count() == 1_000
-            assert Postcode.objects.filter(local_authority_id="E06000011").count() == 13
-            assert Postcode.objects.filter(USERTYPE=1).count() == 269
-            assert Postcode.objects.filter(IMD=1258).count() == 1
+            assert (
+                Postcode.objects.filter(local_authority_id="E09000033").count() == 290
+            )
+            assert Postcode.objects.filter(USERTYPE=1).count() == 399
+            assert Postcode.objects.filter(IMD=8940).count() == 1

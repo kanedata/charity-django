@@ -84,7 +84,7 @@ class Command(BaseCommand):
 
             # fetch the file
             response = self.session.get(POSTCODES_URL, stream=False)
-            with tempfile.NamedTemporaryFile(delete_on_close=False) as f:
+            with tempfile.NamedTemporaryFile(delete=False) as f:
                 f.write(response.content)
                 f.close()
 
