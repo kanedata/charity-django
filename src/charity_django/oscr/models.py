@@ -234,6 +234,7 @@ class CharityFinancialYear(models.Model):
         on_delete=models.CASCADE,
         related_name="financial_years",
         verbose_name="Charity",
+        db_constraint=False,
     )
     most_recent_year_income = models.BigIntegerField(
         null=True,
@@ -321,6 +322,7 @@ class CharityClassification(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Charity",
         related_name="classifications",
+        db_constraint=False,
     )
     classification_type = models.CharField(
         max_length=255,

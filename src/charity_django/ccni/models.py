@@ -212,6 +212,7 @@ class CharityClassification(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Charity",
         related_name="classifications",
+        db_constraint=False,
     )
     classification_type = models.CharField(
         max_length=255,

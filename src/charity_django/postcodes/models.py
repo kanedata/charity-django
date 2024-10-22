@@ -121,6 +121,7 @@ class GeoEntity(models.Model):
         verbose_name="Entity group",
         on_delete=models.SET_NULL,
         related_name="entities",
+        db_constraint=False,
     )
 
     def __str__(self):
@@ -166,6 +167,7 @@ class GeoCode(models.Model):
         blank=True,
         verbose_name="Entity code",
         on_delete=models.SET_NULL,
+        db_constraint=False,
     )
     OWNER = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="Owner"

@@ -12,6 +12,7 @@ class Merger(models.Model):
         related_name="merged_into",
         null=True,
         blank=True,
+        db_constraint=False,
     )
     transferee_name = models.CharField(max_length=255, null=True, blank=True)
     transferee_regno = models.IntegerField(null=True, blank=True, db_index=True)
@@ -23,6 +24,7 @@ class Merger(models.Model):
         related_name="merged_from",
         null=True,
         blank=True,
+        db_constraint=False,
     )
     date_vesting_declaration = models.DateField(max_length=255, null=True, blank=True)
     date_property_transferred = models.DateField(max_length=255, null=True, blank=True)

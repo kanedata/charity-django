@@ -16,6 +16,7 @@ class CharityPublishedReport(models.Model):
         on_delete=models.CASCADE,
         help_text="The organisation number for the charity. This is the index value for the charity.",
         related_name="published_reports",
+        db_constraint=False,
     )
     registered_charity_number = models.IntegerField(
         db_index=True,

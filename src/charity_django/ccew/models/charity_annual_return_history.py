@@ -16,6 +16,7 @@ class CharityAnnualReturnHistory(models.Model):
         on_delete=models.DO_NOTHING,
         help_text="The organisation number for the charity. This is the index value for the charity.",
         related_name="annual_return_history",
+        db_constraint=False,
     )
     registered_charity_number = models.IntegerField(
         db_index=True,
