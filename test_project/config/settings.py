@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "test_project.test_app",
     "charity_django.ccew",
     "charity_django.oscr",
     "charity_django.ccni",
     "charity_django.companies",
     "charity_django.postcodes",
+    "charity_django.utils",
 ]
 
 MIDDLEWARE = [
@@ -102,6 +104,21 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
 
 
 # Internationalization
