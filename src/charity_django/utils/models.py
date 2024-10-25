@@ -20,7 +20,9 @@ class CommandLog(models.Model):
     log = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.command} {self.cmd_options if self.cmd_options else ""} ({self.started:%Y-%m-%d %H:%M:%S})"
+        return "{} {} ({:%Y-%m-%d %H:%M:%S})".format(
+            self.command, self.cmd_options if self.cmd_options else "", self.started
+        )
 
     class Meta:
         verbose_name = "Command Log"
