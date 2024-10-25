@@ -26,7 +26,6 @@ SECRET_KEY = "django-insecure-&1)#+7e)8c^0bz3b$ihy$ynn+t^i7n$2-37iy&oke)uo90%176
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "test_project.test_app",
+    "test_app",
     "charity_django.ccew",
     "charity_django.oscr",
     "charity_django.ccni",
@@ -137,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

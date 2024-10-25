@@ -81,4 +81,4 @@ lint.ignore = ['E501']
 
 [tool.pytest.ini_options]
 addopts = " -p pytest_use_postgresql"
-DJANGO_SETTINGS_MODULE = "test_project.config.settings"
+DJANGO_SETTINGS_MODULE = "test_project.config.settings_test"

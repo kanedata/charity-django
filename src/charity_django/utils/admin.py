@@ -1,6 +1,7 @@
-from django.contrib.admin import SimpleListFilter
-from django.contrib.admin.filters import ChoicesFieldListFilter
+from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+
+from charity_django.utils.models import CommandLog
 
 
 class ReadOnlyMixin:
@@ -14,7 +15,7 @@ class ReadOnlyMixin:
         return False
 
 
-class CharitySizeListFilter(SimpleListFilter):
+class CharitySizeListFilter(admin.SimpleListFilter):
     recent_income_field = "total_income"
     title = _("charity size")
     parameter_name = "size"
@@ -63,7 +64,7 @@ class CharitySizeListFilter(SimpleListFilter):
         return queryset
 
 
-class UsedChoicesFieldListFilter(ChoicesFieldListFilter):
+class UsedChoicesFieldListFilter(admin.filters.ChoicesFieldListFilter):
     def __init__(self, field, request, params, model, model_admin, field_path):
         super().__init__(field, request, params, model, model_admin, field_path)
         self.lookup_choices = list(
@@ -102,3 +103,43 @@ class UsedChoicesFieldListFilter(ChoicesFieldListFilter):
                 ),
                 "display": none_title,
             }
+
+
+@admin.register(CommandLog)
+class CommandLogAdmin(admin.ModelAdmin):
+    list_display = (
+        "command",
+        "cmd_options",
+        "started",
+        "completed",
+        "status",
+        "has_log",
+    )
+    list_filter = ("status", "command", "started")
+    search_fields = ("command", "cmd_options", "log")
+    date_hierarchy = "started"
+
+    readonly_fields = (
+        "command",
+        "cmd_options",
+        "started",
+        "completed",
+        "status",
+        "log",
+    )
+
+    @admin.display(description=_("Has log"), boolean=True)
+    def has_log(self, obj):
+        return bool(obj.log)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    class Media:
+        css = {"all": ("admin/css/command_log.css",)}

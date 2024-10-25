@@ -131,3 +131,5 @@ dmypy.json
 # data files
 postcode_cache/
 !src/charity_django/*/tests/data/*.zip
+
+/static/
