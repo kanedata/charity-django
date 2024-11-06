@@ -1,6 +1,7 @@
 import argparse
 import csv
 import datetime
+import logging
 import zipfile
 from collections import defaultdict
 from io import BytesIO, TextIOWrapper
@@ -13,6 +14,9 @@ from requests import Session
 from requests_cache import CachedSession
 
 from charity_django.postcodes.models import GeoCode, GeoEntity, GeoEntityGroup
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 RGC_URL = "https://www.arcgis.com/sharing/rest/content/items/34f4b9d554324bc494dc406dca58001a/data"
 
@@ -53,6 +57,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.debug = options["debug"]
+        if self.debug:
+            logger.setLevel(logging.DEBUG)
         db = router.db_for_write(GeoCode)
         with transaction.atomic(using=db), connections[db].cursor() as cursor:
             # delete all existing data
@@ -132,7 +138,7 @@ class Command(BaseCommand):
 
     def set_session(self, install_cache=False):
         if install_cache:
-            self.stdout.write("Using requests_cache")
+            logger.info("Using requests_cache")
             self.session = CachedSession(
                 cache_name="postcode_cache",
                 cache_control=False,
@@ -182,7 +188,7 @@ class Command(BaseCommand):
             self.save_all_records()
 
     def save_records(self, model):
-        self.stdout.write(
+        logger.info(
             "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
         )
         model.objects.bulk_create(
@@ -191,7 +197,7 @@ class Command(BaseCommand):
             ignore_conflicts=True,
         )
         self.object_count[model] += len(self.records[model])
-        self.stdout.write(
+        logger.info(
             "Saved {:,.0f} {} records ({:,.0f} total)".format(
                 len(self.records[model]),
                 model.__name__,

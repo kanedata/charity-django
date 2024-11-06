@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import csv
 import io
+import logging
 import random
 import zipfile
 from datetime import datetime, timedelta
@@ -31,6 +32,9 @@ from charity_django.ccew.models import (
 )
 
 from .create_dummy_charity import DUMMY_CHARITY_TYPE
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
 
@@ -76,9 +80,9 @@ class Command(BaseCommand):
 
     def logger(self, message, error=False):
         if error:
-            self.stderr.write(self.style.ERROR(message))
+            logger.error(message)
             return
-        self.stdout.write(self.style.SUCCESS(message))
+        logger.info(message)
 
     def add_arguments(self, parser):
         parser.add_argument("--sample", type=int, default=0)

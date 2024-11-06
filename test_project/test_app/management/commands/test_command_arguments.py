@@ -5,6 +5,7 @@ from django.core.management.base import BaseCommand
 from .test_command_exception import LogCommandError
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class Command(BaseCommand):
@@ -24,8 +25,8 @@ class Command(BaseCommand):
 
         arg1 = options["arg1"]
         arg2 = options["arg2"]
-        print(f"arg1: {arg1}")
-        print(f"arg2: {arg2}")
+        logger.info(f"arg1: {arg1}")
+        logger.info(f"arg2: {arg2}")
 
         if arg1 == 99:
             raise LogCommandError("arg1 is 99")

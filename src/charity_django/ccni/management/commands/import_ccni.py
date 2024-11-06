@@ -1,5 +1,6 @@
 import csv
 import io
+import logging
 import random
 from datetime import datetime, timedelta
 
@@ -16,6 +17,9 @@ from charity_django.ccni.models import (
     ClassificationTypes,
 )
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 
 class Command(BaseCommand):
     help = "Import CCNI data from a zip file"
@@ -31,8 +35,9 @@ class Command(BaseCommand):
 
     def logger(self, message, error=False):
         if error:
-            self.stderr.write(self.style.ERROR(message))
-        self.stdout.write(self.style.SUCCESS(message))
+            logger.error(message)
+            return
+        logger.info(message)
 
     def add_arguments(self, parser):
         parser.add_argument("--sample", type=int, default=0)

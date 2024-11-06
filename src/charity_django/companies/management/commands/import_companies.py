@@ -2,6 +2,7 @@ import argparse
 import csv
 import datetime
 import io
+import logging
 import random
 import re
 import zipfile
@@ -31,6 +32,9 @@ from charity_django.companies.models import (
 from charity_django.utils.cachedsession import CachedHTMLSession
 
 from ._company_sql import UPDATE_COMPANIES
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
 
@@ -105,6 +109,12 @@ class Command(BaseCommand):
         self.now = datetime.datetime.now()
         self.sic_code_cache = {}
 
+    def logger(self, message, error=False):
+        if error:
+            logger.error(message)
+            return
+        logger.info(message)
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--cache",
@@ -143,31 +153,19 @@ class Command(BaseCommand):
                 columns = ", ".join([f'"{c}"' for c in columns])
 
                 # make a copy of the existing table
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Copying {m.__name__} to temporary table - started"
-                    )
-                )
+                self.logger(f"Copying {m.__name__} to temporary table - started")
                 cursor.execute(
                     f'''
                     CREATE TABLE "{new_table}" AS
                     SELECT {columns}, false as "in_latest_update"
                     FROM "{m._meta.db_table}"'''
                 )
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Copying {m.__name__} to temporary table - finished"
-                    )
-                )
+                self.logger(f"Copying {m.__name__} to temporary table - finished")
 
                 # truncate the existing table
-                self.stdout.write(
-                    self.style.SUCCESS(f"Truncating {m.__name__} db table - started")
-                )
+                self.logger(f"Truncating {m.__name__} db table - started")
                 cursor.execute(f'DELETE FROM "{m._meta.db_table}" WHERE 1=1')
-                self.stdout.write(
-                    self.style.SUCCESS(f"Truncating {m.__name__} db table - finished")
-                )
+                self.logger(f"Truncating {m.__name__} db table - finished")
 
             # import the new data
             self.set_session(install_cache=options["cache"])
@@ -191,32 +189,20 @@ class Command(BaseCommand):
                         ON a."CompanyNumber" = b."CompanyNumber"
                 WHERE b."CompanyNumber" IS NULL
                 """
-                self.stdout.write(
-                    self.style.SUCCESS(f"Updating {main_table} db table - started")
-                )
+                self.logger(f"Updating {main_table} db table - started")
                 cursor.execute(update_query)
-                self.stdout.write(
-                    self.style.SUCCESS(f"Updating {main_table} db table - finished")
-                )
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Dropping {temp_table} temporary table - started"
-                    )
-                )
+                self.logger(f"Updating {main_table} db table - finished")
+                self.logger(f"Dropping {temp_table} temporary table - started")
                 cursor.execute(f'DROP TABLE "{temp_table}"')
-                self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Dropping {temp_table} temporary table - finished"
-                    )
-                )
+                self.logger(f"Dropping {temp_table} temporary table - finished")
 
             for title, sql in UPDATE_COMPANIES.items():
                 cursor.execute(sql)
-                self.stdout.write(self.style.SUCCESS(f"Executed {title}"))
+                self.logger(f"Executed {title}")
 
     def set_session(self, install_cache=False):
         if install_cache:
-            self.stdout.write("Using requests_cache")
+            self.logger("Using requests_cache")
             self.session = CachedHTMLSession(
                 cache_name="companies_house_download_cache",
                 cache_control=False,
@@ -231,33 +217,31 @@ class Command(BaseCommand):
         response.raise_for_status()
         for link in sorted(response.html.absolute_links):
             if self.zip_regex.match(link):
-                self.stdout.write("Fetching: {}".format(link))
+                self.logger("Fetching: {}".format(link))
                 try:
                     file_response = self.session.get(link)
                     if getattr(file_response, "from_cache", False):
-                        self.stdout.write("From cache")
+                        self.logger("From cache")
                     else:
-                        self.stdout.write("From network")
+                        self.logger("From network")
                     file_response.raise_for_status()
                     self.parse_file(file_response, link)
                 except requests.exceptions.ChunkedEncodingError as err:
-                    self.stdout.write(
-                        self.style.ERROR("Error fetching: {}".format(link))
-                    )
-                    self.stdout.write(self.style.ERROR(str(err)))
+                    self.logger("Error fetching: {}".format(link), error=True)
+                    self.logger(str(err), error=True)
                 if getattr(self, "sample", None):
                     break
 
     def parse_file(self, response, source_url):
-        self.stdout.write("Opening: {}".format(source_url))
+        self.logger("Opening: {}".format(source_url))
         chance_of_selection = 1
         selected_count = 0
         if getattr(self, "sample", None):
             chance_of_selection = self.sample / 750_000
-            print(f"Chance of selection: {chance_of_selection}")
+            self.logger(f"Chance of selection: {chance_of_selection}")
         with zipfile.ZipFile(io.BytesIO(response.content)) as z:
             for f in z.infolist():
-                self.stdout.write("Opening: {}".format(f.filename))
+                self.logger("Opening: {}".format(f.filename))
                 with z.open(f) as csvfile:
                     reader = csv.DictReader(io.TextIOWrapper(csvfile, encoding="utf8"))
                     for index, row in tqdm.tqdm(enumerate(reader)):
@@ -424,14 +408,14 @@ class Command(BaseCommand):
             self.save_all_records()
 
     def save_records(self, model):
-        self.stdout.write(
+        self.logger(
             "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
         )
         model.objects.bulk_create(
             self.records[model].values(), **MODEL_UPDATES.get(model, {})
         )
         self.object_count[model] += len(self.records[model])
-        self.stdout.write(
+        self.logger(
             "Saved {:,.0f} {} records ({:,.0f} total)".format(
                 len(self.records[model]),
                 model.__name__,

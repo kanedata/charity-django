@@ -12,8 +12,8 @@ class TestCommandLog(TestCase):
         self.assertEqual(latest_log.command, command_name)
         self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.COMPLETED)
         self.assertIsNotNone(latest_log.completed)
-        self.assertTrue("Success stdout" in latest_log.log)
-        self.assertTrue("Success print" in latest_log.log)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
         self.assertTrue("Success log info" in latest_log.log)
         self.assertTrue("Success log debug" not in latest_log.log)
 
@@ -25,8 +25,8 @@ class TestCommandLog(TestCase):
         self.assertEqual(latest_log.command, command_name)
         self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.COMPLETED)
         self.assertIsNotNone(latest_log.completed)
-        self.assertTrue("Success stdout" in latest_log.log)
-        self.assertTrue("Success print" in latest_log.log)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
         self.assertTrue("Success log info" in latest_log.log)
         self.assertTrue("Success log debug" not in latest_log.log)
         self.assertTrue("Success log warning" in latest_log.log)
@@ -39,8 +39,8 @@ class TestCommandLog(TestCase):
         self.assertEqual(latest_log.command, command_name)
         self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.FAILED)
         self.assertIsNotNone(latest_log.completed)
-        self.assertTrue("Success stdout" in latest_log.log)
-        self.assertTrue("Success print" in latest_log.log)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
         self.assertTrue("Success log info" in latest_log.log)
         self.assertTrue("Success log debug" not in latest_log.log)
         self.assertTrue("Success log warning" in latest_log.log)
@@ -61,8 +61,8 @@ class TestCommandLog(TestCase):
         self.assertEqual(latest_log.command, command_name)
         self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.FAILED)
         self.assertIsNotNone(latest_log.completed)
-        self.assertTrue("Success stdout" in latest_log.log)
-        self.assertTrue("Success print" in latest_log.log)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
         # self.assertTrue("Success log info" in latest_log.log)
         # self.assertTrue("Success log debug" not in latest_log.log)
         # self.assertTrue("Success log warning" in latest_log.log)
@@ -92,8 +92,8 @@ class TestCommandLog(TestCase):
                     latest_log.status, CommandLog.CommandLogStatus.COMPLETED
                 )
                 self.assertIsNotNone(latest_log.completed)
-                self.assertTrue("Success stdout" in latest_log.log)
-                self.assertTrue("Success print" in latest_log.log)
+                self.assertFalse("Success stdout" in latest_log.log)
+                self.assertFalse("Success print" in latest_log.log)
                 self.assertTrue("Success log info" in latest_log.log)
                 self.assertTrue("Success log debug" not in latest_log.log)
 
@@ -119,8 +119,8 @@ class TestCommandLog(TestCase):
         self.assertEqual(latest_log.command, command_name)
         self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.FAILED)
         self.assertIsNotNone(latest_log.completed)
-        self.assertTrue("Success stdout" in latest_log.log)
-        self.assertTrue("Success print" in latest_log.log)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
         # self.assertTrue("Success log info" in latest_log.log)
         # self.assertTrue("Success log debug" not in latest_log.log)
         # self.assertTrue("Success log warning" in latest_log.log)
@@ -130,3 +130,17 @@ class TestCommandLog(TestCase):
 
         for expected_log in expected_logs:
             self.assertTrue(expected_log in latest_log.log)
+
+    def test_tqdm(self):
+        command_name = "test_command_tqdm"
+        call_command("logcommand", command_name)
+        latest_log = CommandLog.objects.filter(command=command_name).latest("started")
+
+        self.assertEqual(latest_log.command, command_name)
+        self.assertEqual(latest_log.status, CommandLog.CommandLogStatus.COMPLETED)
+        self.assertIsNotNone(latest_log.completed)
+        self.assertFalse("Success stdout" in latest_log.log)
+        self.assertFalse("Success print" in latest_log.log)
+        self.assertFalse("it/s" in latest_log.log)
+        self.assertTrue("Success log info" in latest_log.log)
+        self.assertTrue("Success log debug" not in latest_log.log)

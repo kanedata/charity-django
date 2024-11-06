@@ -1,6 +1,7 @@
 import argparse
 import csv
 import datetime
+import logging
 import zipfile
 from collections import defaultdict
 from io import BytesIO, TextIOWrapper
@@ -14,6 +15,8 @@ from requests_cache import CachedSession
 
 from charity_django.postcodes.models import GeoCode, GeoEntity
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 CHD_URL = "https://www.arcgis.com/sharing/rest/content/items/393a031178684c69973d0e416a862890/data"
 
 
@@ -119,7 +122,7 @@ class Command(BaseCommand):
 
     def set_session(self, install_cache=False):
         if install_cache:
-            self.stdout.write("Using requests_cache")
+            logger.info("Using requests_cache")
             self.session = CachedSession(
                 cache_name="postcode_cache",
                 cache_control=False,
@@ -175,7 +178,7 @@ class Command(BaseCommand):
             self.save_all_records()
 
     def save_records(self, model):
-        self.stdout.write(
+        logger.info(
             "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
         )
         model.objects.bulk_create(
@@ -184,7 +187,7 @@ class Command(BaseCommand):
             ignore_conflicts=True,
         )
         self.object_count[model] += len(self.records[model])
-        self.stdout.write(
+        logger.info(
             "Saved {:,.0f} {} records ({:,.0f} total)".format(
                 len(self.records[model]),
                 model.__name__,

@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 
 from dateutil.relativedelta import relativedelta
@@ -15,6 +16,9 @@ from charity_django.ccew.models import (
     CharityTrustee,
 )
 from charity_django.utils.charity_provider import CharityProvider
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 DUMMY_CHARITY_TYPE = "Demonstration Charity"
 
@@ -68,7 +72,7 @@ class Command(BaseCommand):
             ),
         )
 
-        self.stdout.write(self.style.SUCCESS(f"Created charity: {charity_name}"))
+        logger.info(f"Created charity: {charity_name}")
 
         # create dummy trustee names
         CharityTrustee.objects.filter(charity=charity).delete()
@@ -86,7 +90,7 @@ class Command(BaseCommand):
                     individual_or_organisation=CharityTrustee.IndividualOrOrganisation.INDIVIDUAL,
                 )
             )
-        self.stdout.write(self.style.SUCCESS(f"Added {len(trustees)} trustees"))
+        logger.info(f"Added {len(trustees)} trustees")
 
         # remove any existing financial data
         CharityAnnualReturnHistory.objects.filter(charity=charity).delete()
@@ -173,7 +177,7 @@ class Command(BaseCommand):
                 count_salary_band_over_500000=0,
                 count_volunteers=fake.random_int(50, 1_000),
             )
-            self.stdout.write(self.style.SUCCESS(f"Added financial year: {fye}"))
+            logger.info(f"Added financial year: {fye}")
 
             charitable_activities = fake.random_int(70, 80) / 100
             donations = fake.random_int(10, 20) / 100
@@ -269,9 +273,7 @@ class Command(BaseCommand):
                         classification_description=description,
                     )
                 )
-        self.stdout.write(
-            self.style.SUCCESS(f"Added {len(cats_added)} charity classifications")
-        )
+        logger.info(f"Added {len(cats_added)} charity classifications")
 
         # add area of operation data
         existing_areas = list(
@@ -299,4 +301,4 @@ class Command(BaseCommand):
                 unique=True,
             )
         ]
-        self.stdout.write(self.style.SUCCESS(f"Added {len(areas)} areas of operation"))
+        logger.info(f"Added {len(areas)} areas of operation")

@@ -1,5 +1,6 @@
 import csv
 import io
+import logging
 import random
 import re
 import zipfile
@@ -18,6 +19,9 @@ from charity_django.oscr.models import (
     CharityFinancialYear,
     ClassificationTypes,
 )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 fy_fields = list(
     f.get_attname_column()[1]
@@ -53,9 +57,9 @@ class Command(BaseCommand):
 
     def logger(self, message, error=False):
         if error:
-            self.stderr.write(self.style.ERROR(message))
+            logger.error(message)
             return
-        self.stdout.write(self.style.SUCCESS(message))
+        logger.info(message)
 
     def add_arguments(self, parser):
         parser.add_argument("--sample", type=int, default=0)

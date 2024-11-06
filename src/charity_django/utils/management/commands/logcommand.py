@@ -1,7 +1,6 @@
 import datetime
 import logging
 import shlex
-from contextlib import redirect_stderr, redirect_stdout
 
 from charity_django.utils.models import CommandLog
 from django.core.management import call_command
@@ -35,21 +34,6 @@ class CommandLogHandler(logging.StreamHandler):
             self.commandlog.logs = self.log
         self.commandlog.completed = datetime.datetime.now(datetime.timezone.utc)
         self.commandlog.save()
-
-
-class LoggerWriter:
-    def __init__(self, level):
-        self.level = level
-
-    def write(self, message):
-        if isinstance(message, bytes):
-            message = message.decode("utf-8")
-        message = message.strip()
-        if message:
-            self.level(message)
-
-    def flush(self):
-        pass
 
 
 class Command(BaseCommand):
@@ -86,13 +70,10 @@ class Command(BaseCommand):
         logger.setLevel(logging.INFO)
 
         try:
-            with redirect_stdout(LoggerWriter(logger.info)), redirect_stderr(
-                LoggerWriter(logger.error)
-            ):
-                if cmd_options:
-                    call_command(command, shlex.split(cmd_options))
-                else:
-                    call_command(command)
+            if cmd_options:
+                call_command(command, shlex.split(cmd_options))
+            else:
+                call_command(command)
         except Exception as err:
             logger.exception(err)
             command_logger.teardown()

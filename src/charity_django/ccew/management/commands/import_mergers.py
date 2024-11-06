@@ -1,4 +1,5 @@
 import csv
+import logging
 import re
 from datetime import datetime, timedelta
 from io import StringIO
@@ -10,6 +11,8 @@ from django.db import transaction
 from charity_django.ccew.models import Charity, Merger
 from charity_django.utils.cachedsession import CachedHTMLSession
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 # updated version of https://gist.github.com/drkane/0faa257e447452661a4d
 
 # default location of the register of mergers
@@ -79,9 +82,9 @@ class Command(BaseCommand):
 
     def logger(self, message, error=False):
         if error:
-            self.stderr.write(self.style.ERROR(message))
+            logger.error(message)
             return
-        self.stdout.write(self.style.SUCCESS(message))
+        logger.info(message)
 
     def handle(self, *args, **options):
         self.session = CachedHTMLSession(

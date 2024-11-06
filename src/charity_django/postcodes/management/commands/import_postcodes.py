@@ -1,6 +1,7 @@
 import argparse
 import csv
 import datetime
+import logging
 import tempfile
 import zipfile
 from collections import defaultdict
@@ -17,6 +18,9 @@ from charity_django.postcodes.models import (
     GeoCode,
     Postcode,
 )
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 POSTCODES_URL = "https://www.arcgis.com/sharing/rest/content/items/73ce619853044aaaa6f7fa5b90765b85/data"
 
@@ -96,7 +100,7 @@ class Command(BaseCommand):
                         ) or not zipped_file.filename.endswith(".csv"):
                             continue
 
-                        self.stdout.write("Opening {}".format(zipped_file.filename))
+                        logger.info("Opening {}".format(zipped_file.filename))
                         with zip_ref.open(zipped_file) as csv_file:
                             reader = csv.DictReader(
                                 TextIOWrapper(csv_file, "utf-8-sig")
@@ -112,7 +116,7 @@ class Command(BaseCommand):
 
     def set_session(self, install_cache=False):
         if install_cache:
-            self.stdout.write("Using requests_cache")
+            logger.info("Using requests_cache")
             self.session = CachedSession(
                 cache_name="postcode_cache",
                 backend="filesystem",
@@ -164,14 +168,14 @@ class Command(BaseCommand):
             self.save_all_records()
 
     def save_records(self, model):
-        self.stdout.write(
+        logger.info(
             "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
         )
         model.objects.bulk_create(
             self.records[model].values(), batch_size=self.bulk_limit
         )
         self.object_count[model] += len(self.records[model])
-        self.stdout.write(
+        logger.info(
             "Saved {:,.0f} {} records ({:,.0f} total)".format(
                 len(self.records[model]),
                 model.__name__,
