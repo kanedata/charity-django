@@ -112,8 +112,9 @@ class CommandLogAdmin(admin.ModelAdmin):
         "cmd_options",
         "started",
         "completed",
+        "success",
         "status",
-        "has_log",
+        "log_length",
     )
     list_filter = ("status", "command", "started")
     search_fields = ("command", "cmd_options", "log")
@@ -128,9 +129,15 @@ class CommandLogAdmin(admin.ModelAdmin):
         "log",
     )
 
-    @admin.display(description=_("Has log"), boolean=True)
-    def has_log(self, obj):
-        return bool(obj.log)
+    @admin.display(description=_("Log length"))
+    def log_length(self, obj):
+        if obj.log:
+            return len(obj.log.split("\n"))
+        return 0
+
+    @admin.display(description=_("Success"), boolean=True)
+    def success(self, obj):
+        return obj.status == CommandLog.CommandLogStatus.COMPLETED
 
     def has_change_permission(self, request, obj=None):
         return False
