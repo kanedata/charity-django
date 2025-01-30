@@ -12,8 +12,19 @@ class CommandLog(models.Model):
     cmd_options = models.TextField(
         null=True, blank=True, verbose_name="Command options"
     )
-    started = models.DateTimeField(auto_now_add=True)
-    completed = models.DateTimeField(null=True, blank=True)
+    started = models.DateTimeField(
+        auto_now_add=True, verbose_name="When the command started"
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name="When the command was last updated",
+    )
+    completed = models.DateTimeField(
+        null=True, blank=True, verbose_name="When the command completed"
+    )
+    notified = models.DateTimeField(
+        null=True, blank=True, verbose_name="When a notification was sent to admins"
+    )
     status = models.IntegerField(
         choices=CommandLogStatus.choices, default=CommandLogStatus.PENDING
     )

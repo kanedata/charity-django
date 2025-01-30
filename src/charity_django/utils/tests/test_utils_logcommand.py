@@ -1,6 +1,10 @@
-from charity_django.utils.models import CommandLog
+import datetime
+
+from django.core import mail
 from django.core.management import call_command
 from django.test import TestCase
+
+from charity_django.utils.models import CommandLog
 
 
 class TestCommandLog(TestCase):
@@ -45,6 +49,112 @@ class TestCommandLog(TestCase):
         self.assertTrue("Success log debug" not in latest_log.log)
         self.assertTrue("Success log warning" in latest_log.log)
         self.assertTrue("Success log error" in latest_log.log)
+
+    def test_error_notify(self):
+        with self.settings(ADMINS=[("admin", "admin@example.com")]):
+            command_name = "test_command_error"
+            call_command("logcommand", command_name)
+            call_command("logcommand", "_notify")
+
+            self.assertEqual(len(mail.outbox), 1)
+            self.assertEqual(mail.outbox[0].subject, "[Django] Failed commands")
+            self.assertTrue(command_name in mail.outbox[0].body)
+
+    def test_error_notify_twice(self):
+        with self.settings(ADMINS=[("admin", "admin@example.com")]):
+            command_name = "test_command_error"
+            call_command("logcommand", command_name)
+            call_command("logcommand", "_notify")
+            mail.outbox = []
+            call_command("logcommand", "_notify")
+
+            self.assertEqual(len(mail.outbox), 0)
+
+    def test_clean(self):
+        CommandLog.objects.create(
+            command="test_command_pending",
+            status=CommandLog.CommandLogStatus.PENDING,
+        )
+        CommandLog.objects.create(
+            command="test_command_running",
+            status=CommandLog.CommandLogStatus.RUNNING,
+        )
+        CommandLog.objects.create(
+            command="test_command_success",
+            status=CommandLog.CommandLogStatus.COMPLETED,
+        )
+        CommandLog.objects.create(
+            command="test_command_failed",
+            status=CommandLog.CommandLogStatus.FAILED,
+        )
+        H48_AGO = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            days=2
+        )
+        CommandLog.objects.update(updated=H48_AGO, started=H48_AGO)
+        self.assertEqual(
+            CommandLog.objects.filter(
+                status=CommandLog.CommandLogStatus.FAILED
+            ).count(),
+            1,
+        )
+        self.assertEqual(
+            CommandLog.objects.count(),
+            4,
+        )
+        call_command("logcommand", "_clean")
+        self.assertEqual(
+            CommandLog.objects.filter(
+                status=CommandLog.CommandLogStatus.FAILED
+            ).count(),
+            3,
+        )
+        self.assertEqual(
+            CommandLog.objects.count(),
+            4,
+        )
+
+    def test_clean_none(self):
+        CommandLog.objects.create(
+            command="test_command_pending",
+            status=CommandLog.CommandLogStatus.PENDING,
+        )
+        CommandLog.objects.create(
+            command="test_command_running",
+            status=CommandLog.CommandLogStatus.RUNNING,
+        )
+        CommandLog.objects.create(
+            command="test_command_success",
+            status=CommandLog.CommandLogStatus.COMPLETED,
+        )
+        CommandLog.objects.create(
+            command="test_command_failed",
+            status=CommandLog.CommandLogStatus.FAILED,
+        )
+        H2_AGO = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            hours=2
+        )
+        CommandLog.objects.update(updated=H2_AGO, started=H2_AGO)
+        self.assertEqual(
+            CommandLog.objects.filter(
+                status=CommandLog.CommandLogStatus.FAILED
+            ).count(),
+            1,
+        )
+        self.assertEqual(
+            CommandLog.objects.count(),
+            4,
+        )
+        call_command("logcommand", "_clean")
+        self.assertEqual(
+            CommandLog.objects.filter(
+                status=CommandLog.CommandLogStatus.FAILED
+            ).count(),
+            1,
+        )
+        self.assertEqual(
+            CommandLog.objects.count(),
+            4,
+        )
 
     def test_exception(self):
         command_name = "test_command_exception"
