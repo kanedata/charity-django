@@ -44,9 +44,9 @@ class Command(BaseCommand):
     page_size = 10000
 
     base_urls = (
-        "https://www.oscr.org.uk/umbraco/Surface/FormsSurface/CharityFormerRegDownload",
-        "https://www.oscr.org.uk/umbraco/Surface/FormsSurface/CharityRegDownload",
-        "https://www.oscr.org.uk/umbraco/Surface/FormsSurface/Charity5YearsRegDownload",
+        "https://www.oscr.org.uk/download/charity-register",
+        "https://www.oscr.org.uk/download/5-years-charity-register",
+        "https://www.oscr.org.uk/download/charity-former-register",
     )
 
     def _get_db(self):
