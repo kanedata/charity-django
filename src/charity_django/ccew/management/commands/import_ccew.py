@@ -168,7 +168,7 @@ class Command(BaseCommand):
             # save the file to a temporary directory
             tmp_file = self.temp_dir.name + "/" + f.filename
             with open(tmp_file, "wb") as out:
-                out.write(z.read(f.filename))
+                out.write(z.read(f.filename).replace(b"\r\n\t", b"\t"))
 
             self.process_file(tmp_file, filename)
         z.close()
