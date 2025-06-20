@@ -1,4 +1,6 @@
 import datetime
+from unittest.util import safe_repr
+from xml.etree import ElementTree as ET
 
 from django.core import mail
 from django.core.management import call_command
@@ -254,3 +256,191 @@ class TestCommandLog(TestCase):
         self.assertFalse("it/s" in latest_log.log)
         self.assertTrue("Success log info" in latest_log.log)
         self.assertTrue("Success log debug" not in latest_log.log)
+
+
+class TestCommandLogFeeds(TestCase):
+    def assertStartsWith(self, a, b, msg=None):
+        """Just like self.assertTrue(a > b), but with a nicer default message."""
+        if not a.startswith(b):
+            standardMsg = "%s does not start with %s" % (safe_repr(a), safe_repr(b))
+            self.fail(self._formatMessage(msg, standardMsg))
+
+    def setUp(self):
+        # create some command logs for testing
+        CommandLog.objects.create(
+            command="test_command_2",
+            status=CommandLog.CommandLogStatus.FAILED,
+            log="Test command 2 failed.",
+        )
+        c = CommandLog.objects.create(
+            command="test_command_running",
+            status=CommandLog.CommandLogStatus.RUNNING,
+        )
+        # create a command log with a long running time
+        c = CommandLog.objects.create(
+            command="test_command_long_running",
+            status=CommandLog.CommandLogStatus.RUNNING,
+        )
+        c.started = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            days=2
+        )
+        c.save()
+        # create a command log with a pending status
+        CommandLog.objects.create(
+            command="test_command_pending",
+            status=CommandLog.CommandLogStatus.PENDING,
+        )
+        # create a command log with a long running time and pending
+        c = CommandLog.objects.create(
+            command="test_command_long_running_pending",
+            status=CommandLog.CommandLogStatus.PENDING,
+        )
+        c.started = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
+            days=2
+        )
+        c.save()
+        CommandLog.objects.create(
+            command="test_command_1",
+            status=CommandLog.CommandLogStatus.COMPLETED,
+            log="Test command 1 completed successfully.",
+        )
+
+    def test_rss_all_commands_feed(self):
+        from charity_django.utils.commandlogs.views import RssAllCommandsFeed
+
+        feed = RssAllCommandsFeed()
+        items = feed.items()
+        self.assertEqual(len(items), 6)
+        self.assertEqual(feed.title, "All commands")
+        self.assertEqual(
+            feed.description, "A list of all commands logged in the system."
+        )
+
+    def test_atom_all_commands_feed(self):
+        from charity_django.utils.commandlogs.views import AtomAllCommandsFeed
+
+        feed = AtomAllCommandsFeed()
+        items = feed.items()
+        self.assertEqual(len(items), 6)
+        self.assertEqual(feed.title, "All commands")
+        self.assertEqual(feed.subtitle, "A list of all commands logged in the system.")
+
+    def test_rss_failed_commands_feed(self):
+        from charity_django.utils.commandlogs.views import RssFailedCommandsFeed
+
+        feed = RssFailedCommandsFeed()
+        items = feed.items()
+        self.assertEqual(len(items), 3)
+        self.assertEqual(feed.title, "Failed commands")
+        self.assertEqual(
+            feed.description, "A list of all failed commands in the system."
+        )
+
+    def test_atom_failed_commands_feed(self):
+        from charity_django.utils.commandlogs.views import AtomFailedCommandsFeed
+
+        feed = AtomFailedCommandsFeed()
+        items = feed.items()
+        self.assertEqual(len(items), 3)
+        self.assertEqual(feed.title, "Failed commands")
+        self.assertEqual(feed.subtitle, "A list of all failed commands in the system.")
+
+    def test_rss_all_commands_feed_url(self):
+        response = self.client.get("/command/feed/all.rss")
+        self.assertEqual(response.status_code, 200)
+
+        # parse the response content from XML
+
+        root = ET.fromstring(response.content)
+        self.assertEqual(root.tag, "rss")
+        self.assertEqual(root.find("channel/title").text, "All commands")
+        self.assertEqual(
+            root.find("channel/link").text, "http://testserver/admin/utils/commandlog/"
+        )
+
+        self.assertStartsWith(root.find("channel/item/title").text, "test_command_1")
+        self.assertEqual(
+            root.find("channel/item/description").text,
+            "Test command 1 completed successfully.",
+        )
+        # check that there are 6 items in the feed
+        items = root.findall("channel/item")
+        self.assertEqual(len(items), 6)
+
+    def test_rss_failed_commands_feed_url(self):
+        response = self.client.get("/command/feed/failed.rss")
+        self.assertEqual(response.status_code, 200)
+
+        # parse the response content from XML
+        root = ET.fromstring(response.content)
+        self.assertEqual(root.tag, "rss")
+        self.assertEqual(root.find("channel/title").text, "Failed commands")
+        self.assertEqual(
+            root.find("channel/link").text, "http://testserver/admin/utils/commandlog/"
+        )
+        print(root.find("channel/item/title").text)
+        self.assertStartsWith(
+            root.find("channel/item/title").text, "Failed: test_command_2"
+        )
+        self.assertEqual(
+            root.find("channel/item/description").text,
+            "Error log: Test command 2 failed.",
+        )
+        # check that there are 3 items in the feed
+        items = root.findall("channel/item")
+        self.assertEqual(len(items), 3)
+
+    def test_atom_all_commands_feed_url(self):
+        response = self.client.get("/command/feed/all.atom")
+        self.assertEqual(response.status_code, 200)
+
+        # parse the response content from XML
+        root = ET.fromstring(response.content)
+        self.assertEqual(root.tag, "{http://www.w3.org/2005/Atom}feed")
+        self.assertEqual(
+            root.find("{http://www.w3.org/2005/Atom}title").text,
+            "All commands",
+        )
+        self.assertEqual(
+            root.find("{http://www.w3.org/2005/Atom}link").attrib["href"],
+            "http://testserver/admin/utils/commandlog/",
+        )
+
+        # check that there are 6 items in the feed
+        items = root.findall("{http://www.w3.org/2005/Atom}entry")
+        self.assertEqual(len(items), 6)
+        self.assertStartsWith(
+            items[0].find("{http://www.w3.org/2005/Atom}title").text,
+            "test_command_1",
+        )
+        self.assertEqual(
+            items[0].find("{http://www.w3.org/2005/Atom}summary").text,
+            "Test command 1 completed successfully.",
+        )
+
+    def test_atom_failed_commands_feed_url(self):
+        response = self.client.get("/command/feed/failed.atom")
+        self.assertEqual(response.status_code, 200)
+
+        # parse the response content from XML
+        root = ET.fromstring(response.content)
+        self.assertEqual(root.tag, "{http://www.w3.org/2005/Atom}feed")
+        self.assertEqual(
+            root.find("{http://www.w3.org/2005/Atom}title").text, "Failed commands"
+        )
+        self.assertEqual(
+            root.find("{http://www.w3.org/2005/Atom}link").attrib["href"],
+            "http://testserver/admin/utils/commandlog/",
+        )
+
+        # check that there are 3 items in the feed
+        items = root.findall("{http://www.w3.org/2005/Atom}entry")
+        self.assertEqual(len(items), 3)
+        self.assertStartsWith(
+            items[0].find("{http://www.w3.org/2005/Atom}title").text,
+            "Failed: test_command_2",
+        )
+        self.assertEqual(
+            items[0].find("{http://www.w3.org/2005/Atom}summary").text,
+            "Error log: Test command 2 failed.",
+        )
