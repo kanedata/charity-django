@@ -43,4 +43,5 @@ jobs:
           pip install -e .[test]
       - name: Run Tests
         run: |
-          pytest
+          export PYTHONPATH="test_project"
+          pytest .
