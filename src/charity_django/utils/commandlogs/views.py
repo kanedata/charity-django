@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.syndication.views import Feed
 from django.db.models import Q
 from django.urls import reverse
@@ -16,10 +15,9 @@ class RssAllCommandsFeed(Feed):
     description = "A list of all commands logged in the system."
 
     def link(self):
-        self.content_type = ContentType.objects.get_for_model(CommandLog)
         return reverse(
             "admin:{}_{}_changelist".format(
-                self.content_type.app_label, self.content_type.model
+                CommandLog._meta.app_label, CommandLog._meta.model_name
             )
         )
 
@@ -41,7 +39,7 @@ class RssAllCommandsFeed(Feed):
     def item_link(self, item):
         return reverse(
             "admin:{}_{}_change".format(
-                self.content_type.app_label, self.content_type.model
+                CommandLog._meta.app_label, CommandLog._meta.model_name
             ),
             args=[item.pk],
         )
