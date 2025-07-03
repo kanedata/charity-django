@@ -71,6 +71,7 @@ lint = ["ruff format . --check", "ruff check ."]
 
 [tool.hatch.envs.hatch-test]
 default-args = ["src/"]
+features = ["test"]
 
 [project.urls]
 Homepage = "https://github.com/kanedata/charity-django"
