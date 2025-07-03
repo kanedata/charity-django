@@ -15,11 +15,8 @@ class RssAllCommandsFeed(Feed):
     author_name = "Admin"
     description = "A list of all commands logged in the system."
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.content_type = ContentType.objects.get_for_model(CommandLog)
-
     def link(self):
+        self.content_type = ContentType.objects.get_for_model(CommandLog)
         return reverse(
             "admin:{}_{}_changelist".format(
                 self.content_type.app_label, self.content_type.model
