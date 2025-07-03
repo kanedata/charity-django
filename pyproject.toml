@@ -58,6 +58,7 @@ test = [
 
 [tool.hatch.envs.default]
 features = ["test"]
+installer = "uv"
 
 [tool.hatch.envs.default.scripts]
 serve = "python test_project/manage.py runserver {args}"
@@ -82,4 +83,5 @@ lint.ignore = ['E501']
 
 [tool.pytest.ini_options]
 addopts = " -p pytest_use_postgresql"
+pythonpath = [".", "test_project"]
 DJANGO_SETTINGS_MODULE = "test_project.config.settings_test"

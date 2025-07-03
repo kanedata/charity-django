@@ -2,7 +2,10 @@ from .charity import Charity
 from .charity_annual_return_history import CharityAnnualReturnHistory
 from .charity_ar_parta import CharityARPartA
 from .charity_ar_partb import CharityARPartB
-from .charity_area_of_operation import CharityAreaOfOperation
+from .charity_area_of_operation import (
+    CharityAreaOfOperation,
+    CharityAreaOfOperationLookup,
+)
 from .charity_classification import CharityClassification
 from .charity_event_history import CharityEventHistory
 from .charity_governing_document import CharityGoverningDocument
@@ -17,6 +20,7 @@ __all__ = (
     Charity,
     CharityAnnualReturnHistory,
     CharityAreaOfOperation,
+    CharityAreaOfOperationLookup,
     CharityARPartA,
     CharityARPartB,
     CharityClassification,
