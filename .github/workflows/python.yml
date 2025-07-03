@@ -41,6 +41,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .[test]
+      - name: Set up test_project
+        run: |
+          python test_project/manage.py migrate --noinput
+          python test_project/manage.py collectstatic --noinput
       - name: Run Tests
         run: |
           export PYTHONPATH="test_project"
