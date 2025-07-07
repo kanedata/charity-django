@@ -162,7 +162,11 @@ class Command(BaseCommand):
         r = self.session.get(self.base_url)
         self.files = {
             "rom": self.session.get(
-                next(link for link in r.html.absolute_links if link.endswith(".csv"))
+                next(
+                    link
+                    for link in r.html.absolute_links
+                    if link.endswith(".csv") and "csv-preview" not in link
+                )
             )
         }
 
