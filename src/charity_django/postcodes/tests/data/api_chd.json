@@ -1,0 +1,1084 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "14881034435e45a18cb5531513202400",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(76, 76, 76);font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif;font-size:16px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">This zip file contains the Code History Database for the United Kingdom as at 1st June 2025. (File size: 52.5 MB)</div><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(76, 76, 76);font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif;font-size:16px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">To download the zip file click the Download button.</div><ul><li><span style=\"color:windowtext;font-family:&quot;Arial&quot;,sans-serif;\"><strong>Updates in England to:</strong><span><strong> </strong></span></span><span style=\"font-family:&quot;Arial&quot;,sans-serif;\">Civil Parishes (E04), Electoral Wards/Divisions (E05), Non-metropolitan Districts (E07), Metropolitan Districts (E08) Non-Civil Parished Areas (E43), Combined Authorities (E47), County Electoral Divisions (E58), Local Planning Authorities (E60)</span></li><li><span style=\"color:windowtext;font-family:&quot;Arial&quot;,sans-serif;\"><strong>Updates in Wales to:</strong><span> </span>Communities (W04)</span></li></ul><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(76, 76, 76);font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif;font-size:16px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\"></div><div style=\"-webkit-text-stroke-width:0px;background-color:rgb(255, 255, 255);color:rgb(76, 76, 76);font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif;font-size:16px;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\"></div>",
+        "licenseInfo": "<p><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.ons.gov.uk/methodology/geography/licences\">https://www.ons.gov.uk/methodology/geography/licences</a></p>",
+        "title": "Code History Database (June 2025) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1750060273000,
+        "avgRating": 0,
+        "id": "14881034435e45a18cb5531513202400",
+        "categories": ["/Categories/ONS Geography Open Data"],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": -1,
+        "thumbnail": "thumbnail/thumbnail.png",
+        "languages": [],
+        "created": 1750057675000,
+        "documentation": null,
+        "banner": null,
+        "classification": null,
+        "url": null,
+        "tags": [
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "2025",
+          "JUN_2025"
+        ],
+        "numViews": 0,
+        "numComments": 0,
+        "size": 54848975,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(June_2025).zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/14881034435e45a18cb5531513202400"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "5676b8d2432a4beeae61195abb778274",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>This zip file contains the Code History Database for the United Kingdom as at 31st December 2024.  (File size: 50.5 MB)</div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>To download the zip file click the Download button.<br /></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><ul><li>Geography hierarchies and constitutions updated.</li><li>E62 - Areas of Outstanding Natural Beauty renamed National Landscapes.</li><li>K07 - Areas of Outstanding Natural Beauty renamed National Landscapes.</li><li>S01 – Datazones</li><li>S02 – Intermediate Zones </li><li>W44 - Areas of Outstanding Natural Beauty renamed National Landscapes. </li></ul></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (December 2024) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1738579076000,
+        "avgRating": 0,
+        "id": "5676b8d2432a4beeae61195abb778274",
+        "categories": [
+          "/Categories/LATEST",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": -1,
+        "thumbnail": "thumbnail/thumbnail1738579075758.png",
+        "languages": [],
+        "created": 1738577517000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "DEC_2024",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2024"
+        ],
+        "numViews": 0,
+        "numComments": 0,
+        "size": 53265006,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(December_2024).zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/5676b8d2432a4beeae61195abb778274"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "d7be63c8bd144ae0a26c6593eb5e00b7",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>This zip file contains the Code History Database for the United Kingdom as at July 2024.  (File size: 50.5 MB)</div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>To download the zip file click the Download button.<br /></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><p style='margin-left:46.35pt; text-indent:-18.0pt;'><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Updates in England to:<span>  </span></span></b><span style='font-family:&quot;Arial&quot;,sans-serif;'>Civil Parishes (E04), Electoral\nWards/Divisions (E05), Westminster Parliamentary Constituencies (E14), Local\nEnterprise Partnerships (E37), NHS England Regions (E40), Non-Civil Parished\nAreas (E43), Combined Authorities (E47), LEP - overlapping part (E52), LEP -\nnon overlapping part (E53), Cancer Alliances (E56), Built Up Areas (E63).<span>  </span>Built Up Areas (K08), Non-Standard Geography\nCategories (K99).</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Updates in Northern Ireland to</span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>:<span>  </span></span><span style='font-family:&quot;Arial&quot;,sans-serif;'>Westminster Parliamentary Constituencies (N05),\nWestminster Parliamentary Constituencies (N06).</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><b><span style='font-family:&quot;Arial&quot;,sans-serif;'>Updates in Scotland to</span></b><span style='font-family:&quot;Arial&quot;,sans-serif;'>:<span>  </span>Output Areas (S00), Westminster Parliamentary\nConstituencies (S14), Island Groups (S36), Built Up Areas (S45).</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><b><span style='font-family:&quot;Arial&quot;,sans-serif;'>New Entities introduced</span></b><span style='font-family:&quot;Arial&quot;,sans-serif;'>:<span>  </span>Census Locality (S52), Census Settlement\n(S53).</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><b><span style='font-family:&quot;Arial&quot;,sans-serif;'>Updates in Wales to</span></b><span style='font-family:&quot;Arial&quot;,sans-serif;'>:<span>  </span>Westminster Parliamentary Constituencies\n(W07), Built Up Areas (W45).</span></p><br /></div>",
+        "licenseInfo": "<p style='margin-top:3.0pt; text-align:left; text-indent:35.7pt;'><a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a><br /></p>",
+        "title": "Code History Database (July 2024) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543244000,
+        "avgRating": 0,
+        "id": "d7be63c8bd144ae0a26c6593eb5e00b7",
+        "categories": ["/Categories/ONS Geography Open Data"],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": 1734537600000,
+        "thumbnail": "thumbnail/thumbnail1720076318988.png",
+        "languages": [],
+        "created": 1720076258000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "July_2024",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2024",
+          "JUL_2024"
+        ],
+        "numViews": 669,
+        "numComments": 0,
+        "size": 53001311,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(July_2024).zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/d7be63c8bd144ae0a26c6593eb5e00b7"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "f34d0d37588c441c81af4b5865cef329",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>This zip file contains the Code History Database for the United Kingdom as at December 2014.  (File size: 48.88 MB)</span>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (December 2014) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543241000,
+        "avgRating": 0,
+        "id": "f34d0d37588c441c81af4b5865cef329",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": 1729854000000,
+        "thumbnail": "thumbnail/thumbnail1708510710366.png",
+        "languages": [],
+        "created": 1708510608000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2014",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "DEC_2014"
+        ],
+        "numViews": 29,
+        "numComments": 0,
+        "size": 51254667,
+        "listed": false,
+        "scoreCompleteness": 83,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(Sept_2014).zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/f34d0d37588c441c81af4b5865cef329"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "3acc892515aa49a8885c2deb734ebd3d",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>This zip file contains the Code History Database for the United Kingdom as at December 2023.  (File size: 31.7 MB)</div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>To download the zip file click the Download button.</div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>       </span></span></span><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Updates in England to</span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>: Civil Parishes (E04), Local Enterprise\nPartnerships (E37), Non-Civil Parished Areas (E43), Development Corporations\n(E51), Cancer Alliances (E56), Local Planning Authorities (E60),</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>New Entity introduced:<span> \n</span></span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Local\nSkills Improvement Plan areas (E69)</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Updates in Scotland to: </span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Settlements (S20)</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>New Entities introduced:<span> \n</span></span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Non-Standard\nGeography Categories (S47), Scottish Island Regions (S48)</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Updates in Wales to:<span>  </span></span></b><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Communities (W04), National\nParks (W18)</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><span style='font-family:&quot;Arial&quot;,sans-serif;'>SIs\nupdated to the end of 2023</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Constitutions updated to the end of 2023.</span></p>\n\n<p style='margin-left:46.35pt; text-indent:-18.0pt;'><span style='font-family:Symbol; color:windowtext;'><span>·<span style='font:7.0pt &quot;Times New Roman&quot;;'>        \n</span></span></span><span style='font-family:&quot;Arial&quot;,sans-serif; color:windowtext;'>Information table updated.</span></p><br /></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (December 2023) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543244000,
+        "avgRating": 0,
+        "id": "3acc892515aa49a8885c2deb734ebd3d",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/3acc892515aa49a8885c2deb734ebd3d.png",
+        "lastViewed": 1734508800000,
+        "thumbnail": "thumbnail/3acc892515aa49a8885c2deb734ebd3d.png",
+        "languages": [],
+        "created": 1701157782000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "DEC_2023",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2023"
+        ],
+        "numViews": 951,
+        "numComments": 0,
+        "size": 33308511,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(December_2023).zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/3acc892515aa49a8885c2deb734ebd3d"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "393a031178684c69973d0e416a862890",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div>This zip file contains the Code History Database for the United Kingdom as at May 2023. </div><div><br /></div><div>To download the zip file click the Download button.<br /></div><div><br /></div><div>File includes updates to:</div><div><br /></div><div><div>•<span>\t</span>Updates in England to: Civil Parishes (E04), Electoral Wards/Divisions (E05), Unitary Authorities (E06), Non-metropolitan districts (E07), Counties (E10), National Parks (E26), Registration Districts (E28), Registration Sub-districts (E29), Sub Integrated Care Board Locations (E38), Non-Civil Parished Areas (E43), Local Resilience Forums (E48), Integrated Care Boards (E54), County Electoral Divisions (E58)</div><div><br /></div><div>•<span>\t</span>New Entities introduced:  Areas of Outstanding Natural Beauty (E62), England Non-National Park Area (E65), Grouped Local Authority Districts (Parishes) (E66), Census Merged Local Authority Districts 2021 ((E67), Grouped Local Tier Local Authorities (E68) Non-Standard Geography Categories (K99)</div><div><br /></div><div>•<span>\t</span>Updates in Northern Ireland to: Small Areas (N00)</div><div><br /></div><div>•<span>\t</span>New Entities introduced: Data Zones (N20), Super Data Zones (N21) </div><div><br /></div><div>•<span>\t</span>Updates in Scotland to: National Parks (S21)</div><div><br /></div><div>•<span>\t</span>Updates in Wales to: National Parks (W18)</div><div><br /></div><div>•<span>\t</span>New Entities introduced:  Areas of Outstanding Natural Beauty (W44), Grouped Local Authority Districts (Parishes) (W46), Grouped Lower Tier Local Authorities (W47)</div></div><div><br /></div><div>(File Size - 50 MB)</div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (May 2023) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543245000,
+        "avgRating": 0,
+        "id": "393a031178684c69973d0e416a862890",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/393a031178684c69973d0e416a862890.png",
+        "lastViewed": 1734152400000,
+        "thumbnail": "thumbnail/393a031178684c69973d0e416a862890.png",
+        "languages": [],
+        "created": 1685637667000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "MAY_2023",
+          "2023"
+        ],
+        "numViews": 844,
+        "numComments": 0,
+        "size": 51873413,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_May_2023_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/393a031178684c69973d0e416a862890"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "487718f5504d478ab548756efaa96344",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-size:18px;'>This zip file contains the Code History Database for the United Kingdom as at December 2022. </span><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'>This is a Version 2 of the database that removes the Combined field in the Geography Listings and Geography History section of the database.</span></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'>To download the zip file click the Download button.</span><br /></div><div style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><font color='#000000' style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></font><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>File includes updates to:</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>· </span><span style='font-family:Arial, sans-serif; color:windowtext;'>Updates to Parishes (E04), Local Enterprise Partnerships (E37)</span></p><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>·<span style='font-variant-numeric:normal; font-variant-east-asian:normal; font-stretch:normal; font-size:7pt; font-family:&quot;Times New Roman&quot;;'>  </span></span><span style='font-family:Arial, sans-serif; color:windowtext;'>New Entities introduced: 2022 Built Up Areas (E63), (K08), (S45) and (W45).</span></p><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>·<span style='font-variant-numeric:normal; font-variant-east-asian:normal; font-stretch:normal; font-size:7pt; font-family:&quot;Times New Roman&quot;;'>  </span></span><span style='font-family:Arial, sans-serif; color:windowtext;'>2011 Built Up Areas and Built Up Area sub-divisions (E34), (E35), (K05), (K06), (W37), (W38) archived.</span></p><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>·<span style='font-variant-numeric:normal; font-variant-east-asian:normal; font-stretch:normal; font-size:7pt; font-family:&quot;Times New Roman&quot;;'>  </span></span><span style='font-family:Arial, sans-serif;'>SIs updated to the end of 2022</span></p><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>·<span style='font-variant-numeric:normal; font-variant-east-asian:normal; font-stretch:normal; font-size:7pt; font-family:&quot;Times New Roman&quot;;'>  </span></span><span style='font-family:Arial, sans-serif; color:windowtext;'>Hierarchies and Constitutions updated to the end of 2022.</span></p><p style='margin-left:72pt; text-indent:-18pt;'><span style='font-family:Symbol; color:windowtext;'>·<span style='font-variant-numeric:normal; font-variant-east-asian:normal; font-stretch:normal; font-size:7pt; font-family:&quot;Times New Roman&quot;;'>  </span></span><span style='font-family:Arial, sans-serif; color:windowtext;'>Information table updated.</span></p></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'>(File Size - 35 MB)</span></div></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (December 2022) for the UK (V2)",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543243000,
+        "avgRating": 0,
+        "id": "487718f5504d478ab548756efaa96344",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/487718f5504d478ab548756efaa96344.png",
+        "lastViewed": 1734436800000,
+        "thumbnail": "thumbnail/487718f5504d478ab548756efaa96344.png",
+        "languages": [],
+        "created": 1680598907000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "PRD_CHD",
+          "2022",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "DEC_2022"
+        ],
+        "numViews": 237,
+        "numComments": 0,
+        "size": 34802492,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_December_2022_V2.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/487718f5504d478ab548756efaa96344"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "753037189b874508bfbbfca6fc90219c",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-size:18px;'>This zip file contains the Code History Database for the United Kingdom as at August 2022. </span><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'>To download the zip file click the Download button.</span><br /></div><div style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><font color='#000000' style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></font><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>File includes updates to:</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'>Updates\nin England to:  Output Areas (E00), Super\nOutput Areas, Lower layer (E01), Super Output Areas, Middle layer (E02), Civil\nParishes (E04), Electoral Wards/Divisions (E05), Locations (formerly Clinical\nCommissioning Groups) (E38), NHS England Regions (E40), Non-Civil Parished\nAreas (E43), Integrated Care Boards (formerly Sustainability and Transformation\nPartnerships) (E54)</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'>Updates\nin Scotland to:  Electoral Wards (S13),\nLocalities (S19), Settlements (S20), Scottish Fire and Rescue Local Senior\nOfficer Areas (S39), Scottish Local Resilience Partnerships (S42)</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'>Updates\nin Wales to:  Output Areas (W00), Super\nOutput Areas, Lower layer (W01), Super Output Areas, Middle layer (W02),\nCommunities (W04), Electoral Wards (W05)</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'><br /></span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='text-indent:-18pt; font-family:Arial, sans-serif;'>(File Size - 70 MB)</span></div></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (August 2022) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543241000,
+        "avgRating": 0,
+        "id": "753037189b874508bfbbfca6fc90219c",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/753037189b874508bfbbfca6fc90219c.png",
+        "lastViewed": 1732827600000,
+        "thumbnail": "thumbnail/753037189b874508bfbbfca6fc90219c.png",
+        "languages": [],
+        "created": 1664289468000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2022",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "AUG_2022"
+        ],
+        "numViews": 303,
+        "numComments": 0,
+        "size": 46463126,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(August_2022)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/753037189b874508bfbbfca6fc90219c"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "adb8830e23294ecc82a727c6eea330ce",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-size:18px;'>This zip file contains the Code History Database for the United Kingdom as at 31st December 2021. </span><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; font-size:18px;'>To download the zip file click the Download button.</span><br /></div><div style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0);'><font color='#000000' style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></font><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>File inc<span style='background-color:rgb(255, 255, 255);'>ludes upd</span>ates to:</span></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><ul><li><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>Civil Parishes (E04), Non-Civil Parished Areas (E43)</span></li><li><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>Public Health England Centres (E45) and Regions (E46) were disbanded on 1st October 2021</span></li><li><span style='font-family:inherit; box-sizing:border-box; max-width:100%; font-size:18px;'>SIs updated to end of 2021.  Constitutions updated to end of 2021.  Information table updated.</span></li></ul></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><br /></div><div style='font-size:16px; font-family:inherit; box-sizing:border-box; max-width:100%;'><br /></div></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (December 2021) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543242000,
+        "avgRating": 0,
+        "id": "adb8830e23294ecc82a727c6eea330ce",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/adb8830e23294ecc82a727c6eea330ce.png",
+        "lastViewed": 1734080400000,
+        "thumbnail": "thumbnail/adb8830e23294ecc82a727c6eea330ce.png",
+        "languages": [],
+        "created": 1658312011000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2021",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "DEC_2021"
+        ],
+        "numViews": 225,
+        "numComments": 0,
+        "size": 77951475,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(December_2021)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/adb8830e23294ecc82a727c6eea330ce"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "4af94c5239554a3cafefa6379c344587",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Code History Database",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "<span style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:Lato, &quot;Avenir Next&quot;; font-size:18px;'>This zip file contains the Code History Database for the United Kingdom as at June 2021. </span><div style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-family:Lato, &quot;Avenir Next&quot;; font-size:18px;'><br /></span></div><div style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-family:Lato, &quot;Avenir Next&quot;; font-size:18px;'>To download the zip file click the Download button.</span><br /></div><div style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:Lato, &quot;Avenir Next&quot;; font-size:14px;'><font color='#000000' style='box-sizing:border-box; max-width:100%; font-family:inherit; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-family:inherit; font-size:18px;'><br /></span></font><div style='box-sizing:border-box; max-width:100%; font-family:inherit; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-size:18px;'>File includes updates to:  </span></div><div style='box-sizing:border-box; max-width:100%; font-family:inherit; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-size:18px;'>E04 - Civil Parishes, E05 - Electoral wards/divisions, E15 - European Electoral Regions, E37 - Local Enterprise Partnerships, E43 - Non-Civil Parished Areas, E58 - County Electoral Divisions, N07 - European Electoral Regions, S15 - European Electoral Regions, S16 - Scottish Parliamentary Constituencies, S17 - Scottish Parliamentary Regions, W04 - Communities, W08 - European Electoral Regions</span></div><div style='box-sizing:border-box; max-width:100%; font-family:inherit; font-size:16px;'><span style='box-sizing:border-box; max-width:100%; font-size:18px;'><br /></span></div></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Code History Database (June 2021) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543245000,
+        "avgRating": 0,
+        "id": "4af94c5239554a3cafefa6379c344587",
+        "categories": [
+          "/Categories/Products/Code History Database",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/4af94c5239554a3cafefa6379c344587.png",
+        "lastViewed": 1730876400000,
+        "thumbnail": "thumbnail/4af94c5239554a3cafefa6379c344587.png",
+        "languages": [],
+        "created": 1658311988000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2021",
+          "PRD_CHD",
+          "Products",
+          "Other Products",
+          "Code History Database",
+          "CHD",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "JUN_2021"
+        ],
+        "numViews": 221,
+        "numComments": 0,
+        "size": 76619269,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Code_History_Database_(June_2021)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/4af94c5239554a3cafefa6379c344587"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    }
+  ],
+  "timestamp": "2025-07-18T11:48:23.197Z",
+  "numberMatched": 26,
+  "numberReturned": 10,
+  "links": [
+    {
+      "rel": "self",
+      "type": "application/geo+json",
+      "title": "This document as GeoJSON",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all/items"
+    },
+    {
+      "rel": "next",
+      "type": "application/geo+json",
+      "title": "items (next)",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_CHD&sortBy=-properties.created&limit=10&startindex=11"
+    },
+    {
+      "rel": "collection",
+      "type": "application/json",
+      "title": "All",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+    }
+  ]
+}

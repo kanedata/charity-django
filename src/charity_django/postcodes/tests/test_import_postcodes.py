@@ -4,18 +4,26 @@ import requests_mock
 from django.test import TestCase
 from requests import Session
 
-from charity_django.postcodes.management.commands.import_postcodes import (
-    POSTCODES_URL,
-    Command,
-)
+from charity_django.postcodes.management.commands.import_postcodes import Command
 from charity_django.postcodes.models import GeoCode, Postcode
 
 
 class TestImportPostcodes(TestCase):
     def mock_csv_downloads(self, m):
         dirname = os.path.dirname(__file__)
+        with open(
+            os.path.join(dirname, "data", "api_nspl.json"),
+            "rb",
+        ) as a:
+            m.get(
+                "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_NSPL&sortBy=-properties.created",
+                content=a.read(),
+            )
         with open(os.path.join(dirname, "data", "NSPL_2021_TEST.zip"), "rb") as a:
-            m.get(POSTCODES_URL, content=a.read())
+            m.get(
+                "https://www.arcgis.com/sharing/rest/content/items/077631e063eb4e1ab43575d01381ec33/data",
+                content=a.read(),
+            )
 
     def setUp(self):
         GeoCode.objects.create(

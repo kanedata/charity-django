@@ -4,10 +4,7 @@ import requests_mock
 from django.test import TestCase
 from requests import Session
 
-from charity_django.postcodes.management.commands.import_rgc import (
-    RGC_URL,
-    Command,
-)
+from charity_django.postcodes.management.commands.import_rgc import Command
 from charity_django.postcodes.models import GeoEntity
 
 
@@ -15,12 +12,23 @@ class TestImportRGC(TestCase):
     def mock_csv_downloads(self, m):
         dirname = os.path.dirname(__file__)
         with open(
+            os.path.join(dirname, "data", "api_rgc.json"),
+            "rb",
+        ) as a:
+            m.get(
+                "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_RGC&sortBy=-properties.created",
+                content=a.read(),
+            )
+        with open(
             os.path.join(
                 dirname, "data", "Register_of_Geographic_Codes_(May_2023)_UK.zip"
             ),
             "rb",
         ) as a:
-            m.get(RGC_URL, content=a.read())
+            m.get(
+                "https://www.arcgis.com/sharing/rest/content/items/da3fb8af12e842a69255b0d21116bcaa/data",
+                content=a.read(),
+            )
 
     def test_set_session(self):
         command = Command()

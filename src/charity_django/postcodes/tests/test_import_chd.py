@@ -4,10 +4,7 @@ import requests_mock
 from django.test import TestCase
 from requests import Session
 
-from charity_django.postcodes.management.commands.import_chd import (
-    CHD_URL,
-    Command,
-)
+from charity_django.postcodes.management.commands.import_chd import Command
 from charity_django.postcodes.models import GeoCode
 
 
@@ -15,10 +12,21 @@ class TestImportCHD(TestCase):
     def mock_csv_downloads(self, m):
         dirname = os.path.dirname(__file__)
         with open(
+            os.path.join(dirname, "data", "api_chd.json"),
+            "rb",
+        ) as a:
+            m.get(
+                "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_CHD&sortBy=-properties.created",
+                content=a.read(),
+            )
+        with open(
             os.path.join(dirname, "data", "Code_History_Database_May_2023_UK.zip"),
             "rb",
         ) as a:
-            m.get(CHD_URL, content=a.read())
+            m.get(
+                "https://www.arcgis.com/sharing/rest/content/items/14881034435e45a18cb5531513202400/data",
+                content=a.read(),
+            )
 
     def test_set_session(self):
         command = Command()

@@ -1,0 +1,1067 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "da3fb8af12e842a69255b0d21116bcaa",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<p><span style=\"background-color:rgb(255,255,255);color:rgb(0,0,0);font-family:Lato, &quot;Avenir Next&quot;;font-size:18px;\"><span style=\"-webkit-text-stroke-width:0px;box-sizing:border-box;font-style:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-weight:400;letter-spacing:normal;margin-right:15px;max-width:100%;orphans:2;text-align:start;text-decoration-color:initial;text-decoration-style:initial;text-decoration-thickness:initial;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;\">The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code rangeson behalf of the Government Statistical Service.The RGC should be used in conjunction with the Code History Database, available to download separately.</span></span></p>",
+        "licenseInfo": "<p><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.ons.gov.uk/methodology/geography/licences\">https://www.ons.gov.uk/methodology/geography/licences</a></p>",
+        "title": "Register of Geographic Codes (June 2025) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1750062346000,
+        "avgRating": 0,
+        "id": "da3fb8af12e842a69255b0d21116bcaa",
+        "categories": ["/Categories/ONS Geography Open Data"],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": -1,
+        "thumbnail": "thumbnail/thumbnail.png",
+        "languages": [],
+        "created": 1750061669000,
+        "documentation": null,
+        "banner": null,
+        "classification": null,
+        "url": null,
+        "tags": [
+          "JUN_2025",
+          "PRD_RGC",
+          "RGC",
+          "Register of Geographic Codes",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2025"
+        ],
+        "numViews": 0,
+        "numComments": 0,
+        "size": 21050548,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(June_2025)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/da3fb8af12e842a69255b0d21116bcaa"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "7e1775db6a064a7e9c5ef860f0bf8daa",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); margin-right:15px; font-size:18px;'>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service.</span><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); margin-right:15px; font-size:18px;'> The RGC should be used in conjunction with the Code History Database, available to download separately.</span>",
+        "licenseInfo": "<p style='margin-top:3.0pt; text-align:left; text-indent:35.7pt;'><a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a></p>",
+        "title": "Register of Geographic Codes (December 2024) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1738578793000,
+        "avgRating": 0,
+        "id": "7e1775db6a064a7e9c5ef860f0bf8daa",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": -1,
+        "thumbnail": "thumbnail/thumbnail1738578498734.png",
+        "languages": [],
+        "created": 1738578344000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "DEC_2024",
+          "PRD_RGC",
+          "RGC",
+          "Register of Geographic Codes",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2024"
+        ],
+        "numViews": 0,
+        "numComments": 0,
+        "size": 21172746,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(December_2024)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/7e1775db6a064a7e9c5ef860f0bf8daa"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "2a3730b53dbb4056a07913676e0fd774",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.</span>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (July 2024) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543351000,
+        "avgRating": 0,
+        "id": "2a3730b53dbb4056a07913676e0fd774",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": 1734516000000,
+        "thumbnail": "thumbnail/thumbnail1720077151464.png",
+        "languages": [],
+        "created": 1720077043000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "July_2024",
+          "PRD_RGC",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2024",
+          "JUL_2024"
+        ],
+        "numViews": 1085,
+        "numComments": 0,
+        "size": 20922427,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(July_2024)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/2a3730b53dbb4056a07913676e0fd774"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "2219f72d5b8042c496e47488efd04b16",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div style='font-family:inherit;'>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.</div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (December 2023) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543351000,
+        "avgRating": 0,
+        "id": "2219f72d5b8042c496e47488efd04b16",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/2219f72d5b8042c496e47488efd04b16.png",
+        "lastViewed": 1734537600000,
+        "thumbnail": "thumbnail/2219f72d5b8042c496e47488efd04b16.png",
+        "languages": [],
+        "created": 1701158623000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "DEC_2023",
+          "PRD_RGC",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2023"
+        ],
+        "numViews": 1194,
+        "numComments": 0,
+        "size": 20595809,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(December_2023)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/2219f72d5b8042c496e47488efd04b16"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "34f4b9d554324bc494dc406dca58001a",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "<div>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.</div><div><br /></div><div>(File Size - 20 MB)<br /></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (May 2023) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543352000,
+        "avgRating": 0,
+        "id": "34f4b9d554324bc494dc406dca58001a",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/34f4b9d554324bc494dc406dca58001a.png",
+        "lastViewed": 1734537600000,
+        "thumbnail": "thumbnail/34f4b9d554324bc494dc406dca58001a.png",
+        "languages": [],
+        "created": 1685638427000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "PRD_RGC",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "2023",
+          "May_2023"
+        ],
+        "numViews": 1288,
+        "numComments": 0,
+        "size": 20588509,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_May_2023_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/34f4b9d554324bc494dc406dca58001a"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "ab6418e607fc416984539ef2c77d8495",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["CSV Collection", "Metadata", "zip"],
+        "description": "The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.<div><br /></div><div>V2 created to correct the Statistical Geography Names<br /><div><br /></div><div>(File Size - 20 MB)<br /></div></div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (December 2022) for the UK (V2)",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543350000,
+        "avgRating": 0,
+        "id": "ab6418e607fc416984539ef2c77d8495",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/ab6418e607fc416984539ef2c77d8495.png",
+        "lastViewed": 1734490800000,
+        "thumbnail": "thumbnail/ab6418e607fc416984539ef2c77d8495.png",
+        "languages": [],
+        "created": 1675171431000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "PRD_RGC",
+          "2022",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "DEC_2022"
+        ],
+        "numViews": 836,
+        "numComments": 0,
+        "size": 20819937,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "en-gb",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_December_2022_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/ab6418e607fc416984539ef2c77d8495"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "1bb7a8a0eba844eab06bfe785cc1f720",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.<div><br /></div><div>This new product has the 2021 Census geographies included.</div><div><br /></div><div>(File Size - 20 MB)</div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (August 2022) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543348000,
+        "avgRating": 0,
+        "id": "1bb7a8a0eba844eab06bfe785cc1f720",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/1bb7a8a0eba844eab06bfe785cc1f720.png",
+        "lastViewed": 1734436800000,
+        "thumbnail": "thumbnail/1bb7a8a0eba844eab06bfe785cc1f720.png",
+        "languages": [],
+        "created": 1664289464000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2022",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "PRD_RGC",
+          "ZIP File",
+          "AUG_2022"
+        ],
+        "numViews": 441,
+        "numComments": 0,
+        "size": 20933729,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(August_2022)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/1bb7a8a0eba844eab06bfe785cc1f720"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "ce24654e47e94906ae749cd9741ec318",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service. The RGC should be used in conjunction with the Code History Database, available to download separately.<div><br /></div><div>This version has the latest Areas of Outstanding Natural Beauty and name changes to the Super Output Areas</div>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (March 2022) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543352000,
+        "avgRating": 0,
+        "id": "ce24654e47e94906ae749cd9741ec318",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/ce24654e47e94906ae749cd9741ec318.png",
+        "lastViewed": 1734526800000,
+        "thumbnail": "thumbnail/ce24654e47e94906ae749cd9741ec318.png",
+        "languages": [],
+        "created": 1658312028000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2022",
+          "MAR_2022",
+          "Register of Geographic Codes",
+          "RGC",
+          "UK",
+          "United Kingdom",
+          "PRD_RGC",
+          "ZIP File"
+        ],
+        "numViews": 398,
+        "numComments": 0,
+        "size": 19973411,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_March_2022_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/ce24654e47e94906ae749cd9741ec318"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "484a633068334fe6b4527073fbaed3db",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "<span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); margin-right:15px; font-size:18px;'>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service.</span><span style='font-family:Lato, &quot;Avenir Next&quot;; box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); margin-right:15px; font-size:18px;'> The RGC should be used in conjunction with the Code History Database, available to download separately.</span>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (December 2021) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543350000,
+        "avgRating": 0,
+        "id": "484a633068334fe6b4527073fbaed3db",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/484a633068334fe6b4527073fbaed3db.png",
+        "lastViewed": 1734206400000,
+        "thumbnail": "thumbnail/484a633068334fe6b4527073fbaed3db.png",
+        "languages": [],
+        "created": 1658312015000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2021",
+          "PRD_RGC",
+          "RGC",
+          "Register of Geographic Codes",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "DEC_2021"
+        ],
+        "numViews": 114,
+        "numComments": 0,
+        "size": 19941656,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(December_2021)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/484a633068334fe6b4527073fbaed3db"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
+      "id": "0e47d692511840579ce563ef7b857fdb",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "Register of Geographic Codes",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": ["Copy Item", "CSV Collection", "Metadata", "zip"],
+        "description": "<span style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:Lato, &quot;Avenir Next&quot;; margin-right:15px; font-size:18px;'>The Register of Geographic Codes (RGC) is a key product that contains the definitive list of UK statistical geographies. ONS maintains the definitive set of statistical geographies, coordinates the issue of new codes, and maintains the relationship between active and archived code ranges on behalf of the Government Statistical Service.</span><span style='box-sizing:border-box; max-width:100%; color:rgb(0, 0, 0); font-family:Lato, &quot;Avenir Next&quot;; margin-right:15px; font-size:18px;'> The RGC should be used in conjunction with the Code History Database, available to download separately.</span>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "title": "Register of Geographic Codes (June 2021) for the UK",
+        "type": "CSV Collection",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1734543352000,
+        "avgRating": 0,
+        "id": "0e47d692511840579ce563ef7b857fdb",
+        "categories": [
+          "/Categories/Products/Register of Geographic Codes",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": "largethumbnail/0e47d692511840579ce563ef7b857fdb.png",
+        "lastViewed": 1734433200000,
+        "thumbnail": "thumbnail/0e47d692511840579ce563ef7b857fdb.png",
+        "languages": [],
+        "created": 1658311992000,
+        "documentation": null,
+        "banner": null,
+        "url": null,
+        "tags": [
+          "2021",
+          "PRD_RGC",
+          "RGC",
+          "Register of Geographic Codes",
+          "UK",
+          "United Kingdom",
+          "ZIP File",
+          "JUN_2021"
+        ],
+        "numViews": 138,
+        "numComments": 0,
+        "size": 19933585,
+        "listed": false,
+        "scoreCompleteness": 88,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": "Register_of_Geographic_Codes_(June_2021)_UK.zip",
+        "guid": null,
+        "proxyFilter": null,
+        "properties": null,
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/0e47d692511840579ce563ef7b857fdb"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    }
+  ],
+  "timestamp": "2025-07-18T11:51:55.911Z",
+  "numberMatched": 26,
+  "numberReturned": 10,
+  "links": [
+    {
+      "rel": "self",
+      "type": "application/geo+json",
+      "title": "This document as GeoJSON",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all/items"
+    },
+    {
+      "rel": "next",
+      "type": "application/geo+json",
+      "title": "items (next)",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_RGC&sortBy=-properties.created&limit=10&startindex=11"
+    },
+    {
+      "rel": "collection",
+      "type": "application/json",
+      "title": "All",
+      "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+    }
+  ]
+}
