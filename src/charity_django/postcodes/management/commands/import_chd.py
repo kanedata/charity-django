@@ -8,16 +8,13 @@ from io import BytesIO, TextIOWrapper
 
 import tqdm
 from django.conf import settings
-from django.core.management.base import BaseCommand
 from django.db import connections, router, transaction
-from requests import Session
-from requests_cache import CachedSession
 
+from charity_django.postcodes.management.commands._base import BaseCommand
 from charity_django.postcodes.models import GeoCode, GeoEntity
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-CHD_URL = "https://www.arcgis.com/sharing/rest/content/items/393a031178684c69973d0e416a862890/data"
 
 
 class Command(BaseCommand):
@@ -91,112 +88,47 @@ class Command(BaseCommand):
             self.set_session(install_cache=options["cache"])
 
             # fetch the file
-            response = self.session.get(CHD_URL)
+            data_url = self.get_latest_geoportal_url("PRD_CHD")
+            response = self.session.get(data_url)
             zf = zipfile.ZipFile(BytesIO(response.content))
 
-            records = {}
-
             # change history file
-            reader = csv.DictReader(
-                TextIOWrapper(zf.open("ChangeHistory.csv"), encoding="utf-8-sig")
-            )
-            for row in tqdm.tqdm(reader, desc="Reading CSV"):
-                record = self.parse_row(row)
-                if options.get("include") and record["ENTITYCD"] not in options.get(
-                    "include", []
-                ):
-                    continue
-                if options.get("exclude") and record["ENTITYCD"] in options.get(
-                    "exclude", []
-                ):
-                    continue
+            for encoding in ("utf-8-sig", "windows-1252"):
+                reader = csv.DictReader(
+                    TextIOWrapper(zf.open("ChangeHistory.csv"), encoding=encoding)
+                )
+                try:
+                    records = {}
+                    for row in tqdm.tqdm(
+                        reader, desc="Reading CSV with encoding {}".format(encoding)
+                    ):
+                        record = self.parse_row(row)
+                        if options.get("include") and record[
+                            "ENTITYCD"
+                        ] not in options.get("include", []):
+                            continue
+                        if options.get("exclude") and record["ENTITYCD"] in options.get(
+                            "exclude", []
+                        ):
+                            continue
 
-                if record["GEOGCD"] not in records:
-                    records[record["GEOGCD"]] = []
-                records[record["GEOGCD"]].append(record)
+                        if record["GEOGCD"] not in records:
+                            records[record["GEOGCD"]] = []
+                        records[record["GEOGCD"]].append(record)
+                    break
+                except UnicodeDecodeError:
+                    logger.warning(
+                        "Failed to read CSV with encoding {}".format(encoding)
+                    )
+                    continue
 
             for v in tqdm.tqdm(records.values(), desc="Merging records"):
                 self.merge_records(v)
 
             self.save_all_records()
 
-    def set_session(self, install_cache=False):
-        if install_cache:
-            logger.info("Using requests_cache")
-            self.session = CachedSession(
-                cache_name="postcode_cache",
-                cache_control=False,
-                expire_after=datetime.timedelta(days=10),
-            )
-        else:
-            self.session = Session()
-
-    def parse_row(self, row):
-        record = {}
-        for k, v in row.items():
-            if not k or not isinstance(k, str):
-                continue
-            if v == "" or v is None:
-                record[k] = None
-            elif not isinstance(v, str):
-                record[k] = v
-            elif k in self.date_fields:
-                record[k] = None
-                try:
-                    record[k] = datetime.datetime.strptime(v, "%d/%m/%Y").date()
-                except ValueError:
-                    record[k] = None
-            elif k in self.int_fields:
-                record[k] = int(v)
-            elif k in self.float_fields:
-                record[k] = float(v)
-            elif v.endswith("999999"):
-                record[k] = None
-            elif v in ("9Z9", "Z9"):
-                record[k] = None
-            else:
-                record[k] = v.strip()
-        return record
-
     def merge_records(self, records):
         records = sorted(records, key=lambda x: x["OPER_DATE"] or self.now)
         record = records[-1]
         record["ENTITYCD"] = self.get_entity(record["ENTITYCD"])
         return self.add_record(GeoCode, record)
-
-    def add_record(self, model, record):
-        if isinstance(record, dict):
-            record = model(**record)
-        if model._meta.unique_together:
-            unique_fields = tuple(
-                getattr(record, f) for f in model._meta.unique_together[0]
-            )
-        else:
-            unique_fields = (record.pk,)
-        self.records[model][unique_fields] = record
-        if len(self.records[GeoCode]) >= self.bulk_limit:
-            self.save_all_records()
-
-    def save_records(self, model):
-        logger.info(
-            "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
-        )
-        model.objects.bulk_create(
-            self.records[model].values(),
-            batch_size=self.bulk_limit,
-            ignore_conflicts=True,
-        )
-        self.object_count[model] += len(self.records[model])
-        logger.info(
-            "Saved {:,.0f} {} records ({:,.0f} total)".format(
-                len(self.records[model]),
-                model.__name__,
-                self.object_count[model],
-            )
-        )
-        self.records[model] = {}
-
-    def save_all_records(self):
-        for model, records in self.records.items():
-            if len(records):
-                self.save_records(model)

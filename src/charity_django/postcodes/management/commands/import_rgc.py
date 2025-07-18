@@ -8,17 +8,13 @@ from io import BytesIO, TextIOWrapper
 
 import tqdm
 from django.conf import settings
-from django.core.management.base import BaseCommand
 from django.db import connections, router, transaction
-from requests import Session
-from requests_cache import CachedSession
 
+from charity_django.postcodes.management.commands._base import BaseCommand
 from charity_django.postcodes.models import GeoCode, GeoEntity, GeoEntityGroup
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-RGC_URL = "https://www.arcgis.com/sharing/rest/content/items/34f4b9d554324bc494dc406dca58001a/data"
 
 
 class Command(BaseCommand):
@@ -73,7 +69,8 @@ class Command(BaseCommand):
             related_entities = {}
 
             # fetch the file
-            response = self.session.get(RGC_URL)
+            data_url = self.get_latest_geoportal_url("PRD_RGC")
+            response = self.session.get(data_url)
             zf = zipfile.ZipFile(BytesIO(response.content))
             for filename in zf.namelist():
                 if not filename.endswith(".csv"):
@@ -136,17 +133,6 @@ class Command(BaseCommand):
                 group.entities.set(group_entities)
             self.save_all_records()
 
-    def set_session(self, install_cache=False):
-        if install_cache:
-            logger.info("Using requests_cache")
-            self.session = CachedSession(
-                cache_name="postcode_cache",
-                cache_control=False,
-                expire_after=datetime.timedelta(days=10),
-            )
-        else:
-            self.session = Session()
-
     def parse_row(self, row):
         record = {}
         for k, v in row.items():
@@ -173,40 +159,3 @@ class Command(BaseCommand):
             else:
                 record[k] = v.strip()
         return self.add_record(GeoCode, record)
-
-    def add_record(self, model, record):
-        if isinstance(record, dict):
-            record = model(**record)
-        if model._meta.unique_together:
-            unique_fields = tuple(
-                getattr(record, f) for f in model._meta.unique_together[0]
-            )
-        else:
-            unique_fields = (record.pk,)
-        self.records[model][unique_fields] = record
-        if len(self.records[GeoCode]) >= self.bulk_limit:
-            self.save_all_records()
-
-    def save_records(self, model):
-        logger.info(
-            "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
-        )
-        model.objects.bulk_create(
-            self.records[model].values(),
-            batch_size=self.bulk_limit,
-            ignore_conflicts=True,
-        )
-        self.object_count[model] += len(self.records[model])
-        logger.info(
-            "Saved {:,.0f} {} records ({:,.0f} total)".format(
-                len(self.records[model]),
-                model.__name__,
-                self.object_count[model],
-            )
-        )
-        self.records[model] = {}
-
-    def save_all_records(self):
-        for model, records in self.records.items():
-            if len(records):
-                self.save_records(model)

@@ -9,11 +9,9 @@ from io import TextIOWrapper
 
 import tqdm
 from django.conf import settings
-from django.core.management.base import BaseCommand
 from django.db import connections, models, router, transaction
-from requests import Session
-from requests_cache import CachedSession
 
+from charity_django.postcodes.management.commands._base import BaseCommand
 from charity_django.postcodes.models import (
     GeoCode,
     Postcode,
@@ -21,8 +19,6 @@ from charity_django.postcodes.models import (
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-POSTCODES_URL = "https://www.arcgis.com/sharing/rest/content/items/73ce619853044aaaa6f7fa5b90765b85/data"
 
 
 class Command(BaseCommand):
@@ -87,7 +83,8 @@ class Command(BaseCommand):
             self.set_session(install_cache=options["cache"])
 
             # fetch the file
-            response = self.session.get(POSTCODES_URL, stream=False)
+            data_url = self.get_latest_geoportal_url("PRD_NSPL")
+            response = self.session.get(data_url, stream=False)
             with tempfile.NamedTemporaryFile(delete=False) as f:
                 f.write(response.content)
                 f.close()
@@ -113,18 +110,6 @@ class Command(BaseCommand):
                                 ) and record_count >= options.get("max_to_import"):
                                     break
                     self.save_all_records()
-
-    def set_session(self, install_cache=False):
-        if install_cache:
-            logger.info("Using requests_cache")
-            self.session = CachedSession(
-                cache_name="postcode_cache",
-                backend="filesystem",
-                cache_control=False,
-                expire_after=datetime.timedelta(days=10),
-            )
-        else:
-            self.session = Session()
 
     def parse_row(self, row):
         record = Postcode()
@@ -153,38 +138,3 @@ class Command(BaseCommand):
             else:
                 setattr(record, key, value)
         return self.add_record(Postcode, record)
-
-    def add_record(self, model, record):
-        if isinstance(record, dict):
-            record = model(**record)
-        if model._meta.unique_together:
-            unique_fields = tuple(
-                getattr(record, f) for f in model._meta.unique_together[0]
-            )
-        else:
-            unique_fields = (record.pk,)
-        self.records[model][unique_fields] = record
-        if len(self.records[model]) >= self.bulk_limit:
-            self.save_all_records()
-
-    def save_records(self, model):
-        logger.info(
-            "Saving {:,.0f} {} records".format(len(self.records[model]), model.__name__)
-        )
-        model.objects.bulk_create(
-            self.records[model].values(), batch_size=self.bulk_limit
-        )
-        self.object_count[model] += len(self.records[model])
-        logger.info(
-            "Saved {:,.0f} {} records ({:,.0f} total)".format(
-                len(self.records[model]),
-                model.__name__,
-                self.object_count[model],
-            )
-        )
-        self.records[model] = {}
-
-    def save_all_records(self):
-        for model, records in self.records.items():
-            if len(records):
-                self.save_records(model)
