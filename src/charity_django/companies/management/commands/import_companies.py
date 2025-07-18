@@ -212,6 +212,15 @@ class Command(BaseCommand):
             self.session = HTMLSession()
 
     def fetch_file(self):
+        def fetch_one_file(link):
+            file_response = self.session.get(link)
+            if getattr(file_response, "from_cache", False):
+                self.logger("From cache")
+            else:
+                self.logger("From network")
+            file_response.raise_for_status()
+            self.parse_file(file_response, link)
+
         self.files = {}
         response = self.session.get(self.start_url)
         response.raise_for_status()
@@ -219,16 +228,14 @@ class Command(BaseCommand):
             if self.zip_regex.match(link):
                 self.logger("Fetching: {}".format(link))
                 try:
-                    file_response = self.session.get(link)
-                    if getattr(file_response, "from_cache", False):
-                        self.logger("From cache")
-                    else:
-                        self.logger("From network")
-                    file_response.raise_for_status()
-                    self.parse_file(file_response, link)
+                    fetch_one_file(link)
                 except requests.exceptions.ChunkedEncodingError as err:
                     self.logger("Error fetching: {}".format(link), error=True)
                     self.logger(str(err), error=True)
+                except requests.exceptions.ConnectionError as err:
+                    self.logger("Retrying: Error fetching: {}".format(link), error=True)
+                    self.logger(str(err), error=True)
+                    fetch_one_file(link)
                 if getattr(self, "sample", None):
                     break
 
