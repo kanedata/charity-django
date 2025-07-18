@@ -4,6 +4,10 @@ import requests_mock
 from django.test import TestCase
 from requests import Session
 
+from charity_django.postcodes.management.commands._base import (
+    GEOPORTAL_API_URL,
+    GEOPORTAL_DATA_URL,
+)
 from charity_django.postcodes.management.commands.import_chd import Command
 from charity_django.postcodes.models import GeoCode
 
@@ -16,7 +20,7 @@ class TestImportCHD(TestCase):
             "rb",
         ) as a:
             m.get(
-                "https://hub.arcgis.com/api/search/v1/collections/all/items?q=PRD_CHD&sortBy=-properties.created",
+                f"{GEOPORTAL_API_URL}?q=PRD_CHD&sortBy=-properties.created",
                 content=a.read(),
             )
         with open(
@@ -24,7 +28,7 @@ class TestImportCHD(TestCase):
             "rb",
         ) as a:
             m.get(
-                "https://www.arcgis.com/sharing/rest/content/items/14881034435e45a18cb5531513202400/data",
+                GEOPORTAL_DATA_URL.format("14881034435e45a18cb5531513202400"),
                 content=a.read(),
             )
 
