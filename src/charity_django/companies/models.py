@@ -145,6 +145,10 @@ class CompanyTypeChoices(models.TextChoices):
         CompanyTypes.UNREGISTERED_COMPANY.value,
         "Unregistered Company",
     )
+    AUTHORISED_COMPANY_SERVICE_PROVIDER = (
+        CompanyTypes.AUTHORISED_COMPANY_SERVICE_PROVIDER.value,
+        "Authorised Company Service Provider",
+    )
 
 
 class AccountTypeChoices(models.TextChoices):

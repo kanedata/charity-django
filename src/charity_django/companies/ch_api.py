@@ -150,6 +150,9 @@ class CompanyTypes(Enum):
     PRIVATE_FUND_LIMITED_PARTNERSHIP = (
         "private-fund-limited-partnership"  # "Private Fund Limited Partnership (PFLP)",
     )
+    AUTHORISED_COMPANY_SERVICE_PROVIDER = (
+        "authorised-company-service-provider"  # "Authorised Company Service Provider",
+    )
 
 
 CLG_TYPES = [
@@ -196,6 +199,7 @@ COMPANY_CATEGORY_LOOKUP = {
     "Further Education and Sixth Form College Corps": CompanyTypes.FURTHER_EDUCATION_OR_SIXTH_FORM_COLLEGE_CORPORATION,
     "Other Company Type": CompanyTypes.OTHER,
     "United Kingdom Societas": CompanyTypes.UNITED_KINGDOM_SOCIETAS,
+    "Authorised Company Service Provider": CompanyTypes.AUTHORISED_COMPANY_SERVICE_PROVIDER,
 }
 
 
