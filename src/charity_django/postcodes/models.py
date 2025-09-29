@@ -2,7 +2,11 @@ import re
 
 from django.db import models
 
-from charity_django.postcodes.codes import OAC11_SUBGROUPS, RURAL_URBAN_IND
+from charity_django.postcodes.codes import (
+    OAC11_SUBGROUPS,
+    RURAL_URBAN_IND11,
+    RURAL_URBAN_IND21,
+)
 
 
 class GeoEntityGroup(models.Model):
@@ -568,6 +572,12 @@ class Postcode(models.Model):
         blank=True,
         verbose_name="2011 Census rural-urban classification",
     )
+    RU21IND = models.CharField(
+        max_length=2,
+        null=True,
+        blank=True,
+        verbose_name="2021 Census rural-urban classification",
+    )
     OAC11 = models.CharField(
         max_length=9,
         null=True,
@@ -721,9 +731,13 @@ class Postcode(models.Model):
         if self.OAC11:
             return " > ".join(OAC11_SUBGROUPS.get(self.OAC11)[::-1])
 
-    def rural_description(self):
+    def rural11_description(self):
         if self.RU11IND:
-            return RURAL_URBAN_IND.get(self.RU11IND)
+            return RURAL_URBAN_IND11.get(self.RU11IND)
+
+    def rural21_description(self):
+        if self.RU21IND:
+            return RURAL_URBAN_IND21.get(self.RU21IND)
 
     def imd_max(self):
         """

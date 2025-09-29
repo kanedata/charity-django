@@ -20,6 +20,58 @@ from charity_django.postcodes.models import (
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+POSTCODE_FILE_FIELDS = {
+    "pcd7": "PCD",
+    "pcd8": "PCD2",
+    "pcds": "PCDS",
+    "dointr": "DOINTR",
+    "doterm": "DOTERM",
+    "usrtypind": "USERTYPE",
+    "east1m": "OSEAST1M",
+    "north1m": "OSNRTH1M",
+    "gridind": "OSGRDIND",
+    "oa21cd": "OA21",
+    "cty25cd": "CTY",
+    "ced25cd": "CED",
+    "lad25cd": "LAUA",
+    "wd25cd": "WARD",
+    "nhser24cd": "NHSER",
+    "ctry25cd": "CTRY",
+    "rgn25cd": "RGN",
+    "pcon24cd": "PCON",
+    "ttwa15cd": "TTWA",
+    "itl25cd": "ITL",
+    "npark16cd": "PARK",
+    "lsoa21cd": "LSOA21",
+    "msoa21cd": "MSOA21",
+    "wz11cd": "WZ11",
+    "sicbl24cd": "SICBL",
+    "bua24cd": "BUA11",
+    "ruc21ind": "RU21IND",
+    "oac11ind": "OAC11",
+    "lat": "LAT",
+    "long": "LONG",
+    "lep21cd1": "LEP1",
+    "lep21cd2": "LEP2",
+    "pfa23cd": "PFA",
+    "imd20ind": "IMD",
+    "icb23cd": "ICB",
+}
+
+
+"""
+Fields no longer included:
+- HLTHAU
+- EER
+- TECLEC
+- LSOA11
+- MSOA11
+- PCT
+- BUASD11
+- CALNCV
+- OA11
+"""
+
 
 class Command(BaseCommand):
     bulk_limit = 50_000
@@ -102,6 +154,20 @@ class Command(BaseCommand):
                             reader = csv.DictReader(
                                 TextIOWrapper(csv_file, "utf-8-sig")
                             )
+                            if reader.fieldnames != list(POSTCODE_FILE_FIELDS.keys()):
+                                mismatch = []
+                                for field in reader.fieldnames:
+                                    if field not in POSTCODE_FILE_FIELDS:
+                                        mismatch.append(f"Extra field: {field}")
+                                for field in POSTCODE_FILE_FIELDS:
+                                    if field not in reader.fieldnames:
+                                        mismatch.append(f"Missing field: {field}")
+                                msg = "Field mismatch: {}".format("\n".join(mismatch))
+                                raise ValueError(msg)
+                            reader.fieldnames = [
+                                POSTCODE_FILE_FIELDS[f] for f in reader.fieldnames
+                            ]
+
                             for index, row in tqdm.tqdm(enumerate(reader)):
                                 self.parse_row(row)
                                 record_count += 1

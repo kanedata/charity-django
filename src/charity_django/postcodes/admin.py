@@ -177,12 +177,14 @@ class PostcodeAdmin(admin.ModelAdmin):
 
     @admin.display(description="Rural-Urban Classification")
     def rural_description(self, obj):
-        if obj.RU11IND:
-            rural = obj.rural_description()
+        rural = obj.rural21_description()
+        if rural and len(rural) == 3:
             return format_html(
                 "{} ({})</div><div class='help'>{}",
                 *rural,
             )
+        else:
+            return obj.RU21IND
 
     @admin.display(description="Index of Multiple Deprivation (IMD)")
     def index_of_multiple_deprivation(self, obj):

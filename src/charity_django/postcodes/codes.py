@@ -214,7 +214,7 @@ OAC11_SUBGROUPS = {
 }
 
 
-RURAL_URBAN_IND = {
+RURAL_URBAN_IND11 = {
     "A1": [
         "Urban major conurbation",
         "England and Wales",
@@ -297,4 +297,27 @@ RURAL_URBAN_IND = {
         "Scotland",
         "Settlement of less than 3,000 people, with a drive time of over 60 minutes to a settlement of 10,000 or more",
     ],
+}
+
+RURAL_URBAN_IND21 = {
+    "RLF1": [
+        "Larger rural: Further from a major town or city",
+        "England and Wales",
+        "",
+    ],
+    "RLN1": ["Larger rural: Nearer to a major town or city", "England and Wales", ""],
+    "RSF1": [
+        "Smaller rural: Further from a major town or city",
+        "England and Wales",
+        "",
+    ],
+    "RSN1": ["Smaller rural: Nearer to a major town or city", "England and Wales", ""],
+    "UF1": ["Urban: Further from a major town or city", "England and Wales", ""],
+    "UN1": ["Urban: Nearer to a major town or city", "England and Wales", ""],
+    "1": ["Large Urban Areas", "Scotland", ""],
+    "2": ["Other Urban Areas", "Scotland", ""],
+    "3": ["Accessible Small Towns", "Scotland", ""],
+    "4": ["Remote Small Towns", "Scotland", ""],
+    "5": ["Accessible Rural", "Scotland", ""],
+    "6": ["Remote Rural", "Scotland", ""],
 }

@@ -31,7 +31,7 @@ class TestImportPostcodes(TestCase):
 
     def setUp(self):
         GeoCode.objects.create(
-            GEOGCD="E09000033",
+            GEOGCD="E09000007",
         )
 
     def test_set_session(self):
@@ -48,9 +48,9 @@ class TestImportPostcodes(TestCase):
         with requests_mock.Mocker() as m:
             self.mock_csv_downloads(m)
             command.handle(debug=False, cache=False)
-            assert Postcode.objects.count() == 1_000
+            assert Postcode.objects.count() == 2_000
             assert (
-                Postcode.objects.filter(local_authority_id="E09000033").count() == 290
+                Postcode.objects.filter(local_authority_id="E09000007").count() == 112
             )
-            assert Postcode.objects.filter(USERTYPE=1).count() == 399
-            assert Postcode.objects.filter(IMD=8940).count() == 1
+            assert Postcode.objects.filter(USERTYPE=1).count() == 512
+            assert Postcode.objects.filter(IMD=13788).count() == 31
