@@ -573,7 +573,7 @@ class Postcode(models.Model):
         verbose_name="2011 Census rural-urban classification",
     )
     RU21IND = models.CharField(
-        max_length=2,
+        max_length=4,
         null=True,
         blank=True,
         verbose_name="2021 Census rural-urban classification",
