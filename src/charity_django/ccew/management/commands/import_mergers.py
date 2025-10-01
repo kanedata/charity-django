@@ -80,9 +80,12 @@ class Command(BaseCommand):
         # Yorkshire Housing Limited (4038784)
     }
 
-    def logger(self, message, error=False):
-        if error:
+    def logger(self, message, level=logging.INFO):
+        if level == logging.ERROR:
             logger.error(message)
+            return
+        if level == logging.WARNING:
+            logger.warning(message)
             return
         logger.info(message)
 
@@ -136,7 +139,8 @@ class Command(BaseCommand):
                         continue
                 if not parsed_value:
                     self.logger(
-                        "Could not parse date: {}".format(date_value), error=True
+                        "Could not parse date: {}".format(date_value),
+                        level=logging.WARNING,
                     )
                 record[f] = parsed_value
 
@@ -206,7 +210,7 @@ class Command(BaseCommand):
                             original_field,
                             regno.groups(),
                         ),
-                        error=True,
+                        level=logging.WARNING,
                     )
                     continue
                 row[f"{field}_regno"] = self.charity_number_typos.get(
@@ -227,7 +231,10 @@ class Command(BaseCommand):
                 )
 
                 if not row[field]:
-                    self.logger(f"Could not find charity: {original_field}", error=True)
+                    self.logger(
+                        f"Could not find charity: {original_field}",
+                        level=logging.WARNING,
+                    )
 
         return row
 

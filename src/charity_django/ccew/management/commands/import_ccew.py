@@ -78,9 +78,12 @@ class Command(BaseCommand):
     def _get_db(self):
         return router.db_for_write(Charity)
 
-    def logger(self, message, error=False):
-        if error:
+    def logger(self, message, level=logging.INFO):
+        if level == logging.ERROR:
             logger.error(message)
+            return
+        if level == logging.WARNING:
+            logger.warning(message)
             return
         logger.info(message)
 
