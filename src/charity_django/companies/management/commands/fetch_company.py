@@ -56,6 +56,7 @@ class Command(BaseCommand):
                 continue
             self.logger(f"Fetched data for company {company_number}: {data}")
 
+            now = datetime.now()
             updates = dict(
                 CompanyName=check_value(data.get("company_name")),
                 RegAddress_CareOf=check_value(
@@ -131,7 +132,6 @@ class Command(BaseCommand):
             if new_category != "converted-or-closed":
                 updates["CompanyCategory"] = new_category
 
-            now = datetime.now()
             company, created = Company.objects.update_or_create(
                 CompanyNumber=company_number, defaults=updates
             )
