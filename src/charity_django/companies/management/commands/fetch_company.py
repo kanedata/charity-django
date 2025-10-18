@@ -12,6 +12,7 @@ from charity_django.companies.models import Company, SICCode
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 class Command(BaseCommand):
     help = "Fetches company data from external API"
 
@@ -48,7 +49,10 @@ class Command(BaseCommand):
             try:
                 data = api.get_company(company_number)
             except HTTPError as e:
-                self.logger(f"Failed to fetch data for company {company_number}: {e}", error=True)
+                self.logger(
+                    f"Failed to fetch data for company {company_number}: {e}",
+                    error=True,
+                )
                 continue
             self.logger(f"Fetched data for company {company_number}: {data}")
 
@@ -97,9 +101,7 @@ class Command(BaseCommand):
                     data.get("accounts", {}).get("next_accounts", {}).get("due_on")
                 ),
                 Accounts_LastMadeUpDate=check_value(
-                    data.get("accounts", {})
-                    .get("last_accounts", {})
-                    .get("made_up_to")
+                    data.get("accounts", {}).get("last_accounts", {}).get("made_up_to")
                 ),
                 Accounts_AccountCategory=check_value(
                     data.get("accounts", {}).get("last_accounts", {}).get("type")
@@ -124,7 +126,6 @@ class Command(BaseCommand):
                 ),
                 last_updated=now,
             )
-            
 
             new_category = check_value(data.get("subtype", data.get("type")))
             if new_category != "converted-or-closed":
@@ -132,8 +133,7 @@ class Command(BaseCommand):
 
             now = datetime.now()
             company, created = Company.objects.update_or_create(
-                CompanyNumber=company_number,
-                defaults=updates
+                CompanyNumber=company_number, defaults=updates
             )
             self.logger(f"Company created/updated: {company}")
 
