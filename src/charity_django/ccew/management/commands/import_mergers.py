@@ -131,6 +131,9 @@ class Command(BaseCommand):
             elif f in self.date_fields and isinstance(record[f], str):
                 parsed_value = None
                 date_value = record.get(f)[0:10].strip()
+                if date_value == "N/A":
+                    record[f] = None
+                    continue
                 for date_format in self.date_formats:
                     try:
                         parsed_value = datetime.strptime(date_value, date_format)
