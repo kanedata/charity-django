@@ -219,7 +219,7 @@ class Command(BaseCommand):
         bool_fields = [
             f.name for f in db_table._meta.fields if isinstance(f, BooleanField)
         ]
-        page_size = 1000
+        page_size = 1_000
 
         self.get_sample_charity_numbers(csvfile)
 

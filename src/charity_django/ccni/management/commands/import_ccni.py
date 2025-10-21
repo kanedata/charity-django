@@ -23,7 +23,7 @@ logger.setLevel(logging.INFO)
 
 class Command(BaseCommand):
     help = "Import CCNI data from a zip file"
-    page_size = 10000
+    page_size = 10_000
 
     base_url = "https://www.charitycommissionni.org.uk/umbraco/api/charityApi/ExportSearchResultsToCsv/?include=Linked&include=Removed"
 

@@ -196,7 +196,7 @@ class Charity(models.Model):
 
     @property
     def org_id(self):
-        return f"GB-CHC-{self.reg_charity_number}"
+        return f"GB-NIC-{self.reg_charity_number}"
 
     def __str__(self) -> str:
         return f"{self.charity_name} [{self.reg_charity_number}]"
