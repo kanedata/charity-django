@@ -41,7 +41,7 @@ insolvency_regex = re.compile(r"\(?subject to insolvency proceedings\)?", re.IGN
 
 class Command(BaseCommand):
     help = "Import OSCR data from a zip file"
-    page_size = 10000
+    page_size = 10_000
 
     base_urls = (
         "https://www.oscr.org.uk/download/charity-register",
