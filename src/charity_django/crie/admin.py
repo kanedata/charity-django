@@ -161,12 +161,12 @@ class CharityAdmin(admin.ModelAdmin):
         return self._output_list(obj.org_ids)
 
     def also_known_as(self, obj):
-        names = [(c.name,) for c in obj.names.exclude(name=obj.registered_charity_name)]
+        names = [c.name for c in obj.names.exclude(name=obj.registered_charity_name)]
         return self._output_list(names)
 
     def _classification_list(self, obj, classification_field: ClassificationTypes):
         classifications = [
-            (c.classification_en,)
+            c.classification_en
             for c in obj.classifications.filter(
                 classification_type=classification_field
             ).order_by("classification_en")
