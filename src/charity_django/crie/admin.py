@@ -98,9 +98,11 @@ class CharityAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
-                    ("registered_charity_number", "org_id"),
+                    "registered_charity_number",
+                    "org_ids",
                     ("registered_charity_name", "also_known_as"),
                     "status",
+                    "latest_activity_description",
                 )
             },
         ),
@@ -131,7 +133,6 @@ class CharityAdmin(admin.ModelAdmin):
                     "latest_financial_year_end",
                     "income",
                     "expenditure",
-                    "latest_activity_description",
                 )
             },
         ),
@@ -147,15 +148,21 @@ class CharityAdmin(admin.ModelAdmin):
         ),
     )
 
-    def also_known_as(self, obj):
-        names = [(c.name,) for c in obj.names.exclude(name=obj.registered_charity_name)]
-        if not names:
+    def _output_list(self, items):
+        if not items:
             return "-"
         return format_html_join(
             "\n",
             "<li>{}</li>",
-            names,
+            ((item,) for item in items),
         )
+
+    def org_ids(self, obj):
+        return self._output_list(obj.org_ids)
+
+    def also_known_as(self, obj):
+        names = [(c.name,) for c in obj.names.exclude(name=obj.registered_charity_name)]
+        return self._output_list(names)
 
     def _classification_list(self, obj, classification_field: ClassificationTypes):
         classifications = [
@@ -164,13 +171,7 @@ class CharityAdmin(admin.ModelAdmin):
                 classification_type=classification_field
             ).order_by("classification_en")
         ]
-        if not classifications:
-            return "-"
-        return format_html_join(
-            "\n",
-            "<li>{}</li>",
-            classifications,
-        )
+        return self._output_list(classifications)
 
     def charitable_purposes(self, obj):
         return self._classification_list(obj, ClassificationTypes.CHARITABLE_PURPOSE)

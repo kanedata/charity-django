@@ -429,6 +429,16 @@ class Command(BaseCommand):
         )
         self.logger("Finished importing annual report classifications.")
 
+    def extract_website(self, text: str) -> str | None:
+        import re
+
+        # Simple regex to find URLs in the text
+        url_pattern = re.compile(r"(https?://[^\s]+)")
+        match = url_pattern.search(text)
+        if match:
+            return match.group(0)
+        return None
+
     def update_latest_financial_years(self) -> None:
         # Update the latest financial years for all charities
         latest_fy = (
@@ -447,15 +457,23 @@ class Command(BaseCommand):
                 charity_id=latest_fy["charity_id"],
                 period_end_date=latest_fy["max_fyend"],
             )
-            Charity.objects.filter(
-                registered_charity_number=latest_fy["charity_id"]
-            ).update(
+
+            updates = dict(
                 latest_financial_year_end=latest_fy["max_fyend"],
                 latest_income=latest.gross_income,
                 latest_expenditure=latest.gross_expenditure,
                 latest_activity_description=latest.activity_description,
                 latest_activity_description_ga=latest.activity_description_ga,
             )
+
+            # look for a website in the latest_activity_description field
+            website = self.extract_website(latest.activity_description)
+            if website:
+                updates["website"] = website
+
+            Charity.objects.filter(
+                registered_charity_number=latest_fy["charity_id"]
+            ).update(**updates)
             Charity.classifications.through.objects.filter(
                 charityclassificationcategory_id__in=classifications_to_update
             ).delete()

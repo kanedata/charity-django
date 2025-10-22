@@ -213,6 +213,11 @@ class Charity(models.Model):
         null=True,
         blank=True,
     )
+    website = models.URLField(
+        verbose_name="Website",
+        null=True,
+        blank=True,
+    )
 
     classifications = models.ManyToManyField(
         "CharityClassificationCategory",
@@ -225,6 +230,13 @@ class Charity(models.Model):
     @property
     def org_id(self):
         return f"IE-CHY-{self.registered_charity_number}"
+
+    @property
+    def org_ids(self):
+        org_ids = [f"IE-CHY-{self.registered_charity_number}"]
+        if self.cro_number:
+            org_ids.append(f"IE-CRO-{self.cro_number}")
+        return org_ids
 
     def __str__(self) -> str:
         return f"{self.registered_charity_name} [{self.registered_charity_number}]"
