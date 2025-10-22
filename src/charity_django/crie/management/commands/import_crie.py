@@ -340,6 +340,7 @@ class Command(BaseCommand):
         self.logger("Importing annual reports...")
         # import Annual Reports sheet
         self.classifications: set[tuple[str, ClassificationTypes]] = set()
+        accounts_seen = set()
 
         def generate_annual_reports():
             headers = [cell.value.strip() if cell.value else None for cell in ws[2]]
@@ -363,6 +364,13 @@ class Command(BaseCommand):
                             self._get_classification_category(c[0], c[1]),
                         )
                     )
+
+                key = (record["charity_id"], record["period_end_date"].date())
+                if key in accounts_seen:
+                    print("Duplicate account for", key)
+                    continue
+                accounts_seen.add(key)
+
                 yield CharityFinancialYear(
                     **{
                         key: value
