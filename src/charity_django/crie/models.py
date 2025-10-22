@@ -135,7 +135,7 @@ class CharityClassificationCategory(models.Model):
 
 
 class Charity(models.Model):
-    registered_charity_number = models.IntegerField(
+    registered_charity_number = models.BigIntegerField(
         verbose_name="Registered Charity Number",
         primary_key=True,
     )
@@ -191,13 +191,13 @@ class Charity(models.Model):
         blank=True,
         db_index=True,
     )
-    latest_income = models.IntegerField(
+    latest_income = models.BigIntegerField(
         verbose_name="Latest Income",
         null=True,
         blank=True,
         db_index=True,
     )
-    latest_expenditure = models.IntegerField(
+    latest_expenditure = models.BigIntegerField(
         verbose_name="Latest Expenditure",
         null=True,
         blank=True,
@@ -292,77 +292,77 @@ class CharityFinancialYear(models.Model):
         null=True,
         blank=True,
     )
-    income_government_or_local_authorities = models.IntegerField(
+    income_government_or_local_authorities = models.BigIntegerField(
         verbose_name="Income: Government or Local Authorities",
         null=True,
         blank=True,
     )
-    income_other_public_bodies = models.IntegerField(
+    income_other_public_bodies = models.BigIntegerField(
         verbose_name="Income: Other Public Bodies",
         null=True,
         blank=True,
     )
-    income_philantrophic_organisations = models.IntegerField(
+    income_philantrophic_organisations = models.BigIntegerField(
         verbose_name="Income: Philantrophic Organisations",
         null=True,
         blank=True,
     )
-    income_donations = models.IntegerField(
+    income_donations = models.BigIntegerField(
         verbose_name="Income: Donations",
         null=True,
         blank=True,
     )
-    income_trading_and_commercial_activities = models.IntegerField(
+    income_trading_and_commercial_activities = models.BigIntegerField(
         verbose_name="Income: Trading and Commercial Activities",
         null=True,
         blank=True,
     )
-    income_other_sources = models.IntegerField(
+    income_other_sources = models.BigIntegerField(
         verbose_name="Income: Other Sources",
         null=True,
         blank=True,
     )
-    income_bequests = models.IntegerField(
+    income_bequests = models.BigIntegerField(
         verbose_name="Income: Bequests",
         null=True,
         blank=True,
     )
-    gross_income = models.IntegerField(
+    gross_income = models.BigIntegerField(
         verbose_name="Gross Income",
         null=True,
         blank=True,
     )
-    gross_expenditure = models.IntegerField(
+    gross_expenditure = models.BigIntegerField(
         verbose_name="Gross Expenditure",
         null=True,
         blank=True,
     )
-    surplus_deficit_for_the_period = models.IntegerField(
+    surplus_deficit_for_the_period = models.BigIntegerField(
         verbose_name="Surplus / (Deficit) for the Period",
         null=True,
         blank=True,
     )
-    cash_at_hand_and_in_bank = models.IntegerField(
+    cash_at_hand_and_in_bank = models.BigIntegerField(
         verbose_name="Cash at Hand and in Bank",
         null=True,
         blank=True,
     )
-    other_assets = models.IntegerField(
+    other_assets = models.BigIntegerField(
         verbose_name="Other Assets",
         null=True,
         blank=True,
     )
-    total_assets = models.IntegerField(
+    total_assets = models.BigIntegerField(
         verbose_name="Total Assets",
         null=True,
         blank=True,
     )
-    total_liabilities = models.IntegerField(
+    total_liabilities = models.BigIntegerField(
         verbose_name="Total Liabilities",
         null=True,
         blank=True,
     )
-    net_assets_liabilities = models.IntegerField(
+    net_assets_liabilities = models.BigIntegerField(
         verbose_name="Net Assets / (Liabilities)",
         null=True,
         blank=True,
@@ -388,12 +388,12 @@ class CharityFinancialYear(models.Model):
         blank=True,
         choices=EmployeeBand.choices,
     )
-    number_of_full_time_employees = models.IntegerField(
+    number_of_full_time_employees = models.BigIntegerField(
         verbose_name="Number of Full-Time Employees",
         null=True,
         blank=True,
     )
-    number_of_part_time_employees = models.IntegerField(
+    number_of_part_time_employees = models.BigIntegerField(
         verbose_name="Number of Part-Time Employees",
         null=True,
         blank=True,
