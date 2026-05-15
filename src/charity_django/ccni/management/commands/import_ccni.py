@@ -62,7 +62,7 @@ class Command(BaseCommand):
             r = self.session.get(self.base_url, verify=False)
         r.raise_for_status()
 
-        file = io.StringIO(r.content.decode("latin1"))
+        file = io.StringIO(r.content.decode("utf-8"))
         reader = csv.DictReader(file)
         for k, row in enumerate(reader):
             self.add_charity(row)
