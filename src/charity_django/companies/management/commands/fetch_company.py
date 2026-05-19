@@ -51,6 +51,7 @@ class Command(BaseCommand):
         logger.info(message)
 
     def handle(self, *args, **kwargs):
+        self.log_level = kwargs["log_level"]
         self.logger("Fetching company data...")
         api = CompaniesHouseAPI(kwargs["api_key"])
 
