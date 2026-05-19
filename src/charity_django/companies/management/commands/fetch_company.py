@@ -29,10 +29,24 @@ class Command(BaseCommand):
             help="API key to use for fetching data",
             default=os.getenv("CH_API_KEY"),
         )
+        parser.add_argument(
+            "--log-level",
+            type=str,
+            choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+            default="ERROR",
+            help="Set the logging level for any error messages",
+        )
 
     def logger(self, message, error=False):
         if error:
-            logger.error(message)
+            if self.log_level == "DEBUG":
+                logger.debug(message)
+            elif self.log_level == "INFO":
+                logger.info(message)
+            elif self.log_level == "WARNING":
+                logger.warning(message)
+            else:
+                logger.error(message)
             return
         logger.info(message)
 
