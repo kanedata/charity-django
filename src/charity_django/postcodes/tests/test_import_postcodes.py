@@ -23,7 +23,7 @@ class TestImportPostcodes(TestCase):
                 f"{GEOPORTAL_API_URL}?q=PRD_NSPL&sortBy=-properties.created",
                 content=a.read(),
             )
-        with open(os.path.join(dirname, "data", "NSPL_2021_TEST.zip"), "rb") as a:
+        with open(os.path.join(dirname, "data", "NSPL_MAY_2026_TEST.zip"), "rb") as a:
             m.get(
                 GEOPORTAL_DATA_URL.format("077631e063eb4e1ab43575d01381ec33"),
                 content=a.read(),
@@ -31,7 +31,7 @@ class TestImportPostcodes(TestCase):
 
     def setUp(self):
         GeoCode.objects.create(
-            GEOGCD="E09000007",
+            GEOGCD="E06000065",
         )
 
     def test_set_session(self):
@@ -50,7 +50,7 @@ class TestImportPostcodes(TestCase):
             command.handle(debug=False, cache=False)
             assert Postcode.objects.count() == 2_000
             assert (
-                Postcode.objects.filter(local_authority_id="E09000007").count() == 112
+                Postcode.objects.filter(local_authority_id="E06000065").count() == 200
             )
-            assert Postcode.objects.filter(USERTYPE=1).count() == 512
-            assert Postcode.objects.filter(IMD=13788).count() == 31
+            assert Postcode.objects.filter(USERTYPE=1).count() == 494
+            assert Postcode.objects.filter(IMD=13716).count() == 26
