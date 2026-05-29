@@ -45,7 +45,7 @@ POSTCODE_FILE_FIELDS = {
     "lsoa21cd": "LSOA21",
     "msoa21cd": "MSOA21",
     "wz11cd": "WZ11",
-    "sicbl24cd": "SICBL",
+    "sicbl26cd": "SICBL",
     "bua24cd": "BUA11",
     "ruc21ind": "RU21IND",
     "oac11ind": "OAC11",
@@ -55,7 +55,7 @@ POSTCODE_FILE_FIELDS = {
     "lep21cd2": "LEP2",
     "pfa23cd": "PFA",
     "imd20ind": "IMD",
-    "icb23cd": "ICB",
+    "icb26cd": "ICB",
 }
 
 
