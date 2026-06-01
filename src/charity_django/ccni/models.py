@@ -1,5 +1,7 @@
 from django.db import models
 
+from charity_django.utils.numbers import scale, scale_value, scale_value_format
+
 
 class ClassificationTypes(models.TextChoices):
     """Classification types"""
@@ -176,6 +178,13 @@ class Charity(models.Model):
         blank=True,
     )
 
+    class Meta:
+        verbose_name = "Charity in Northern Ireland"
+        verbose_name_plural = "Charities in Northern Ireland"
+
+    def __str__(self) -> str:
+        return f"{self.charity_name} [{self.reg_charity_number}]"
+
     @property
     def what_the_charity_does(self):
         return self.classifications.filter(
@@ -198,12 +207,183 @@ class Charity(models.Model):
     def org_id(self):
         return f"GB-NIC-{self.reg_charity_number}"
 
-    def __str__(self) -> str:
-        return f"{self.charity_name} [{self.reg_charity_number}]"
+    @property
+    def scale(self):
+        return scale(
+            [
+                self.total_income,
+                self.total_expenditure,
+                self.total_net_assets_and_liabilities,
+            ]
+        )
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
+
+
+class CharityFinancialYear(models.Model):
+    charity = models.ForeignKey(
+        Charity,
+        on_delete=models.CASCADE,
+        related_name="financial_years",
+        verbose_name="Charity",
+        db_constraint=False,
+    )
+    date_for_financial_year_ending = models.DateField(
+        verbose_name="Date for financial year ending", null=True, blank=True
+    )
+    total_income = models.BigIntegerField(
+        verbose_name="Total income", null=True, blank=True
+    )
+    total_spending = models.BigIntegerField(
+        verbose_name="Total spending", null=True, blank=True
+    )
+    charitable_spending = models.BigIntegerField(
+        verbose_name="Charitable spending", null=True, blank=True
+    )
+    income_generation_and_governance = models.BigIntegerField(
+        verbose_name="Income generation and governance", null=True, blank=True
+    )
+    financial_period_start = models.DateField(
+        verbose_name="Financial period start",
+        null=True,
+        blank=True,
+    )
+    financial_period_end = models.DateField(
+        verbose_name="Financial period end",
+        null=True,
+        blank=True,
+    )
+    total_income_previous_financial_period = models.IntegerField(
+        verbose_name="Total income. Previous financial period.",
+        null=True,
+        blank=True,
+    )
+    employed_staff = models.IntegerField(
+        verbose_name="Employed staff",
+        null=True,
+        blank=True,
+    )
+    uk_and_ireland_volunteers = models.IntegerField(
+        verbose_name="UK and Ireland volunteers",
+        null=True,
+        blank=True,
+    )
+    income_from_donations_and_legacies = models.IntegerField(
+        verbose_name="Income from donations and legacies",
+        null=True,
+        blank=True,
+    )
+    income_from_charitable_activities = models.IntegerField(
+        verbose_name="Income from charitable activities",
+        null=True,
+        blank=True,
+    )
+    income_from_other_trading_activities = models.IntegerField(
+        verbose_name="Income from other trading activities",
+        null=True,
+        blank=True,
+    )
+    income_from_investments = models.IntegerField(
+        verbose_name="Income from investments",
+        null=True,
+        blank=True,
+    )
+    income_from_other = models.IntegerField(
+        verbose_name="Income from other",
+        null=True,
+        blank=True,
+    )
+    total_income_and_endowments = models.IntegerField(
+        verbose_name="Total income and endowments",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_raising_funds = models.IntegerField(
+        verbose_name="Expenditure on Raising funds",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_charitable_activities = models.IntegerField(
+        verbose_name="Expenditure on Charitable activities",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_governance = models.IntegerField(
+        verbose_name="Expenditure on Governance",
+        null=True,
+        blank=True,
+    )
+    expenditure_on_other = models.IntegerField(
+        verbose_name="Expenditure on Other",
+        null=True,
+        blank=True,
+    )
+    total_expenditure = models.IntegerField(
+        verbose_name="Total expenditure",
+        null=True,
+        blank=True,
+    )
+    assets_and_liabilities_total_fixed_assets = models.IntegerField(
+        verbose_name="Assets and liabilities - Total fixed assets",
+        null=True,
+        blank=True,
+    )
+    total_net_assets_and_liabilities = models.IntegerField(
+        verbose_name="Total net assets and liabilities",
+        null=True,
+        blank=True,
+    )
 
     class Meta:
-        verbose_name = "Charity in Northern Ireland"
-        verbose_name_plural = "Charities in Northern Ireland"
+        verbose_name = "Charity Financial Year"
+        verbose_name_plural = "Charity Financial Years"
+        unique_together = (("charity_id", "date_for_financial_year_ending"),)
+
+    @property
+    def scale(self):
+        return scale(
+            [
+                self.total_income,
+                self.total_spending,
+                self.total_net_assets_and_liabilities,
+            ]
+        )
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
 
 
 class CharityClassification(models.Model):

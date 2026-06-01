@@ -1,5 +1,7 @@
 from django.db import models
 
+from charity_django.utils.numbers import scale, scale_value, scale_value_format
+
 
 class ClassificationTypes(models.TextChoices):
     """Classification types"""
@@ -198,6 +200,13 @@ class Charity(models.Model):
         verbose_name="Regulatory Type",
     )
 
+    class Meta:
+        verbose_name = "Charity in Scotland"
+        verbose_name_plural = "Charities in Scotland"
+
+    def __str__(self):
+        return f"{self.charity_name} [{self.charity_number}]"
+
     @property
     def purposes(self):
         return self.classifications.filter(
@@ -220,12 +229,28 @@ class Charity(models.Model):
     def org_id(self):
         return f"GB-SC-{self.charity_number}"
 
-    def __str__(self):
-        return f"{self.charity_name} [{self.charity_number}]"
+    @property
+    def scale(self):
+        return scale([self.most_recent_year_income, self.most_recent_year_expenditure])
 
-    class Meta:
-        verbose_name = "Charity in Scotland"
-        verbose_name_plural = "Charities in Scotland"
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
 
 
 class CharityFinancialYear(models.Model):
@@ -314,6 +339,29 @@ class CharityFinancialYear(models.Model):
         verbose_name = "Charity Financial Year"
         verbose_name_plural = "Charity Financial Years"
         unique_together = (("charity_id", "year_end"),)
+
+    @property
+    def scale(self):
+        return scale([self.most_recent_year_income, self.most_recent_year_expenditure])
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
 
 
 class CharityClassification(models.Model):

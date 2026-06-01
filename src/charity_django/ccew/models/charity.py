@@ -1,5 +1,6 @@
 from django.db import models
 
+from charity_django.utils.numbers import scale, scale_value, scale_value_format
 from charity_django.utils.text import to_titlecase
 
 from .choices import (
@@ -382,6 +383,29 @@ class Charity(models.Model):
                         m.date_property_transferred,
                     ),
                 )
+
+    @property
+    def scale(self):
+        return scale([self.latest_income, self.latest_expenditure])
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
 
     class Meta:
         verbose_name = "Charity in England and Wales"

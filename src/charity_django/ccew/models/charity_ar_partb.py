@@ -1,5 +1,7 @@
 from django.db import models
 
+from charity_django.utils.numbers import scale, scale_value, scale_value_format
+
 from .charity import Charity
 
 
@@ -255,6 +257,16 @@ class CharityARPartB(models.Model):
         help_text="Consolidated accounts bring together the resources of the charity and the subsidiaries under its control in one statement. These subsidiaries may be non-charitable and to exist for purposes that benefit the parent charity e.g. fund-raising. If set to 1 the accounts are consolidated.",
     )
 
+    class Meta:
+        verbose_name = "Annual Return - Part B"
+        verbose_name_plural = "Annual Return - Part B"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["charity", "fin_period_end_date"],
+                name="unique_ar_partb",
+            ),
+        ]
+
     @property
     def income_donations(self):
         return (self.income_donations_and_legacies or 0) - (
@@ -299,43 +311,29 @@ class CharityARPartB(models.Model):
 
     @property
     def scale(self):
-        max_value = max(
-            abs((self.income_total_income_and_endowments or 0)),
-            abs((self.expenditure_total or 0)),
-            abs((self.funds_total or 0)),
+        return scale(
+            [
+                self.income_total_income_and_endowments,
+                self.expenditure_total,
+                self.funds_total,
+            ]
         )
-        if max_value > 10_000_000:
-            return 1_000_000
-        if max_value > 10_000:
-            return 1_000
-        return 1
 
     def scale_value(self, attr):
         if isinstance(attr, (float, int)):
             value = attr
         else:
             value = getattr(self, attr) or 0
-        return value / self.scale
+        return scale_value(value, self.scale)
 
     def scale_value_format(self, attr, with_currency=True, if_zero="-"):
-        prefix = "£" if with_currency else ""
-        suffix = ""
-        if self.scale == 1_000_000:
-            suffix = "m"
-        elif self.scale == 1_000:
-            suffix = "k"
-        format_str = "{:,.1f}" if self.scale > 1 else "{:,.0f}"
-        value = self.scale_value(attr)
-        if value == 0 and if_zero:
-            return if_zero
-        return prefix + format_str.format(value) + suffix
-
-    class Meta:
-        verbose_name = "Annual Return - Part B"
-        verbose_name_plural = "Annual Return - Part B"
-        constraints = [
-            models.UniqueConstraint(
-                fields=["charity", "fin_period_end_date"],
-                name="unique_ar_partb",
-            ),
-        ]
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )

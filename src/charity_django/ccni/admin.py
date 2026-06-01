@@ -1,12 +1,17 @@
 from django.contrib import admin
 from django.utils.html import format_html_join
 
-from charity_django.ccni.models import Charity
+from charity_django.ccni.models import Charity, CharityFinancialYear
 from charity_django.utils.admin import CharitySizeListFilter
 
 
 class CCNICharitySizeListFilter(CharitySizeListFilter):
     recent_income_field = "total_income"
+
+
+class CharityFinancialYearInline(admin.TabularInline):
+    exclude = []
+    model = CharityFinancialYear
 
 
 class CharityAdmin(admin.ModelAdmin):
@@ -25,6 +30,31 @@ class CharityAdmin(admin.ModelAdmin):
         "charity_name",
         "reg_charity_number",
     )
+    inlines = [
+        CharityFinancialYearInline,
+    ]
+    exclude = [
+        "charitable_spending",
+        "income_generation_and_governance",
+        "financial_period_start",
+        "financial_period_end",
+        "total_income_previous_financial_period",
+        "employed_staff",
+        "uk_and_ireland_volunteers",
+        "income_from_donations_and_legacies",
+        "income_from_charitable_activities",
+        "income_from_other_trading_activities",
+        "income_from_investments",
+        "income_from_other",
+        "total_income_and_endowments",
+        "expenditure_on_raising_funds",
+        "expenditure_on_charitable_activities",
+        "expenditure_on_governance",
+        "expenditure_on_other",
+        "total_expenditure",
+        "assets_and_liabilities_total_fixed_assets",
+        "total_net_assets_and_liabilities",
+    ]
     readonly_fields = (
         "org_id",
         "what_the_charity_does",

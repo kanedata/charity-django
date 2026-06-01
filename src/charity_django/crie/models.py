@@ -1,5 +1,7 @@
 from django.db import models
 
+from charity_django.utils.numbers import scale, scale_value, scale_value_format
+
 # Report Activity
 # Beneficiaries
 
@@ -227,6 +229,13 @@ class Charity(models.Model):
         db_constraint=False,
     )
 
+    class Meta:
+        verbose_name = "Charity in Ireland"
+        verbose_name_plural = "Charities in Ireland"
+
+    def __str__(self) -> str:
+        return f"{self.registered_charity_name} [{self.registered_charity_number}]"
+
     @property
     def org_id(self):
         return f"IE-CHY-{self.registered_charity_number}"
@@ -238,12 +247,28 @@ class Charity(models.Model):
             org_ids.append(f"IE-CRO-{self.cro_number}")
         return org_ids
 
-    def __str__(self) -> str:
-        return f"{self.registered_charity_name} [{self.registered_charity_number}]"
+    @property
+    def scale(self):
+        return scale([self.latest_income, self.latest_expenditure])
 
-    class Meta:
-        verbose_name = "Charity in Ireland"
-        verbose_name_plural = "Charities in Ireland"
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )
 
 
 class CharityName(models.Model):
@@ -426,3 +451,32 @@ class CharityFinancialYear(models.Model):
 
     def __str__(self) -> str:
         return f"{self.charity.registered_charity_name} [{self.charity.registered_charity_number}] - FY ended {self.period_end_date}"
+
+    @property
+    def scale(self):
+        return scale(
+            [
+                self.gross_income,
+                self.gross_expenditure,
+                self.net_assets_liabilities,
+            ]
+        )
+
+    def scale_value(self, attr):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value(value, self.scale)
+
+    def scale_value_format(self, attr, with_currency=True, if_zero="-"):
+        if isinstance(attr, (float, int)):
+            value = attr
+        else:
+            value = getattr(self, attr) or 0
+        return scale_value_format(
+            value,
+            self.scale,
+            with_currency=with_currency,
+            if_zero=if_zero,
+        )

@@ -14,6 +14,7 @@ from django.utils.text import slugify
 from charity_django.ccni.models import (
     Charity,
     CharityClassification,
+    CharityFinancialYear,
     ClassificationTypes,
 )
 
@@ -175,33 +176,39 @@ class Command(BaseCommand):
                 )
                 self.logger("Sampled {:,.0f} charities".format(len(self.charities)))
 
-            for object in [Charity, CharityClassification]:
+            for object in [Charity, CharityClassification, CharityFinancialYear]:
                 # delete existing charities
-                self.logger(
-                    "Deleting existing objects [{}]".format(object._meta.db_table)
-                )
-                object.objects.all().delete()
+                if object.__name__ in ("CharityClassification", "Charity"):
+                    self.logger(
+                        "Deleting existing objects [{}]".format(object._meta.db_table)
+                    )
+                    object.objects.all().delete()
 
                 # get field names
                 fields = list(f.name for f in object._meta.fields if f.name != "id")
+                fields = ["charity_id" if f == "charity" else f for f in fields]
+                fields_to_find = [
+                    "reg_charity_number" if f == "charity_id" else f for f in fields
+                ]
 
                 if object.__name__ == "CharityClassification":
                     values = tuple(self.charity_classification)
                     fields = ["charity_id", "classification_type", "classification"]
                 else:
                     values = tuple(
-                        tuple(c.get(f) for f in fields) for c in self.charities
+                        tuple(c.get(f) for f in fields_to_find) for c in self.charities
                     )
 
                 # validate the first 10 charities
-                for c in values[:20]:
-                    d = dict(zip(fields, c))
-                    o = object(**d)
-                    try:
-                        o.full_clean(exclude=["website", "email"])
-                    except Exception as e:
-                        self.logger("Validation error: {}".format(e), error=True)
-                        raise
+                if object.__name__ == "Charity":
+                    for c in values[:20]:
+                        d = dict(zip(fields, c))
+                        o = object(**d)
+                        try:
+                            o.full_clean(exclude=["website", "email"])
+                        except Exception as e:
+                            self.logger("Validation error: {}".format(e), error=True)
+                            raise
 
                 # insert new charities
                 statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
