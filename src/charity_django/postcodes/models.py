@@ -211,14 +211,15 @@ class GeoCode(models.Model):
     @property
     def parent(self):
         if self.PARENTCD:
-            return GeoCode.objects.get(GEOGCD=self.PARENTCD)
+            return GeoCode.objects.filter(GEOGCD=self.PARENTCD).first()
 
     def get_parents(self):
         parents = []
         parent = self
-        while parent.PARENTCD:
-            parent = GeoCode.objects.get(GEOGCD=parent.PARENTCD)
-            parents.append(parent)
+        while parent and parent.PARENTCD:
+            parent = GeoCode.objects.filter(GEOGCD=parent.PARENTCD).first()
+            if parent:
+                parents.append(parent)
         return parents
 
     def get_children(self):
