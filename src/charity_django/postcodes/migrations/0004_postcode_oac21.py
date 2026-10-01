@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('postcodes', '0003_postcode_ru21ind'),
+        ("postcodes", "0003_postcode_ru21ind"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='postcode',
-            name='OAC21',
-            field=models.CharField(blank=True, max_length=9, null=True, verbose_name='2021 Census Output Area classification (OAC)'),
+            model_name="postcode",
+            name="OAC21",
+            field=models.CharField(
+                blank=True,
+                max_length=9,
+                null=True,
+                verbose_name="2021 Census Output Area classification (OAC)",
+            ),
         ),
     ]
