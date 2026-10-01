@@ -6,6 +6,7 @@ import zipfile
 from collections import defaultdict
 from io import BytesIO, TextIOWrapper
 
+import chardet
 import tqdm
 from django.conf import settings
 from django.db import connections, router, transaction
@@ -92,35 +93,33 @@ class Command(BaseCommand):
             response = self.session.get(data_url)
             zf = zipfile.ZipFile(BytesIO(response.content))
 
-            # change history file
-            for encoding in ("utf-8-sig", "windows-1252"):
-                reader = csv.DictReader(
-                    TextIOWrapper(zf.open("ChangeHistory.csv"), encoding=encoding)
-                )
-                try:
-                    records = {}
-                    for row in tqdm.tqdm(
-                        reader, desc="Reading CSV with encoding {}".format(encoding)
-                    ):
-                        record = self.parse_row(row)
-                        if options.get("include") and record[
-                            "ENTITYCD"
-                        ] not in options.get("include", []):
-                            continue
-                        if options.get("exclude") and record["ENTITYCD"] in options.get(
-                            "exclude", []
-                        ):
-                            continue
+            detector = chardet.UniversalDetector(max_bytes=1024 * 1024 * 1024)
+            for line in zf.open("ChangeHistory.csv"):
+                detector.feed(line)
+            detector.close()
+            encoding = detector.result["encoding"]
 
-                        if record["GEOGCD"] not in records:
-                            records[record["GEOGCD"]] = []
-                        records[record["GEOGCD"]].append(record)
-                    break
-                except UnicodeDecodeError:
-                    logger.warning(
-                        "Failed to read CSV with encoding {}".format(encoding)
-                    )
+            # change history file
+            reader = csv.DictReader(
+                TextIOWrapper(zf.open("ChangeHistory.csv"), encoding=encoding)
+            )
+            records = {}
+            for row in tqdm.tqdm(
+                reader, desc="Reading CSV with encoding {}".format(encoding)
+            ):
+                record = self.parse_row(row)
+                if options.get("include") and record["ENTITYCD"] not in options.get(
+                    "include", []
+                ):
                     continue
+                if options.get("exclude") and record["ENTITYCD"] in options.get(
+                    "exclude", []
+                ):
+                    continue
+
+                if record["GEOGCD"] not in records:
+                    records[record["GEOGCD"]] = []
+                records[record["GEOGCD"]].append(record)
 
             for v in tqdm.tqdm(records.values(), desc="Merging records"):
                 self.merge_records(v)

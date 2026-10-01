@@ -43,6 +43,7 @@ dependencies = [
     "tqdm",
     "openpyxl",
     "certifi>=2023.11.17",
+    "chardet",
 ]
 
 [project.optional-dependencies]
