@@ -4,6 +4,7 @@ import datetime
 import logging
 import re
 import tempfile
+import warnings
 import zipfile
 from collections import defaultdict
 from io import TextIOWrapper
@@ -49,7 +50,7 @@ POSTCODE_FILE_FIELDS = {
     "sicblXXcd": "SICBL",
     "bua24cd": "BUA11",
     "ruc21ind": "RU21IND",
-    # "oac11ind": "OAC11",
+    "oac11ind": "OAC11",
     "oac21ind": "OAC21",
     "lat": "LAT",
     "long": "LONG",
@@ -172,14 +173,19 @@ class Command(BaseCommand):
 
                             reader.fieldnames = new_fieldnames
                             if reader.fieldnames != list(POSTCODE_FILE_FIELDS.keys()):
+                                error = False
                                 for field in reader.fieldnames:
                                     if field not in POSTCODE_FILE_FIELDS:
                                         mismatch.append(f"Extra field: {field}")
+                                        error = True
                                 for field in POSTCODE_FILE_FIELDS:
                                     if field not in reader.fieldnames:
                                         mismatch.append(f"Missing field: {field}")
                                 msg = "Field mismatch: {}".format("\n".join(mismatch))
-                                raise ValueError(msg)
+                                if error:
+                                    raise ValueError(msg)
+                                else:
+                                    warnings.warn(msg)
                             reader.fieldnames = [
                                 POSTCODE_FILE_FIELDS[f] for f in reader.fieldnames
                             ]
