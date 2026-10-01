@@ -2,6 +2,7 @@ import argparse
 import csv
 import datetime
 import logging
+import re
 import tempfile
 import zipfile
 from collections import defaultdict
@@ -31,31 +32,32 @@ POSTCODE_FILE_FIELDS = {
     "north1m": "OSNRTH1M",
     "gridind": "OSGRDIND",
     "oa21cd": "OA21",
-    "cty25cd": "CTY",
-    "ced25cd": "CED",
-    "lad25cd": "LAUA",
-    "wd25cd": "WARD",
-    "nhser24cd": "NHSER",
-    "ctry25cd": "CTRY",
-    "rgn25cd": "RGN",
-    "pcon24cd": "PCON",
-    "ttwa15cd": "TTWA",
-    "itl25cd": "ITL",
-    "npark16cd": "PARK",
+    "ctyXXcd": "CTY",
+    "cedXXcd": "CED",
+    "ladXXcd": "LAUA",
+    "wdXXcd": "WARD",
+    "nhserXXcd": "NHSER",
+    "ctryXXcd": "CTRY",
+    "rgnXXcd": "RGN",
+    "pconXXcd": "PCON",
+    "ttwaXXcd": "TTWA",
+    "itlXXcd": "ITL",
+    "nparkXXcd": "PARK",
     "lsoa21cd": "LSOA21",
     "msoa21cd": "MSOA21",
     "wz11cd": "WZ11",
-    "sicbl26cd": "SICBL",
+    "sicblXXcd": "SICBL",
     "bua24cd": "BUA11",
     "ruc21ind": "RU21IND",
-    "oac11ind": "OAC11",
+    # "oac11ind": "OAC11",
+    "oac21ind": "OAC21",
     "lat": "LAT",
     "long": "LONG",
-    "lep21cd1": "LEP1",
-    "lep21cd2": "LEP2",
-    "pfa23cd": "PFA",
-    "imd20ind": "IMD",
-    "icb26cd": "ICB",
+    "lepXXcd1": "LEP1",
+    "lepXXcd2": "LEP2",
+    "pfaXXcd": "PFA",
+    "imdXXind": "IMD",
+    "icbXXcd": "ICB",
 }
 
 
@@ -154,8 +156,22 @@ class Command(BaseCommand):
                             reader = csv.DictReader(
                                 TextIOWrapper(csv_file, "utf-8-sig")
                             )
+                            new_fieldnames = []
+                            mismatch = []
+
+                            for f in reader.fieldnames:
+                                new_f = f.strip().lower()
+                                new_f_xx = re.sub(r"[0-9]{2}", "XX", new_f)
+                                if new_f in POSTCODE_FILE_FIELDS:
+                                    new_fieldnames.append(new_f)
+                                elif new_f_xx in POSTCODE_FILE_FIELDS:
+                                    new_fieldnames.append(new_f_xx)
+                                else:
+                                    new_fieldnames.append(new_f)
+                                    mismatch.append(f"Unrecognized field: {f}")
+
+                            reader.fieldnames = new_fieldnames
                             if reader.fieldnames != list(POSTCODE_FILE_FIELDS.keys()):
-                                mismatch = []
                                 for field in reader.fieldnames:
                                     if field not in POSTCODE_FILE_FIELDS:
                                         mismatch.append(f"Extra field: {field}")

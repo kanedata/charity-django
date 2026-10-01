@@ -106,7 +106,7 @@ class PostcodeAdmin(admin.ModelAdmin):
             {
                 "fields": [
                     "rural_description",
-                    "oac11_category",
+                    "oac21_category",
                     "index_of_multiple_deprivation",
                 ],
             },
@@ -171,9 +171,9 @@ class PostcodeAdmin(admin.ModelAdmin):
         )
 
     @admin.display(description="Output Area Classification")
-    def oac11_category(self, obj):
-        if obj.OAC11:
-            return f"{obj.OAC11}: {obj.oac11_category()}"
+    def oac21_category(self, obj):
+        if obj.OAC21:
+            return f"{obj.OAC21}: {obj.oac21_category()}"
 
     @admin.display(description="Rural-Urban Classification")
     def rural_description(self, obj):

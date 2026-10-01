@@ -4,6 +4,7 @@ from django.db import models
 
 from charity_django.postcodes.codes import (
     OAC11_SUBGROUPS,
+    OAC21_SUBGROUPS,
     RURAL_URBAN_IND11,
     RURAL_URBAN_IND21,
 )
@@ -585,6 +586,12 @@ class Postcode(models.Model):
         blank=True,
         verbose_name="2011 Census Output Area classification (OAC)",
     )
+    OAC21 = models.CharField(
+        max_length=9,
+        null=True,
+        blank=True,
+        verbose_name="2021 Census Output Area classification (OAC)",
+    )
     LAT = models.FloatField(null=True, blank=True, verbose_name="Latitude")
     LONG = models.FloatField(null=True, blank=True, verbose_name="Longitude")
     local_enterprise_partnership_1 = models.ForeignKey(
@@ -731,6 +738,22 @@ class Postcode(models.Model):
     def oac11_category(self):
         if self.OAC11:
             return " > ".join(OAC11_SUBGROUPS.get(self.OAC11)[::-1])
+
+    def oac21_subgroup(self):
+        if self.OAC21:
+            return OAC21_SUBGROUPS.get(self.OAC21)[0]
+
+    def oac21_group(self):
+        if self.OAC21:
+            return OAC21_SUBGROUPS.get(self.OAC21)[1]
+
+    def oac21_supergroup(self):
+        if self.OAC21:
+            return OAC21_SUBGROUPS.get(self.OAC21)[2]
+
+    def oac21_category(self):
+        if self.OAC21:
+            return " > ".join(OAC21_SUBGROUPS.get(self.OAC21)[::-1])
 
     def rural11_description(self):
         if self.RU11IND:
