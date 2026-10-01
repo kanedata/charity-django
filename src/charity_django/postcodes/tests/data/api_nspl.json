@@ -2,6 +2,127 @@
   "type": "FeatureCollection",
   "features": [
     {
+      "id": "fe956dccb69640a5bac037ab99e5ed67",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-8.7, 61],
+            [2.2, 61],
+            [2.2, 48.3],
+            [-8.7, 48.3],
+            [-8.7, 61]
+          ]
+        ]
+      },
+      "properties": {
+        "snippet": "National Statistics Postcode Lookup (August 2026) for the United Kingdom (Hosted Table)",
+        "extent": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [-8.7, 61],
+              [2.2, 61],
+              [2.2, 48.3],
+              [-8.7, 48.3],
+              [-8.7, 61]
+            ]
+          ]
+        },
+        "commentsEnabled": false,
+        "groupDesignations": null,
+        "access": "public",
+        "apiToken2ExpirationDate": -1,
+        "typeKeywords": [
+          "ArcGIS Server",
+          "Data",
+          "Feature Access",
+          "Feature Service",
+          "Metadata",
+          "Service",
+          "Singlelayer",
+          "Table",
+          "Hosted Service"
+        ],
+        "description": "<p><span style='background-color:rgb(255,255,255); color:rgb(74,74,74); font-family:&quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><span style='display:inline !important; float:none; font-style:normal; font-variant-caps:normal; font-variant-ligatures:normal; font-weight:400; letter-spacing:normal; text-align:start; text-decoration-color:initial; text-decoration-style:initial; text-indent:0px; text-transform:none; word-spacing:0px;'>This is the National Statistics Postcode Lookup (NSPL) for the United Kingdom as at August 2026 in Comma Separated Variable (CSV). &nbsp;This is a new hosted table so can be accessed via API. The NSPL relates both current and terminated postcodes to a range of current statutory geographies via ‘best-fit’ allocation from the 2021 Census Output Areas (national parks and Workplace Zones are exempt from ‘best-fit’ and use ‘exact-fit’ allocations) for England, Wales, Scotland and Northern Ireland. It supports the production of area-based statistics from postcoded data. The NSPL is produced by ONS Geography, who provide geographic support to the Office for National Statistics (ONS) and geographic services used by other organisations. The NSPL is issued quarterly. (File size - 770 MB).</span></span></p>",
+        "licenseInfo": "<a href='https://www.ons.gov.uk/methodology/geography/licences' target='_blank' rel='nofollow ugc noopener noreferrer'>https://www.ons.gov.uk/methodology/geography/licences</a>",
+        "ownerId": "e679da4fe1c4d6eefb67a107158e628f",
+        "title": "National Statistics Postcode Lookup (August 2026) for the United Kingdom (Hosted Table)",
+        "type": "Feature Service",
+        "orgId": "ESMARspQHYMw9BZ9",
+        "screenshots": [],
+        "contentStatus": "public_authoritative",
+        "subInfo": 0,
+        "advancedSettings": null,
+        "appCategories": [],
+        "modified": 1790601810000,
+        "avgRating": 0,
+        "id": "fe956dccb69640a5bac037ab99e5ed67",
+        "categories": [
+          "/Categories/LATEST",
+          "/Categories/Postcode Products/National Statistics Postcode Lookup",
+          "/Categories/ONS Geography Open Data"
+        ],
+        "spatialReference": null,
+        "numRatings": 0,
+        "owner": "ONSGeography_data",
+        "accessInformation": "Office for National Statistics",
+        "largeThumbnail": null,
+        "lastViewed": 1790600400000,
+        "thumbnail": "thumbnail/thumbnail.png",
+        "languages": [],
+        "created": 1789384164000,
+        "documentation": null,
+        "banner": null,
+        "classification": null,
+        "url": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/National_Statistics_Postcode_Lookup_(August_2026)_for_the_United_Kingdom_(Hosted_Table)/FeatureServer",
+        "tags": [
+          "National Statistics Postcode Lookup",
+          "AUG_2026",
+          "Hosted Table",
+          "Latest",
+          "2026",
+          "PRD_NSPL",
+          "Postcode",
+          "Postcodes",
+          "Postcode Products",
+          "United Kingdom"
+        ],
+        "numViews": 6335,
+        "numComments": 0,
+        "size": 2692325376,
+        "listed": false,
+        "scoreCompleteness": 100,
+        "culture": "",
+        "industries": [],
+        "apiToken1ExpirationDate": -1,
+        "name": null,
+        "guid": null,
+        "proxyFilter": null,
+        "properties": {
+          "indexJobUrl": "https://services1.arcgis.com/ESMARspQHYMw9BZ9/ArcGIS/rest/admin/services/National_Statistics_Postcode_Lookup_(August_2026)_for_the_United_Kingdom_(Hosted_Table)/FeatureServer/0/addToDefinition/cb950e90-06b5-4922-8625-3cfb5e4b59b2"
+        },
+        "source": "Office for National Statistics",
+        "license": "custom"
+      },
+      "time": null,
+      "links": [
+        {
+          "rel": "self",
+          "type": "application/geo+json",
+          "title": "This document as GeoJSON",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all/items/fe956dccb69640a5bac037ab99e5ed67"
+        },
+        {
+          "rel": "collection",
+          "type": "application/json",
+          "title": "All",
+          "href": "https://hub.arcgis.com/api/search/v1/collections/all"
+        }
+      ]
+    },
+    {
       "id": "077631e063eb4e1ab43575d01381ec33",
       "type": "Feature",
       "geometry": {
