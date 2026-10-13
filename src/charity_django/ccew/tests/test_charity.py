@@ -1,4 +1,4 @@
-from datetime import date
+import datetime as dt
 
 from django.test import TestCase
 
@@ -145,21 +145,21 @@ class CharityTestCase(TestCase):
         # default gets the latest
         self.assertEqual(
             charity.financials().get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertIsNone(charity.financials().get("partb"))
 
         # so does "latest_financials"
         self.assertEqual(
             charity.latest_financials.get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertIsNone(charity.latest_financials.get("partb"))
 
         # a named date should get the one that covers that date
         self.assertEqual(
             charity.financials("2019-06-01").get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertIsNone(charity.financials("2019-06-01").get("partb"))
 
@@ -177,31 +177,31 @@ class CharityTestCase(TestCase):
         # default gets the latest
         self.assertEqual(
             charity.financials().get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertEqual(
             charity.financials().get("partb").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
 
         # so does "latest_financials"
         self.assertEqual(
             charity.latest_financials.get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertEqual(
             charity.latest_financials.get("partb").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
 
         # a named date should get the one that covers that date
         self.assertEqual(
             charity.financials("2019-06-01").get("parta").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
         self.assertEqual(
             charity.financials("2019-06-01").get("partb").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
 
         # a date outside the range should get None
@@ -231,11 +231,11 @@ class CharityTestCase(TestCase):
         # default gets the latest
         self.assertEqual(
             charity.financials().get("ar").fin_period_end_date,
-            date(2018, 12, 31),
+            dt.date(2018, 12, 31),
         )
         self.assertEqual(
             charity.financials(exclude_null=False).get("ar").fin_period_end_date,
-            date(2019, 12, 31),
+            dt.date(2019, 12, 31),
         )
 
 

@@ -1,7 +1,7 @@
+import datetime as dt
 from dataclasses import dataclass
-from datetime import date as Date
-from datetime import datetime as DateTime
 from enum import Enum
+from typing import Generator, Literal
 
 import requests
 from dateutil.parser import isoparse
@@ -208,8 +208,8 @@ class CompaniesHouseAccount:
     barcode: str  # 'JDCG3G3A',
     category: str  # 'accounts',
     company_number: str  # '01005861',
-    created_at: DateTime  # '2015-01-31T15:33:33.810139814Z',
-    date: Date  # '1999-05-10',
+    created_at: dt.datetime  # '2015-01-31T15:33:33.810139814Z',
+    date: dt.date  # '1999-05-10',
     description_values: dict  # {'made_up_date': '1998-08-31'},
     description: str  # 'accounts-with-made-up-date',
     etag: str  # '',
@@ -218,11 +218,11 @@ class CompaniesHouseAccount:
     pages: int  # 16,
     resources: dict  # {'application/pdf': {'content_length': 312727}}
     significant_date_type: str  # '',
-    significant_date: DateTime  # '1998-08-31T00:00:00Z',
+    significant_date: dt.datetime  # '1998-08-31T00:00:00Z',
     transaction_id: str  # 'MTA4NjgyMzZhZGlxemtjeA',
     type: str  # 'AA',
     paper_filed: bool = None  # True,
-    action_date: Date = None  # '1998-08-31',
+    action_date: dt.date = None  # '1998-08-31',
 
     def __post_init__(self):
         datetime_fields = ["created_at", "significant_date"]
@@ -236,7 +236,7 @@ class CompaniesHouseAccount:
                 )
         for f in date_fields:
             if getattr(self, f, None):
-                setattr(self, f, Date.fromisoformat(getattr(self, f)))
+                setattr(self, f, dt.date.fromisoformat(getattr(self, f)))
 
     def to_json(self):
         values = self.__dict__.copy()
@@ -247,31 +247,42 @@ class CompaniesHouseAccount:
         return values
 
     @property
-    def accounts_type(self):
+    def accounts_type(self) -> str | None:
         PREFIX = "accounts-with-accounts-type-"
         if self.description.startswith(PREFIX):
             return self.description[len(PREFIX) :]
 
     @property
-    def filetype(self):
+    def filetype(
+        self,
+    ) -> (
+        Literal[
+            "application/xhtml+xml",
+            "application/xml",
+            "application/json",
+            "text/csv",
+            "application/pdf",
+        ]
+        | None
+    ):
         for filetype in FileTypes:
             if filetype.value in self.resources.keys():
                 return filetype.value
 
     @property
-    def financial_year_end(self):
+    def financial_year_end(self) -> dt.date | None:
         if self.significant_date:
-            return self.significant_date
+            return self.significant_date.date()
         if self.description_values.get("made_up_date"):
-            return Date.fromisoformat(self.description_values.get("made_up_date"))
+            return dt.date.fromisoformat(self.description_values.get("made_up_date"))
         return None
 
     @property
-    def has_ixbrl(self):
+    def has_ixbrl(self) -> bool:
         return FileTypes.IXBRL.value in self.resources.keys()
 
     @property
-    def has_pdf(self):
+    def has_pdf(self) -> bool:
         return FileTypes.PDF.value in self.resources.keys()
 
 
@@ -294,11 +305,13 @@ class CompaniesHouseAPI:
         response.raise_for_status()
         return response.json()
 
-    def get_company(self, company_number):
+    def get_company(self, company_number: str) -> dict:
         url = self.COMPANY_PROFILE_URL.format(company_number=company_number)
         return self._fetch_url(url)
 
-    def get_accounts(self, company_number):
+    def get_accounts(
+        self, company_number: str
+    ) -> Generator[CompaniesHouseAccount, None, None]:
         url = self.FILING_HISTORY_URL.format(company_number=company_number)
         result = self._fetch_url(url)
         for item in result["items"]:
@@ -315,7 +328,7 @@ class CompaniesHouseAPI:
                 )
                 yield item
 
-    def fetch_account_ixbrl(self, account: CompaniesHouseAccount):
+    def fetch_account_ixbrl(self, account: CompaniesHouseAccount) -> bytes:
         if account.has_ixbrl:
             ixbrl_url = account.links.get("document")
             if not ixbrl_url:

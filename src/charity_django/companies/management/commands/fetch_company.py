@@ -1,13 +1,12 @@
+import datetime as dt
 import logging
 import os
-from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandParser
 from requests.exceptions import HTTPError
 
 from charity_django.companies.ch_api import CompaniesHouseAPI
 from charity_django.companies.models import Company, SICCode
-
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -71,7 +70,7 @@ class Command(BaseCommand):
                 continue
             self.logger(f"Fetched data for company {company_number}: {data}")
 
-            now = datetime.now()
+            now = dt.datetime.now()
             updates = dict(
                 CompanyName=check_value(data.get("company_name")),
                 RegAddress_CareOf=check_value(

@@ -1,6 +1,6 @@
 import argparse
 import csv
-import datetime
+import datetime as dt
 import logging
 import zipfile
 from collections import defaultdict
@@ -35,7 +35,7 @@ class Command(BaseCommand):
         super().__init__(*args, **kwargs)
         self.records = defaultdict(dict)
         self.object_count = defaultdict(lambda: 0)
-        self.now = datetime.datetime.now()
+        self.now = dt.datetime.now()
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -99,7 +99,7 @@ class Command(BaseCommand):
                             record[f] = int(record[f].replace(",", ""))
                     for f in self.date_fields:
                         if record[f]:
-                            record[f] = datetime.datetime.strptime(
+                            record[f] = dt.datetime.strptime(
                                 record[f], "%d/%m/%Y"
                             ).date()
 
@@ -145,7 +145,7 @@ class Command(BaseCommand):
             elif k in self.date_fields:
                 record[k] = None
                 try:
-                    record[k] = datetime.datetime.strptime(v, "%d/%m/%Y").date()
+                    record[k] = dt.datetime.strptime(v, "%d/%m/%Y").date()
                 except ValueError:
                     record[k] = None
             elif k in self.int_fields:

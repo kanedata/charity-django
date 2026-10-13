@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import logging
 
 from django.core.management.base import BaseCommand
@@ -41,7 +41,7 @@ class BaseCommand(BaseCommand):
             self.session = CachedSession(
                 cache_name="postcode_cache",
                 cache_control=False,
-                expire_after=datetime.timedelta(days=10),
+                expire_after=dt.timedelta(days=10),
             )
         else:
             self.session = Session()
@@ -58,7 +58,7 @@ class BaseCommand(BaseCommand):
             elif k in self.date_fields:
                 record[k] = None
                 try:
-                    record[k] = datetime.datetime.strptime(v, "%d/%m/%Y").date()
+                    record[k] = dt.datetime.strptime(v, "%d/%m/%Y").date()
                 except ValueError:
                     record[k] = None
             elif k in self.int_fields:

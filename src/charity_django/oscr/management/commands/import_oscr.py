@@ -1,10 +1,10 @@
 import csv
+import datetime as dt
 import io
 import logging
 import random
 import re
 import zipfile
-from datetime import date, datetime, timedelta
 
 import psycopg2.extras
 import requests_cache
@@ -67,7 +67,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         self.sample = options.get("sample")
 
@@ -162,8 +162,8 @@ class Command(BaseCommand):
             ("next_year_end_date", "%d/%m/%Y"),
         ]:
             if record.get(k):
-                record[k] = datetime.strptime(record[k], format_).date()
-                if record[k] == date(1970, 1, 1):
+                record[k] = dt.datetime.strptime(record[k], format_).date()
+                if record[k] == dt.date(1970, 1, 1):
                     record[k] = None
 
         # int fields

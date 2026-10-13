@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 from unittest.util import safe_repr
 from xml.etree import ElementTree as ET
 
@@ -89,9 +89,7 @@ class TestCommandLog(TestCase):
             command="test_command_failed",
             status=CommandLog.CommandLogStatus.FAILED,
         )
-        H48_AGO = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            days=2
-        )
+        H48_AGO = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=2)
         CommandLog.objects.update(updated=H48_AGO, started=H48_AGO)
         self.assertEqual(
             CommandLog.objects.filter(
@@ -132,9 +130,7 @@ class TestCommandLog(TestCase):
             command="test_command_failed",
             status=CommandLog.CommandLogStatus.FAILED,
         )
-        H2_AGO = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            hours=2
-        )
+        H2_AGO = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=2)
         CommandLog.objects.update(updated=H2_AGO, started=H2_AGO)
         self.assertEqual(
             CommandLog.objects.filter(
@@ -281,9 +277,7 @@ class TestCommandLogFeeds(TestCase):
             command="test_command_long_running",
             status=CommandLog.CommandLogStatus.RUNNING,
         )
-        c.started = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            days=2
-        )
+        c.started = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=2)
         c.save()
         # create a command log with a pending status
         CommandLog.objects.create(
@@ -295,9 +289,7 @@ class TestCommandLogFeeds(TestCase):
             command="test_command_long_running_pending",
             status=CommandLog.CommandLogStatus.PENDING,
         )
-        c.started = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            days=2
-        )
+        c.started = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=2)
         c.save()
         CommandLog.objects.create(
             command="test_command_1",

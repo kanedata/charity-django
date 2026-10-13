@@ -1,6 +1,6 @@
 import argparse
 import csv
-import datetime
+import datetime as dt
 import io
 import logging
 import random
@@ -106,7 +106,7 @@ class Command(BaseCommand):
         super().__init__(*args, **kwargs)
         self.records = defaultdict(dict)
         self.object_count = defaultdict(lambda: 0)
-        self.now = datetime.datetime.now()
+        self.now = dt.datetime.now()
         self.sic_code_cache = {}
 
     def logger(self, message, error=False):
@@ -206,7 +206,7 @@ class Command(BaseCommand):
             self.session = CachedHTMLSession(
                 cache_name="companies_house_download_cache",
                 cache_control=False,
-                expire_after=datetime.timedelta(days=10),
+                expire_after=dt.timedelta(days=10),
             )
         else:
             self.session = HTMLSession()
@@ -284,7 +284,7 @@ class Command(BaseCommand):
                         previous_names[pn[1]] = {}
 
                     if pn[2] == "CONDATE":
-                        previous_names[pn[1]][pn[2]] = datetime.datetime.strptime(
+                        previous_names[pn[1]][pn[2]] = dt.datetime.strptime(
                             row[k], "%d/%m/%Y"
                         ).date()
                         previous_names[pn[1]]["nameno"] = pn[1]
@@ -365,7 +365,7 @@ class Command(BaseCommand):
 
                 try:
                     if record.get(f):
-                        record[f] = datetime.datetime.strptime(
+                        record[f] = dt.datetime.strptime(
                             record.get(f).strip(), date_format
                         )
                 except ValueError:

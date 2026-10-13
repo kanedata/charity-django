@@ -1,4 +1,4 @@
-from datetime import timedelta
+import datetime as dt
 
 from django.contrib.syndication.views import Feed
 from django.db.models import Q
@@ -56,7 +56,7 @@ class RssFailedCommandsFeed(RssAllCommandsFeed):
 
     def items(self):
         # either failed commands or commands that have been running for more than a day
-        started = timezone.now() - timedelta(days=1)
+        started = timezone.now() - dt.timedelta(days=1)
         return CommandLog.objects.filter(
             Q(status=CommandLog.CommandLogStatus.FAILED)
             | Q(

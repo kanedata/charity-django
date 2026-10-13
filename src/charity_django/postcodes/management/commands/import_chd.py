@@ -1,6 +1,6 @@
 import argparse
 import csv
-import datetime
+import datetime as dt
 import logging
 import zipfile
 from collections import defaultdict
@@ -41,7 +41,7 @@ class Command(BaseCommand):
         super().__init__(*args, **kwargs)
         self.records = defaultdict(dict)
         self.object_count = defaultdict(lambda: 0)
-        self.now = datetime.datetime.now()
+        self.now = dt.datetime.now()
         self.entity_cache = {e.code: e for e in GeoEntity.objects.all()}
 
     def add_arguments(self, parser):

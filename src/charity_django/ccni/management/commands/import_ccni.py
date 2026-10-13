@@ -1,8 +1,8 @@
 import csv
+import datetime as dt
 import io
 import logging
 import random
-from datetime import datetime, timedelta
 
 import psycopg2.extras
 import requests
@@ -46,7 +46,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         self.sample = options.get("sample")
 
@@ -86,7 +86,7 @@ class Command(BaseCommand):
             ("financial_period_end", "%d %B %Y"),
         ]:
             if record.get(k):
-                record[k] = datetime.strptime(record[k], format_).date()
+                record[k] = dt.datetime.strptime(record[k], format_).date()
 
         # int fields
         for k in [

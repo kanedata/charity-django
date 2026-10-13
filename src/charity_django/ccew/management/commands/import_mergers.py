@@ -1,7 +1,7 @@
 import csv
+import datetime as dt
 import logging
 import re
-from datetime import datetime, timedelta
 from io import StringIO
 
 import tqdm
@@ -92,7 +92,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.session = CachedHTMLSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         self.charity_cache = {}
 
@@ -136,7 +136,7 @@ class Command(BaseCommand):
                     continue
                 for date_format in self.date_formats:
                     try:
-                        parsed_value = datetime.strptime(date_value, date_format)
+                        parsed_value = dt.datetime.strptime(date_value, date_format)
                         break
                     except ValueError:
                         continue

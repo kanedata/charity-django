@@ -1,6 +1,6 @@
+import datetime as dt
 import io
 import logging
-from datetime import timedelta
 
 import openpyxl
 import requests
@@ -48,7 +48,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
             headers={"User-Agent": "charity-django-importer/1.0"},
         )
         self.sample = options.get("sample")

@@ -1,9 +1,9 @@
 import csv
+import datetime as dt
 import io
 import os
 import random
 import zipfile
-from datetime import datetime, timedelta
 
 import requests_cache
 from django.utils.text import slugify
@@ -29,7 +29,7 @@ class Command(ImportCCEWCommand):
         self.fake.add_provider(CharityProvider)
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         self.output_dir = options["output_dir"]
 
@@ -67,7 +67,7 @@ class Command(ImportCCEWCommand):
         )
         if not self.dummy_charities:
             # we'll pick a sample based on five categories
-            now = datetime.now().year
+            now = dt.datetime.now().year
             all_data = [row for row in reader]
             samples = {
                 "removed and registered before last 5 years": lambda row: (

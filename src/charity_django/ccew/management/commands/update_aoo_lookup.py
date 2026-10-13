@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import csv
+import datetime as dt
 import logging
 from collections import defaultdict
-from datetime import timedelta
 from io import StringIO
 
 import requests_cache
@@ -68,7 +68,7 @@ class Command(BaseCommand):
         # fetch lookups
         session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         response = session.get(
             "https://raw.githubusercontent.com/drkane/charity-lookups/refs/heads/master/cc-aoo-gss-iso-new.csv"

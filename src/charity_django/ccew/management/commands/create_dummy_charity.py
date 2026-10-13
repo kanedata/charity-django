@@ -1,5 +1,5 @@
+import datetime as dt
 import logging
-from datetime import date
 
 from dateutil.relativedelta import relativedelta
 from django.core.management.base import BaseCommand
@@ -30,7 +30,7 @@ class Command(BaseCommand):
         fake = Faker("en_GB")
         fake.add_provider(CharityProvider)
         charity_name = fake.charity_name()
-        extract_date = date.today()
+        extract_date = dt.date.today()
 
         charity, created = Charity.objects.update_or_create(
             registered_charity_number=123456,
@@ -42,11 +42,15 @@ class Command(BaseCommand):
                 charity_name=charity_name,  # models.CharField(
                 charity_type=DUMMY_CHARITY_TYPE,  # models.CharField(
                 charity_registration_status="Registered",  # models.CharField(
-                date_of_registration=date(2005, 1, 1),  # models.DateField(
+                date_of_registration=dt.date(2005, 1, 1),  # models.DateField(
                 date_of_removal=None,  # models.DateField(
                 charity_reporting_status="Submission Received",  # models.CharField(
-                latest_acc_fin_period_start_date=date(2020, 4, 1),  # models.DateField(
-                latest_acc_fin_period_end_date=date(2021, 3, 31),  # models.DateField(
+                latest_acc_fin_period_start_date=dt.date(
+                    2020, 4, 1
+                ),  # models.DateField(
+                latest_acc_fin_period_end_date=dt.date(
+                    2021, 3, 31
+                ),  # models.DateField(
                 latest_income=1_500_340,  # models.FloatField(
                 latest_expenditure=1_450_000,  # models.FloatField(
                 charity_contact_address1=fake.street_address(),  # models.CharField(
@@ -98,9 +102,9 @@ class Command(BaseCommand):
         CharityARPartB.objects.filter(charity=charity).delete()
 
         # create three financial years
-        current_year = date.today().year
+        current_year = dt.date.today().year
         for i in range(3):
-            fye = date(current_year - i, 3, 31)
+            fye = dt.date(current_year - i, 3, 31)
             fys = fye + relativedelta(years=-1, days=1)
             income = fake.random_int(700_000, 1_500_000)
             expenditure = int(income * 0.8)

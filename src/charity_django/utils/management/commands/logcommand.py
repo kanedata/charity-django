@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import logging
 import shlex
 
@@ -24,7 +24,7 @@ class CommandLogHandler(logging.StreamHandler):
         self.log += msg + self.terminator
         if record.levelno in (logging.ERROR, logging.CRITICAL):
             self.errors += 1
-        self.commandlog.updated = datetime.datetime.now(datetime.timezone.utc)
+        self.commandlog.updated = dt.datetime.now(dt.timezone.utc)
         self.commandlog.save()
         self.flush()
 
@@ -35,8 +35,8 @@ class CommandLogHandler(logging.StreamHandler):
             self.commandlog.status = CommandLog.CommandLogStatus.COMPLETED
         if self.log and not self.commandlog.log:
             self.commandlog.logs = self.log
-        self.commandlog.updated = datetime.datetime.now(datetime.timezone.utc)
-        self.commandlog.completed = datetime.datetime.now(datetime.timezone.utc)
+        self.commandlog.updated = dt.datetime.now(dt.timezone.utc)
+        self.commandlog.completed = dt.datetime.now(dt.timezone.utc)
         self.commandlog.save()
 
 
@@ -51,9 +51,7 @@ class Command(BaseCommand):
         # 1. If given "_clean" it will mark any jobs that are still marked as pending but last updated over 24 hours ago as failed
         # 2. If given "_notify" it will send an update of any failed jobs to admins
         if options["command"][0] == "_clean":
-            H24_AGO = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-                days=1
-            )
+            H24_AGO = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=1)
             CommandLog.objects.filter(
                 status__in=[
                     CommandLog.CommandLogStatus.RUNNING,
@@ -73,7 +71,7 @@ class Command(BaseCommand):
                 messages.append(
                     f"- {log.command} {log.cmd_options} ({log.started:%Y-%m-%d %H:%M:%S})"
                 )
-                log.notified = datetime.datetime.now(datetime.timezone.utc)
+                log.notified = dt.datetime.now(dt.timezone.utc)
                 log.save()
             message = "The following commands have failed:\n\n" + "\n".join(messages)
             mail_admins("Failed commands", message, fail_silently=False)
@@ -91,8 +89,8 @@ class Command(BaseCommand):
             command=command,
             cmd_options=cmd_options,
             status=CommandLog.CommandLogStatus.RUNNING,
-            started=datetime.datetime.now(datetime.timezone.utc),
-            updated=datetime.datetime.now(datetime.timezone.utc),
+            started=dt.datetime.now(dt.timezone.utc),
+            updated=dt.datetime.now(dt.timezone.utc),
         )
 
         command_logger = CommandLogHandler(command_log)

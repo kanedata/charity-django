@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import csv
+import datetime as dt
 import io
 import logging
 import random
 import zipfile
-from datetime import datetime, timedelta
 from tempfile import TemporaryDirectory
 
 import psycopg2.extras
@@ -94,7 +94,7 @@ class Command(BaseCommand):
         self.temp_dir = TemporaryDirectory()
         self.session = requests_cache.CachedSession(
             "demo_cache.sqlite",
-            expire_after=timedelta(days=1),
+            expire_after=dt.timedelta(days=1),
         )
         self.sample_registration_numbers = set()
         self.sample = options.get("sample")
@@ -349,7 +349,7 @@ class Command(BaseCommand):
             elif f in date_fields and isinstance(record[f], str):
                 try:
                     if record.get(f):
-                        record[f] = datetime.strptime(
+                        record[f] = dt.datetime.strptime(
                             record.get(f)[0:10].strip(), "%Y-%m-%d"
                         ).date()
                 except ValueError:
