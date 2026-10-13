@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.db.models import Count
+from django.db.models import Count, QuerySet
+from django.http import HttpRequest
 from django.utils.html import format_html_join
 
 from charity_django.companies.models import Company, SICCode
@@ -104,7 +105,7 @@ class CompanyAdmin(ReadOnlyMixin, admin.ModelAdmin):
     )
 
     @admin.display(description="SIC Codes")
-    def sic_codes_labels(self, obj):
+    def sic_codes_labels(self, obj: Company) -> str:
         return format_html_join(
             "\n",
             "<li>{} [{}]</li>",
@@ -115,7 +116,7 @@ class CompanyAdmin(ReadOnlyMixin, admin.ModelAdmin):
         )
 
     @admin.display(description="Previous names")
-    def previous_name_labels(self, obj):
+    def previous_name_labels(self, obj: Company) -> str:
         return format_html_join(
             "\n",
             "<li>{} [{}]</li>",
@@ -123,7 +124,7 @@ class CompanyAdmin(ReadOnlyMixin, admin.ModelAdmin):
         )
 
     @admin.display(description="Accounts")
-    def accounts_labels(self, obj):
+    def accounts_labels(self, obj: Company) -> str:
         return format_html_join(
             "\n",
             "<li>{} - {}</li>",
@@ -142,10 +143,10 @@ class SICCodeAdmin(ReadOnlyMixin, admin.ModelAdmin):
         "companies_count",
     )
 
-    def get_queryset(self, request):
+    def get_queryset(self, request: HttpRequest) -> QuerySet:
         qs = super().get_queryset(request)
         return qs.annotate(company_count=Count("companies", distinct=True))
 
     @admin.display(description="Companies", ordering="company_count")
-    def companies_count(self, obj):
+    def companies_count(self, obj: SICCode) -> int:
         return obj.companies.count()
