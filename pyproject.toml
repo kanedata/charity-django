@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "A set of Django apps for importing and using UK charity data"
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "David Kane", email = "david@dkane.net" }]
 classifiers = [
     "Environment :: Web Environment",
