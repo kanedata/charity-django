@@ -68,7 +68,7 @@ MODEL_UPDATES = {
 
 class Command(BaseCommand):
     name = "companies"
-    start_url = "http://download.companieshouse.gov.uk/en_output.html"
+    start_url = "https://download.companieshouse.gov.uk/en_output.html"
     zip_regex = re.compile(r".*/BasicCompanyData-.*\.zip")
     id_field = "CompanyNumber"
     date_fields = [

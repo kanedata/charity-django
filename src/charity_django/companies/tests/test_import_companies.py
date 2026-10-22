@@ -14,14 +14,14 @@ from charity_django.companies.models import Company
 class TestImportCompanies(TestCase):
     def mock_csv_downloads(self, m):
         m.get(
-            "http://download.companieshouse.gov.uk/en_output.html",
+            "https://download.companieshouse.gov.uk/en_output.html",
             text=(
                 resources.files(charity_django.companies.tests.data)
                 .joinpath("CompaniesHomePage.html")
                 .read_text()
             ),
         )
-        matcher = re.compile("http://download.companieshouse.gov.uk/BasicCompanyData-")
+        matcher = re.compile("https://download.companieshouse.gov.uk/BasicCompanyData-")
         m.get(
             matcher,
             content=(
