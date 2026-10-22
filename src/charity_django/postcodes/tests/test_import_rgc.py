@@ -1,9 +1,10 @@
-import os
+from importlib import resources
 
 import requests_mock
 from django.test import TestCase
 from requests import Session
 
+import charity_django.postcodes.tests.data
 from charity_django.postcodes.management.commands._base import (
     GEOPORTAL_API_URL,
     GEOPORTAL_DATA_URL,
@@ -14,25 +15,22 @@ from charity_django.postcodes.models import GeoEntity
 
 class TestImportRGC(TestCase):
     def mock_csv_downloads(self, m):
-        dirname = os.path.dirname(__file__)
-        with open(
-            os.path.join(dirname, "data", "api_rgc.json"),
-            "rb",
-        ) as a:
-            m.get(
-                f"{GEOPORTAL_API_URL}?q=PRD_RGC&sortBy=-properties.created",
-                content=a.read(),
-            )
-        with open(
-            os.path.join(
-                dirname, "data", "Register_of_Geographic_Codes_(May_2023)_UK.zip"
+        m.get(
+            f"{GEOPORTAL_API_URL}?q=PRD_RGC&sortBy=-properties.created",
+            content=(
+                resources.files(charity_django.postcodes.tests.data)
+                .joinpath("api_rgc.json")
+                .read_bytes()
             ),
-            "rb",
-        ) as a:
-            m.get(
-                GEOPORTAL_DATA_URL.format("da3fb8af12e842a69255b0d21116bcaa"),
-                content=a.read(),
-            )
+        )
+        m.get(
+            GEOPORTAL_DATA_URL.format("da3fb8af12e842a69255b0d21116bcaa"),
+            content=(
+                resources.files(charity_django.postcodes.tests.data)
+                .joinpath("Register_of_Geographic_Codes_(May_2023)_UK.zip")
+                .read_bytes()
+            ),
+        )
 
     def test_set_session(self):
         command = Command()

@@ -244,12 +244,12 @@ class Command(BaseCommand):
                 )
             elif connection.vendor == "postgresql":
                 statement = sql.SQL(
-                    """INSERT INTO {table} ({fields}) VALUES {placeholder};"""
+                    """INSERT INTO {table} ({fields}) VALUES ({placeholder});"""
                 ).format(
                     table=sql.Identifier(Charity._meta.db_table),
                     fields=sql.SQL(", ").join(map(sql.Identifier, char_fields)),
-                    placeholder=sql.SQL("({})").format(
-                        sql.SQL(", ").join(sql.Placeholder() * len(char_fields))
+                    placeholder=sql.SQL(", ").join(
+                        sql.Placeholder() * len(char_fields)
                     ),
                 )
             self._execute_many(
@@ -277,17 +277,15 @@ class Command(BaseCommand):
                 )
             elif connection.vendor == "postgresql":
                 statement = sql.SQL(
-                    """INSERT INTO {table} ({fields}) VALUES {placeholder}
+                    """INSERT INTO {table} ({fields}) VALUES ({placeholder})
                     ON CONFLICT(charity_id, year_end) DO UPDATE
                     SET {on_conflict}"""
                 ).format(
                     table=sql.Identifier(CharityFinancialYear._meta.db_table),
                     fields=sql.SQL(", ").join(map(sql.Identifier, fy_fields)),
-                    placeholder=sql.SQL("({})").format(
-                        sql.SQL(", ").join(sql.Placeholder() * len(fy_fields))
-                    ),
+                    placeholder=sql.SQL(", ").join(sql.Placeholder() * len(fy_fields)),
                     on_conflict=sql.SQL(", ").join(
-                        sql.SQL('"{}" = excluded."{}"').format(
+                        sql.SQL("{} = excluded.{}").format(
                             sql.Identifier(f), sql.Identifier(f)
                         )
                         for f in fy_fields
@@ -307,17 +305,24 @@ class Command(BaseCommand):
             CharityClassification.objects.all().delete()
 
             # insert new charities
-            statement = (
-                """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
+            if connection.vendor == "sqlite":
+                statement = """INSERT INTO "{table}" ("{fields}") VALUES ({placeholder});""".format(
                     table=CharityClassification._meta.db_table,
                     fields='", "'.join(classification_fields),
-                    placeholder="("
-                    + ", ".join(["%s" for f in classification_fields])
-                    + ")"
-                    if connection.vendor == "sqlite"
-                    else "%s",
+                    placeholder=", ".join(["%s" for f in classification_fields]),
                 )
-            )
+            elif connection.vendor == "postgresql":
+                statement = sql.SQL(
+                    """INSERT INTO {table} ({fields}) VALUES ({placeholder})"""
+                ).format(
+                    table=sql.Identifier(CharityClassification._meta.db_table),
+                    fields=sql.SQL(", ").join(
+                        map(sql.Identifier, classification_fields)
+                    ),
+                    placeholder=sql.SQL(", ").join(
+                        sql.Placeholder() * len(classification_fields)
+                    ),
+                )
             self._execute_many(
                 cursor,
                 statement,

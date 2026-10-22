@@ -1,27 +1,35 @@
-import os
 import re
+from importlib import resources
 from unittest.mock import patch
 
 import requests_mock
 from django.test import TestCase
 from requests_html import HTMLSession
 
+import charity_django.companies.tests.data
 from charity_django.companies.management.commands.import_companies import Command
 from charity_django.companies.models import Company
 
 
 class TestImportCompanies(TestCase):
     def mock_csv_downloads(self, m):
-        dirname = os.path.dirname(__file__)
-        with open(os.path.join(dirname, "data", "CompaniesHomePage.html")) as a:
-            m.get("http://download.companieshouse.gov.uk/en_output.html", text=a.read())
-        with open(
-            os.path.join(dirname, "data", "CompaniesHouseTestData.zip"), "rb"
-        ) as a:
-            matcher = re.compile(
-                "http://download.companieshouse.gov.uk/BasicCompanyData-"
-            )
-            m.get(matcher, content=a.read())
+        m.get(
+            "http://download.companieshouse.gov.uk/en_output.html",
+            text=(
+                resources.files(charity_django.companies.tests.data)
+                .joinpath("CompaniesHomePage.html")
+                .read_text()
+            ),
+        )
+        matcher = re.compile("http://download.companieshouse.gov.uk/BasicCompanyData-")
+        m.get(
+            matcher,
+            content=(
+                resources.files(charity_django.companies.tests.data)
+                .joinpath("CompaniesHouseTestData.zip")
+                .read_bytes()
+            ),
+        )
 
     def test_set_session(self):
         command = Command()

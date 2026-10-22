@@ -1,12 +1,13 @@
-import os
 import sys
 import unittest.mock
+from importlib import resources
 
 import pytest
 import requests
 import requests_mock
 from django.test import TestCase
 
+import charity_django.ccew.tests.data
 from charity_django.ccew.management.commands.import_ccew import Command as CCEWCommand
 from charity_django.ccew.models import Charity
 
@@ -26,13 +27,16 @@ def disable_requests_cache():
 
 class ImportTestCase(TestCase):
     def _mock_csv_downloads(self, m):
-        dirname = os.path.dirname(__file__)
         files = CCEWCommand.ccew_file_to_object
         for file in files:
-            with open(
-                os.path.join(dirname, "data", f"publicextract.{file}.zip"), "rb"
-            ) as a:
-                m.get(CCEWCommand.base_url.format(file), content=a.read())
+            m.get(
+                CCEWCommand.base_url.format(file),
+                content=(
+                    resources.files(charity_django.ccew.tests.data)
+                    .joinpath(f"publicextract.{file}.zip")
+                    .read_bytes()
+                ),
+            )
 
     def test_charity_import(self):
         command = CCEWCommand()

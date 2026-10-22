@@ -1,12 +1,13 @@
-import os
 import sys
 import unittest.mock
+from importlib import resources
 
 import pytest
 import requests
 import requests_mock
 from django.test import TestCase
 
+import charity_django.ccni.tests.data
 from charity_django.ccni.management.commands.import_ccni import Command as CCNICommand
 from charity_django.ccni.models import Charity
 
@@ -26,9 +27,14 @@ def disable_requests_cache():
 
 class ImportCCNITestCase(TestCase):
     def _mock_csv_downloads(self, m):
-        dirname = os.path.dirname(__file__)
-        with open(os.path.join(dirname, "data", "charitydetails_test.csv"), "rb") as a:
-            m.get(CCNICommand.base_url, content=a.read())
+        m.get(
+            CCNICommand.base_url,
+            content=(
+                resources.files(charity_django.ccni.tests.data)
+                .joinpath("charitydetails_test.csv")
+                .read_bytes()
+            ),
+        )
 
     def test_charity_import(self):
         command = CCNICommand()
