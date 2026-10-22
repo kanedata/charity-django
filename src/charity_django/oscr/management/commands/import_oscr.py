@@ -6,12 +6,12 @@ import random
 import re
 import zipfile
 
-import psycopg2.extras
 import requests_cache
 from django.core.management.base import BaseCommand
 from django.db import connections, router, transaction
 from django.db.utils import OperationalError, ProgrammingError
 from django.utils.text import slugify
+from psycopg import sql
 
 from charity_django.oscr.models import (
     Charity,
@@ -78,20 +78,11 @@ class Command(BaseCommand):
         self.fetch_file()
 
     def _execute_many(self, cursor, statement, values):
-        connection = self._get_connection()
         try:
-            if connection.vendor == "postgresql":
-                psycopg2.extras.execute_values(
-                    cursor,
-                    statement,
-                    values,
-                    page_size=self.page_size,
-                )
-            else:
-                cursor.executemany(
-                    statement,
-                    values,
-                )
+            cursor.executemany(
+                statement,
+                values,
+            )
         except (OperationalError, ProgrammingError) as e:
             self.logger(e, error=True)
             self.logger(statement, error=True)
@@ -245,15 +236,22 @@ class Command(BaseCommand):
             Charity.objects.all().delete()
 
             # insert new charities
-            statement = (
-                """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
+            if connection.vendor == "sqlite":
+                statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
                     table=Charity._meta.db_table,
                     fields='", "'.join(char_fields),
-                    placeholder="(" + ", ".join(["%s" for f in char_fields]) + ")"
-                    if connection.vendor == "sqlite"
-                    else "%s",
+                    placeholder="(" + ", ".join(["%s" for f in char_fields]) + ")",
                 )
-            )
+            elif connection.vendor == "postgresql":
+                statement = sql.SQL(
+                    """INSERT INTO {table} ({fields}) VALUES {placeholder};"""
+                ).format(
+                    table=sql.Identifier(Charity._meta.db_table),
+                    fields=sql.SQL(", ").join(map(sql.Identifier, char_fields)),
+                    placeholder=sql.SQL("({})").format(
+                        sql.SQL(", ").join(sql.Placeholder() * len(char_fields))
+                    ),
+                )
             self._execute_many(
                 cursor,
                 statement,
@@ -262,22 +260,40 @@ class Command(BaseCommand):
             self.logger("Finished table insert [{}]".format(Charity._meta.db_table))
 
             # insert financial years
-            statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder}
+            if connection.vendor == "sqlite":
+                statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder}
                     ON CONFLICT(charity_id, year_end) DO UPDATE
                     SET {on_conflict}""".format(
-                table=CharityFinancialYear._meta.db_table,
-                fields='", "'.join(fy_fields),
-                placeholder="(" + ", ".join(["%s" for f in fy_fields]) + ")"
-                if connection.vendor == "sqlite"
-                else "%s",
-                on_conflict=", ".join(
-                    (
-                        '"{}" = excluded."{}"'.format(f, f)
+                    table=CharityFinancialYear._meta.db_table,
+                    fields='", "'.join(fy_fields),
+                    placeholder="(" + ", ".join(["%s" for f in fy_fields]) + ")",
+                    on_conflict=", ".join(
+                        (
+                            '"{}" = excluded."{}"'.format(f, f)
+                            for f in fy_fields
+                            if f not in ("charity_id", "year_end")
+                        )
+                    ),
+                )
+            elif connection.vendor == "postgresql":
+                statement = sql.SQL(
+                    """INSERT INTO {table} ({fields}) VALUES {placeholder}
+                    ON CONFLICT(charity_id, year_end) DO UPDATE
+                    SET {on_conflict}"""
+                ).format(
+                    table=sql.Identifier(CharityFinancialYear._meta.db_table),
+                    fields=sql.SQL(", ").join(map(sql.Identifier, fy_fields)),
+                    placeholder=sql.SQL("({})").format(
+                        sql.SQL(", ").join(sql.Placeholder() * len(fy_fields))
+                    ),
+                    on_conflict=sql.SQL(", ").join(
+                        sql.SQL('"{}" = excluded."{}"').format(
+                            sql.Identifier(f), sql.Identifier(f)
+                        )
                         for f in fy_fields
                         if f not in ("charity_id", "year_end")
-                    )
-                ),
-            )
+                    ),
+                )
             self._execute_many(
                 cursor,
                 statement,

@@ -71,7 +71,7 @@ class Command(BaseCommand):
             expire_after=dt.timedelta(days=1),
         )
         response = session.get(
-            "https://raw.githubusercontent.com/drkane/charity-lookups/refs/heads/master/cc-aoo-gss-iso-new.csv"
+            "https://raw.githubusercontent.com/drkane/charity-lookups/refs/heads/main/cc-aoo-gss-iso-new.csv"
         )
         response.raise_for_status()
         self.logger("Fetched Area of Operations lookups from remote source")

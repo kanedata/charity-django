@@ -5,15 +5,16 @@ import io
 import logging
 import random
 import zipfile
+from itertools import batched
 from tempfile import TemporaryDirectory
 
-import psycopg2.extras
 import requests_cache
 import tqdm
 from django.core.management.base import BaseCommand
 from django.core.management.color import no_style
 from django.db import connections, router, transaction
 from django.db.models.fields import BooleanField, DateField
+from psycopg import sql
 
 from charity_django.ccew.models import (
     Charity,
@@ -262,28 +263,33 @@ class Command(BaseCommand):
             sequence_sql = self.connection.ops.sequence_reset_sql(
                 no_style(), [db_table]
             )
-            for sql in sequence_sql:
-                cursor.execute(sql)
+            for sql_stmt in sequence_sql:
+                cursor.execute(sql_stmt)
 
             self.logger("Starting table insert [{}]".format(db_table._meta.db_table))
             fields = list(reader.fieldnames)
-            statement = (
-                """INSERT INTO "{table}" ("{fields}") VALUES {placeholder}""".format(
+            if self.connection.vendor == "postgresql":
+                statement = sql.SQL("""
+                    INSERT INTO {table} ({fields_str})
+                    VALUES ({values})
+                """).format(
+                    table=sql.Identifier(db_table._meta.db_table),
+                    fields_str=sql.SQL(", ").join(map(sql.Identifier, fields)),
+                    values=sql.SQL(", ").join(sql.Placeholder() * len(fields)),
+                )
+                with self.connection.cursor() as cursor:
+                    for batch in batched(
+                        get_data(reader, len(reader.fieldnames)), page_size
+                    ):
+                        cursor.executemany(statement, batch)
+            else:
+                statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder}""".format(
                     table=db_table._meta.db_table,
                     fields='", "'.join(fields),
                     placeholder="(" + ", ".join(["%s" for f in fields]) + ")"
                     if self.connection.vendor == "sqlite"
                     else "%s",
                 )
-            )
-            if self.connection.vendor == "postgresql":
-                psycopg2.extras.execute_values(
-                    cursor,
-                    statement,
-                    get_data(reader, len(reader.fieldnames)),
-                    page_size=page_size,
-                )
-            else:
                 cursor.executemany(
                     statement,
                     get_data_chunks(reader, len(reader.fieldnames)),
@@ -303,27 +309,33 @@ class Command(BaseCommand):
                 )
 
             conflict_target = self.upsert_files.get(filename)[0]
-            statement = """INSERT INTO "{table}" ("{fields}") 
-                    VALUES %s 
-                    ON CONFLICT ("{conflict_target}")
-                    DO UPDATE SET {update_fields}""".format(
-                table=db_table._meta.db_table,
-                fields='", "'.join(fields),
-                conflict_target='", "'.join(conflict_target),
-                update_fields=", ".join(
-                    [
-                        '"{field}" = EXCLUDED."{field}"'.format(field=f)
-                        for f in fields
-                        if f not in conflict_target
-                    ]
-                ),
+            stmt = sql.SQL("""
+                INSERT INTO {table} ({fields_str})
+                VALUES ({values})
+                ON CONFLICT ({by})
+                DO UPDATE SET {set_values}
+            """)
+            set_values = sql.SQL(",").join(
+                [
+                    sql.SQL("{} = EXCLUDED.{}").format(
+                        sql.Identifier(f), sql.Identifier(f)
+                    )
+                    for f in fields
+                    if f not in conflict_target
+                ]
             )
-            psycopg2.extras.execute_values(
-                cursor,
-                statement,
-                get_data(reader, len(reader.fieldnames)),
-                page_size=page_size,
+            statement = stmt.format(
+                table=sql.Identifier(db_table._meta.db_table),
+                fields_str=sql.SQL(", ").join(map(sql.Identifier, fields)),
+                values=sql.SQL(", ").join(sql.Placeholder() * len(fields)),
+                by=sql.SQL(", ").join(map(sql.Identifier, conflict_target)),
+                set_values=set_values,
             )
+            with self.connection.cursor() as cursor:
+                for batch in batched(
+                    get_data(reader, len(reader.fieldnames)), page_size
+                ):
+                    cursor.executemany(statement, batch)
             self.logger("Finished table upsert [{}]".format(db_table._meta.db_table))
 
         with self.connection.cursor() as cursor:

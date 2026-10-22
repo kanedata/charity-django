@@ -4,12 +4,12 @@ import io
 import logging
 import random
 
-import psycopg2.extras
 import requests
 import requests_cache
 from django.core.management.base import BaseCommand
 from django.db import connections, router, transaction
 from django.utils.text import slugify
+from psycopg import sql
 
 from charity_django.ccni.models import (
     Charity,
@@ -146,19 +146,10 @@ class Command(BaseCommand):
         self.charities.append(record)
 
     def _execute_many(self, cursor, statement, values):
-        connection = self._get_connection()
-        if connection.vendor == "postgresql":
-            psycopg2.extras.execute_values(
-                cursor,
-                statement,
-                values,
-                page_size=self.page_size,
-            )
-        else:
-            cursor.executemany(
-                statement,
-                values,
-            )
+        cursor.executemany(
+            statement,
+            values,
+        )
 
     def save_charities(self):
         db = self._get_db()
@@ -211,13 +202,22 @@ class Command(BaseCommand):
                             raise
 
                 # insert new charities
-                statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
-                    table=object._meta.db_table,
-                    fields='", "'.join(fields),
-                    placeholder="(" + ", ".join(["%s" for f in fields]) + ")"
-                    if connection.vendor == "sqlite"
-                    else "%s",
-                )
+                if connection.vendor == "sqlite":
+                    statement = """INSERT INTO "{table}" ("{fields}") VALUES {placeholder};""".format(
+                        table=object._meta.db_table,
+                        fields='", "'.join(fields),
+                        placeholder="(" + ", ".join(["%s" for f in fields]) + ")",
+                    )
+                elif connection.vendor == "postgresql":
+                    statement = sql.SQL(
+                        """INSERT INTO {table} ({fields}) VALUES {placeholder};"""
+                    ).format(
+                        table=sql.Identifier(object._meta.db_table),
+                        fields=sql.SQL(", ").join(map(sql.Identifier, fields)),
+                        placeholder=sql.SQL("({})").format(
+                            sql.SQL(", ").join(sql.Placeholder() * len(fields))
+                        ),
+                    )
 
                 self._execute_many(cursor, statement, values)
                 self.logger("Finished table insert [{}]".format(object._meta.db_table))

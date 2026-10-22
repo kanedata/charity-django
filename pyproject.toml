@@ -33,7 +33,6 @@ dependencies = [
     "Django >= 4.0",
     "faker",
     "inflect",
-    "psycopg2-binary",
     "python-dateutil",
     "requests",
     "requests_cache",
@@ -44,11 +43,12 @@ dependencies = [
     "openpyxl",
     "certifi>=2023.11.17",
     "chardet",
+    "psycopg[binary]>=3.3.6",
 ]
 
 [project.optional-dependencies]
 test = [
-    "ruff==0.9.3",
+    "ruff",
     "pytest>=7",
     "pytest-django",
     "pytest-pythonpath",
@@ -84,7 +84,12 @@ path = "src/charity_django/__init__.py"
 include = ["src/charity_django"]
 
 [tool.ruff]
+lint.select = ["E", "F", "I", "ICN001", "ICN002", "ICN003"]
 lint.ignore = ['E501']
+
+[tool.ruff.lint.flake8-import-conventions.extend-aliases]
+"datetime" = "dt"
+
 
 [tool.pytest.ini_options]
 addopts = " -p pytest_use_postgresql"
